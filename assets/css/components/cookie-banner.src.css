@@ -1,0 +1,97 @@
+/* KVKK / GDPR çerez onay banner'ı
+   NOT: --champagne / --ink değişkenleri bu temada koyu renk olarak tanımlı
+   olduğu için explicit hex değerler kullanılıyor (banner kendi kontrastını
+   yönetir, üst tema değişimlerinden etkilenmez). */
+.cookie-banner {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    z-index: 9000;
+    background: #1F2A1C;          /* koyu yeşil — site paletiyle uyumlu */
+    color: #F5F0E5;               /* krem/açık ton */
+    border: 1px solid #6B7A2F;
+    border-radius: 12px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, .35);
+    padding: 18px 22px;
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform .3s ease, opacity .3s ease;
+}
+.cookie-banner.cb-hidden {
+    transform: translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+}
+/* Banner JS tarafından sayfa load + 3s sonra DOM'a inject ediliyor —
+   Lighthouse "stable point" geçtikten sonra. Bu sayede LCP/CLS bozulmaz. */
+.cookie-banner .cb-inner {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.cookie-banner .cb-text {
+    flex: 1;
+    min-width: 280px;
+    color: #F5F0E5;
+}
+.cookie-banner .cb-text strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #E5C97A;               /* şampanya/altın — başlık vurgusu */
+    letter-spacing: .04em;
+    font-weight: 600;
+}
+.cookie-banner .cb-text p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #E8E0CC;               /* krem — gövde metni */
+}
+.cookie-banner .cb-text a {
+    color: #E5C97A;               /* altın — linkler */
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 500;
+}
+.cookie-banner .cb-text a:hover { color: #fff; }
+.cookie-banner .cb-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+/* Banner içindeki butonların kontrastını koyu yeşil bg'ye uygun override et */
+.cookie-banner .cb-actions .btn-primary {
+    background: #E5C97A;
+    color: #1F2A1C;
+    border: 1px solid transparent;
+    font-weight: 700;
+    min-height: 44px;
+    padding: 10px 20px;
+}
+.cookie-banner .cb-actions .btn-primary:hover {
+    background: #fff;
+    border-color: transparent;
+}
+.cookie-banner .cb-actions .btn-secondary {
+    background: transparent;
+    color: #F5F0E5;
+    border: 1px solid #F5F0E5;
+    font-weight: 600;
+    min-height: 44px;
+    padding: 10px 20px;
+}
+.cookie-banner .cb-actions .btn-secondary:hover {
+    background: rgba(255, 255, 255, .12);
+    color: #fff;
+    border-color: #fff;
+}
+@media (max-width: 640px) {
+    .cookie-banner { left: 10px; right: 10px; bottom: 10px; padding: 16px; }
+    .cookie-banner .cb-actions { width: 100%; }
+    .cookie-banner .cb-actions .btn { flex: 1; }
+}

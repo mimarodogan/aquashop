@@ -1,0 +1,28 @@
+# Uploads klasöründe betik çalıştırmayı engelle.
+# Hem Apache 2.2 (Order/Deny) hem Apache 2.4 (Require) söz dizimi.
+
+<FilesMatch "\.(php|phtml|php3|php4|php5|php6|php7|php8|phps|cgi|pl|py|sh|asp|aspx|jsp|htaccess|htpasswd)$">
+    Order Deny,Allow
+    Deny from all
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
+
+# PHP handler'ını ve MIME type'ını bu klasörde iptal et
+# (AddType ile php çalıştırmayı bypass etmeye karşı)
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php8.c>
+    php_flag engine off
+</IfModule>
+
+RemoveHandler .php .phtml .php3 .php4 .php5 .php6 .php7 .php8 .phps
+RemoveType    .php .phtml .php3 .php4 .php5 .php6 .php7 .php8 .phps
+
+# Dizin listesini ve CGI çalıştırmayı kapat
+Options -Indexes -ExecCGI

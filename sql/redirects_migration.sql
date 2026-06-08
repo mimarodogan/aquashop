@@ -1,0 +1,16 @@
+-- URL Yönlendirmeleri tablosu
+CREATE TABLE IF NOT EXISTS redirects (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  match_type ENUM('exact','prefix','regex') NOT NULL DEFAULT 'exact',
+  source VARCHAR(500) NOT NULL,
+  target VARCHAR(500) NOT NULL,
+  status_code SMALLINT NOT NULL DEFAULT 301,
+  enabled TINYINT(1) NOT NULL DEFAULT 1,
+  hit_count INT NOT NULL DEFAULT 0,
+  last_hit_at DATETIME DEFAULT NULL,
+  notes VARCHAR(255) DEFAULT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_source (source(191)),
+  INDEX idx_enabled (enabled)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

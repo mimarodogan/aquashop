@@ -1,0 +1,49 @@
+# AquaShop
+
+> Türkiye'nin akvaryum ve sucul yaşam ürünleri e-ticaret mağazası. Balık, bitki ve akvaryum ekipmanlarında uzman online mağaza. Bursa/Nilüfer merkezli, yurt içi kargo ile hızlı teslimat.
+
+## Site Bilgisi
+- URL: https://aquashop.com.tr
+- Dil: Türkçe
+- Ülke: Türkiye
+- Kategori: E-ticaret / Akvaryum & Sucul Yaşam
+
+## Ürün Kategorileri
+- Akvaryumlar (tam set ve tekil)
+- Filtreler ve Pompa sistemleri
+- Akvaryum Aydınlatmaları (LED, T5, T8)
+- Isıtıcılar ve Termostatlar
+- Balık Yemleri (canlı, dondurulmuş, granül)
+- Akvaryum Bitkileri (doğal ve yapay)
+- Dekorasyon ve Aksesuarlar
+- Su Testleri ve Kimyasallar
+- Aktif Toprak ve Substrat
+- Akvaryum Makas ve Bakım Araçları
+- CO2 Sistemleri
+
+## Önemli Sayfalar
+- Tüm Ürünler: https://aquashop.com.tr/urun
+- Kategoriler: https://aquashop.com.tr/kategoriler
+- Blog (Akvaryum Rehberleri): https://aquashop.com.tr/blog
+- Hakkımızda: https://aquashop.com.tr/hakkimizda
+- İletişim: https://aquashop.com.tr/iletisim
+- Sepet: https://aquashop.com.tr/sepet
+- Sitemap (XML): https://aquashop.com.tr/sitemap.xml
+
+## Hizmetler
+- Güvenli online alışveriş (iyzico ödeme altyapısı)
+- Yurt içi hızlı kargo teslimatı
+- Ürün karşılaştırma
+- Favori listesi
+- Sipariş takibi
+- İade ve değişim (14 gün)
+
+## İletişim
+- Adres: Ataevler Mahallesi, Yılmazakkılıç Caddesi, Premium Park Evleri No:12/B, Nilüfer, Bursa
+- Telefon: +90 546 533 15 91
+- Web: https://aquashop.com.tr/iletisim
+
+## Teknik
+- Platform: Özel PHP e-ticaret sistemi
+- Döviz: TRY (Türk Lirası)
+- Kargo: Türkiye geneli

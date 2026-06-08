@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detaylı Site Kullanım Kılavuzu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
+:root { --bg: #faf7ee; --panel: #ffffff; --ink: #2d2d2d; --muted: #6b7560; --olive: #4a5a2a; --olive-dark: #2d3a18; --gold: #b8956a; --gold-light: #d4b88c; --border: #e8dfc8; --code-bg: #f4eedd; --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(74,90,42,.04); --radius: 8px; --hl: #fff8e5; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; font-size: 15px; line-height: 1.7; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+.layout { display: grid; grid-template-columns: 280px 1fr; max-width: 1400px; margin: 0 auto; gap: 0; min-height: 100vh; }
+.toc { border-right: 1px solid var(--border); background: rgba(255,255,255,.6); position: relative; }
+.toc-inner { position: sticky; top: 0; max-height: 100vh; overflow-y: auto; padding: 32px 24px; }
+.toc-title { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin: 0 0 16px; font-weight: 600; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+.toc ol { list-style: none; margin: 0; padding: 0; }
+.toc li { margin: 0; }
+.toc a { display: block; padding: 6px 12px; color: var(--muted); text-decoration: none; border-left: 2px solid transparent; font-size: 13px; line-height: 1.4; transition: all .15s ease; }
+.toc a:hover { color: var(--olive); background: var(--hl); border-left-color: var(--gold); }
+.toc .lvl-1 > a { font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--olive-dark); margin-top: 16px; padding-left: 8px; }
+.toc .lvl-2 > a { padding-left: 20px; font-weight: 500; }
+.toc .lvl-3 > a { padding-left: 32px; font-size: 12px; }
+.toc a.active { color: var(--olive-dark); background: var(--hl); border-left-color: var(--gold); font-weight: 600; }
+.main { padding: 48px 64px; max-width: 920px; }
+.doc-hero { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 2px solid var(--border); }
+.doc-hero h1 { margin: 0 0 12px; font-size: 36px; font-family: 'Playfair Display', Georgia, serif; color: var(--olive-dark); letter-spacing: -.5px; line-height: 1.1; }
+.doc-hero .meta { color: var(--muted); font-size: 13px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); text-decoration: none; font-size: 13px; margin-bottom: 24px; padding: 6px 12px; border-radius: 6px; background: rgba(255,255,255,.5); border: 1px solid var(--border); transition: all .15s ease; }
+.back-link:hover { color: var(--olive-dark); background: var(--hl); border-color: var(--gold-light); }
+h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', Georgia, serif; color: var(--olive-dark); line-height: 1.25; scroll-margin-top: 24px; font-weight: 600; }
+h1 { font-size: 32px; margin: 56px 0 16px; padding-bottom: 12px; border-bottom: 2px solid var(--gold-light); }
+h2 { font-size: 26px; margin: 48px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+h3 { font-size: 21px; margin: 36px 0 12px; }
+h4 { font-size: 17px; margin: 24px 0 10px; color: var(--olive); }
+h5, h6 { font-size: 15px; margin: 18px 0 8px; color: var(--olive); }
+.anchor { opacity: 0; margin-left: 8px; text-decoration: none; color: var(--gold); font-weight: 400; transition: opacity .15s ease; }
+h1:hover .anchor, h2:hover .anchor, h3:hover .anchor, h4:hover .anchor { opacity: 1; }
+p { margin: 12px 0; }
+a { color: var(--olive); text-decoration: underline; text-decoration-color: var(--gold-light); text-underline-offset: 3px; }
+a:hover { color: var(--olive-dark); text-decoration-color: var(--gold); }
+strong { font-weight: 700; color: var(--olive-dark); }
+em { color: var(--olive); }
+ul, ol { padding-left: 24px; margin: 12px 0; }
+li { margin: 6px 0; }
+li.task { list-style: none; margin-left: -24px; padding-left: 4px; }
+li.task input[type=checkbox] { margin-right: 8px; transform: scale(1.1); accent-color: var(--olive); }
+code { background: var(--code-bg); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', 'SF Mono', Menlo, Monaco, Consolas, monospace; font-size: .88em; color: var(--olive-dark); }
+pre { background: var(--olive-dark); color: #f4eedd; padding: 20px 24px; border-radius: var(--radius); overflow-x: auto; margin: 18px 0; font-size: 13px; line-height: 1.6; }
+pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
+.table-wrap { overflow-x: auto; margin: 20px 0; border-radius: var(--radius); border: 1px solid var(--border); background: var(--panel); box-shadow: var(--shadow); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+thead { background: var(--olive-dark); color: #faf7ee; }
+th { padding: 12px 16px; text-align: left; font-weight: 600; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; white-space: nowrap; }
+td { padding: 12px 16px; border-top: 1px solid var(--border); vertical-align: top; }
+tbody tr:hover { background: var(--hl); }
+tbody tr:nth-child(even) { background: rgba(232, 223, 200, .15); }
+blockquote { border-left: 4px solid var(--gold); background: var(--hl); padding: 14px 20px; margin: 18px 0; color: var(--olive-dark); border-radius: 0 var(--radius) var(--radius) 0; font-style: italic; }
+blockquote p { margin: 0; }
+hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+@media print { .toc, .anchor, .back-link { display: none; } .layout { grid-template-columns: 1fr; } .main { padding: 0; max-width: 100%; } body { font-size: 11pt; background: white; } h1, h2, h3 { break-after: avoid; } pre, table, blockquote { break-inside: avoid; } a { color: #000; text-decoration: none; } }
+@media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .toc { border-right: none; border-bottom: 1px solid var(--border); } .toc-inner { position: relative; max-height: 220px; padding: 16px; } .main { padding: 24px 20px; } .doc-hero h1 { font-size: 26px; } h1 { font-size: 24px; } h2 { font-size: 20px; } h3 { font-size: 17px; } }
+.back-to-top { position: fixed; bottom: 24px; right: 24px; width: 44px; height: 44px; background: var(--olive-dark); color: #faf7ee; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: var(--shadow); font-size: 20px; opacity: 0; visibility: hidden; transition: opacity .2s ease, transform .2s ease; z-index: 100; }
+.back-to-top.visible { opacity: 1; visibility: visible; }
+.back-to-top:hover { transform: translateY(-2px); background: var(--olive); }
+
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="toc"><div class="toc-inner"><h2 class="toc-title">İçindekiler</h2><ol>
+<li class="lvl-1"><a href="#detaylı-site-kullanım-kılavuzu">📚 Detaylı Site Kullanım Kılavuzu</a></li>
+<li class="lvl-1"><a href="#bölüm-a-site-tanitimi">BÖLÜM A — SİTE TANITIMI</a></li>
+<li class="lvl-2"><a href="#1-genel-bakış">1. Genel Bakış</a></li>
+<li class="lvl-2"><a href="#2-site-mimarisi">2. Site Mimarisi</a></li>
+<li class="lvl-3"><a href="#dosya-yapısı-sunucudaki">Dosya Yapısı (Sunucudaki)</a></li>
+<li class="lvl-2"><a href="#3-roller-ve-yetkiler">3. Roller ve Yetkiler</a></li>
+<li class="lvl-1"><a href="#bölüm-b-müşteri-tarafi-storefront">BÖLÜM B — MÜŞTERİ TARAFI (Storefront)</a></li>
+<li class="lvl-2"><a href="#4-anasayfa">4. Anasayfa</a></li>
+<li class="lvl-2"><a href="#5-üyelik-işlemleri">5. Üyelik İşlemleri</a></li>
+<li class="lvl-3"><a href="#51-kayıt">5.1 Kayıt</a></li>
+<li class="lvl-3"><a href="#52-giriş">5.2 Giriş</a></li>
+<li class="lvl-3"><a href="#53-şifre-sıfırlama">5.3 Şifre Sıfırlama</a></li>
+<li class="lvl-3"><a href="#54-çıkış">5.4 Çıkış</a></li>
+<li class="lvl-2"><a href="#6-ürünler-ve-gezinme">6. Ürünler ve Gezinme</a></li>
+<li class="lvl-3"><a href="#61-tüm-ürünler-listesi">6.1 Tüm Ürünler Listesi</a></li>
+<li class="lvl-3"><a href="#62-kategori-sayfası">6.2 Kategori Sayfası</a></li>
+<li class="lvl-3"><a href="#63-tüm-kategoriler">6.3 Tüm Kategoriler</a></li>
+<li class="lvl-3"><a href="#64-arama">6.4 Arama</a></li>
+<li class="lvl-2"><a href="#7-ürün-detay-sayfası">7. Ürün Detay Sayfası</a></li>
+<li class="lvl-3"><a href="#71-görsel-galeri">7.1 Görsel Galeri</a></li>
+<li class="lvl-3"><a href="#72-ürün-bilgileri">7.2 Ürün Bilgileri</a></li>
+<li class="lvl-3"><a href="#73-varyasyonlar">7.3 Varyasyonlar</a></li>
+<li class="lvl-3"><a href="#74-adet-seçimi-sepete-ekleme">7.4 Adet Seçimi + Sepete Ekleme</a></li>
+<li class="lvl-3"><a href="#75-diğer-eylemler">7.5 Diğer Eylemler</a></li>
+<li class="lvl-3"><a href="#76-açıklama-sekmeleri">7.6 Açıklama Sekmeleri</a></li>
+<li class="lvl-3"><a href="#77-yorum-bölümü">7.7 Yorum Bölümü</a></li>
+<li class="lvl-3"><a href="#78-cross-sell">7.8 Cross-Sell</a></li>
+<li class="lvl-3"><a href="#79-son-görüntülenenler">7.9 Son Görüntülenenler</a></li>
+<li class="lvl-3"><a href="#710-breadcrumb-yol-izi">7.10 Breadcrumb (Yol İzi)</a></li>
+<li class="lvl-2"><a href="#8-sepet-ve-ödeme">8. Sepet ve Ödeme</a></li>
+<li class="lvl-3"><a href="#81-sepet-sayfası">8.1 Sepet Sayfası</a></li>
+<li class="lvl-3"><a href="#82-ödeme-sayfası-checkout">8.2 Ödeme Sayfası (Checkout)</a></li>
+<li class="lvl-3"><a href="#83-ödeme-sonrası">8.3 Ödeme Sonrası</a></li>
+<li class="lvl-3"><a href="#84-sipariş-takibi">8.4 Sipariş Takibi</a></li>
+<li class="lvl-2"><a href="#9-hesabım-paneli">9. Hesabım Paneli</a></li>
+<li class="lvl-3"><a href="#91-profil">9.1 Profil</a></li>
+<li class="lvl-3"><a href="#92-adres-defteri">9.2 Adres Defteri</a></li>
+<li class="lvl-3"><a href="#93-siparişlerim">9.3 Siparişlerim</a></li>
+<li class="lvl-3"><a href="#94-favorilerim">9.4 Favorilerim</a></li>
+<li class="lvl-3"><a href="#95-sonra-al">9.5 Sonra Al</a></li>
+<li class="lvl-3"><a href="#96-puan-ve-sadakat">9.6 Puan ve Sadakat</a></li>
+<li class="lvl-3"><a href="#97-iade-talepleri">9.7 İade Talepleri</a></li>
+<li class="lvl-3"><a href="#98-bülten-tercihleri">9.8 Bülten Tercihleri</a></li>
+<li class="lvl-3"><a href="#99-karşılaştırma">9.9 Karşılaştırma</a></li>
+<li class="lvl-2"><a href="#10-içerik-sayfaları">10. İçerik Sayfaları</a></li>
+<li class="lvl-3"><a href="#101-blog">10.1 Blog</a></li>
+<li class="lvl-3"><a href="#102-blog-yazısı">10.2 Blog Yazısı</a></li>
+<li class="lvl-3"><a href="#103-iletişim">10.3 İletişim</a></li>
+<li class="lvl-3"><a href="#104-statik-sayfalar">10.4 Statik Sayfalar</a></li>
+<li class="lvl-3"><a href="#105-bültene-abone">10.5 Bültene Abone</a></li>
+<li class="lvl-1"><a href="#bölüm-c-yönetim-paneli-admin">BÖLÜM C — YÖNETİM PANELİ (Admin)</a></li>
+<li class="lvl-2"><a href="#11-admin-girişi">11. Admin Girişi</a></li>
+<li class="lvl-2"><a href="#12-komuta-merkezi-dashboard">12. Komuta Merkezi (Dashboard)</a></li>
+<li class="lvl-3"><a href="#121-üst-kpi-kartları">12.1 Üst KPI Kartları</a></li>
+<li class="lvl-3"><a href="#122-grafikler">12.2 Grafikler</a></li>
+<li class="lvl-3"><a href="#123-uyarı-paneli">12.3 Uyarı Paneli</a></li>
+<li class="lvl-3"><a href="#124-hızlı-eylemler-sol-üstte">12.4 Hızlı Eylemler (sol üstte)</a></li>
+<li class="lvl-3"><a href="#125-son-aktivite-tablosu">12.5 Son Aktivite Tablosu</a></li>
+<li class="lvl-2"><a href="#13-sidebar-navigasyon">13. Sidebar Navigasyon</a></li>
+<li class="lvl-2"><a href="#14-satış-yönetimi">14. Satış Yönetimi</a></li>
+<li class="lvl-3"><a href="#141-siparişler-listesi">14.1 Siparişler Listesi</a></li>
+<li class="lvl-3"><a href="#142-sipariş-detay">14.2 Sipariş Detay</a></li>
+<li class="lvl-3"><a href="#143-kuponlar">14.3 Kuponlar</a></li>
+<li class="lvl-3"><a href="#144-terk-edilmiş-sepetler">14.4 Terk Edilmiş Sepetler</a></li>
+<li class="lvl-3"><a href="#145-pos-satış-noktası">14.5 POS (Satış Noktası)</a></li>
+<li class="lvl-2"><a href="#15-analiz-raporlar">15. Analiz &amp; Raporlar</a></li>
+<li class="lvl-3"><a href="#151-satış-raporu">15.1 Satış Raporu</a></li>
+<li class="lvl-3"><a href="#152-ürün-performansı">15.2 Ürün Performansı</a></li>
+<li class="lvl-3"><a href="#153-kupon-raporu">15.3 Kupon Raporu</a></li>
+<li class="lvl-2"><a href="#16-katalog-yönetimi">16. Katalog Yönetimi</a></li>
+<li class="lvl-3"><a href="#161-ürün-listesi">16.1 Ürün Listesi</a></li>
+<li class="lvl-3"><a href="#162-ürün-eklemedüzenleme">16.2 Ürün Ekleme/Düzenleme</a></li>
+<li class="lvl-3"><a href="#163-stok-yönetimi">16.3 Stok Yönetimi</a></li>
+<li class="lvl-3"><a href="#164-toplu-güncelleme">16.4 Toplu Güncelleme</a></li>
+<li class="lvl-3"><a href="#165-çöp-kutusu">16.5 Çöp Kutusu</a></li>
+<li class="lvl-3"><a href="#166-kategoriler">16.6 Kategoriler</a></li>
+<li class="lvl-3"><a href="#167-medya-kütüphanesi">16.7 Medya Kütüphanesi</a></li>
+<li class="lvl-3"><a href="#168-medya-çöp-kutusu">16.8 Medya Çöp Kutusu</a></li>
+<li class="lvl-2"><a href="#17-içerik-seo-yönetimi">17. İçerik &amp; SEO Yönetimi</a></li>
+<li class="lvl-3"><a href="#171-sayfalar">17.1 Sayfalar</a></li>
+<li class="lvl-3"><a href="#172-blog">17.2 Blog</a></li>
+<li class="lvl-3"><a href="#173-blog-kategorileri">17.3 Blog Kategorileri</a></li>
+<li class="lvl-3"><a href="#174-blog-içeri-aktarım">17.4 Blog İçeri Aktarım</a></li>
+<li class="lvl-3"><a href="#175-bannerlar">17.5 Bannerlar</a></li>
+<li class="lvl-3"><a href="#176-seo-yöneticisi">17.6 SEO Yöneticisi</a></li>
+<li class="lvl-3"><a href="#177-url-yönlendirme-redirects">17.7 URL Yönlendirme (Redirects)</a></li>
+<li class="lvl-2"><a href="#18-müşteri-yönetimi">18. Müşteri Yönetimi</a></li>
+<li class="lvl-3"><a href="#181-müşteri-listesi">18.1 Müşteri Listesi</a></li>
+<li class="lvl-3"><a href="#182-müşteri-detay-360">18.2 Müşteri Detay (360°)</a></li>
+<li class="lvl-3"><a href="#183-müşteri-düzenleme">18.3 Müşteri Düzenleme</a></li>
+<li class="lvl-3"><a href="#184-yorumlar">18.4 Yorumlar</a></li>
+<li class="lvl-3"><a href="#185-yorumlar-eski-tablo">18.5 Yorumlar (Eski tablo)</a></li>
+<li class="lvl-3"><a href="#186-müşteri-mesajları">18.6 Müşteri Mesajları</a></li>
+<li class="lvl-3"><a href="#187-bülten-aboneleri">18.7 Bülten Aboneleri</a></li>
+<li class="lvl-3"><a href="#188-bülten-kampanyaları">18.8 Bülten Kampanyaları</a></li>
+<li class="lvl-3"><a href="#189-sadakat-müşteriler">18.9 Sadakat - Müşteriler</a></li>
+<li class="lvl-3"><a href="#1810-sadakat-işlemler">18.10 Sadakat - İşlemler</a></li>
+<li class="lvl-2"><a href="#19-sistem-ayarları">19. Sistem Ayarları</a></li>
+<li class="lvl-3"><a href="#a-mağaza-kimliği-settingsidentityphp">A. 🏪 Mağaza Kimliği (settings/identity.php)</a></li>
+<li class="lvl-3"><a href="#b-pazarlama-settingsmarketingphp">B. 📢 Pazarlama (settings/marketing.php)</a></li>
+<li class="lvl-3"><a href="#c-ticaret-settingscommercephp">C. 🛒 Ticaret (settings/commerce.php)</a></li>
+<li class="lvl-3"><a href="#d-analitik-settingsanalyticsphp">D. 📊 Analitik (settings/analytics.php)</a></li>
+<li class="lvl-3"><a href="#e-entegrasyonlar-settingsintegrationsphp">E. 🧩 Entegrasyonlar (settings/integrations.php)</a></li>
+<li class="lvl-2"><a href="#20-araçlar-bakım">20. Araçlar (Bakım)</a></li>
+<li class="lvl-3"><a href="#201-sql-migration-yöneticisi">20.1 SQL Migration Yöneticisi</a></li>
+<li class="lvl-3"><a href="#202-görsel-yeniden-boyutlandırma">20.2 Görsel Yeniden Boyutlandırma</a></li>
+<li class="lvl-3"><a href="#203-reset-aracı">20.3 Reset Aracı</a></li>
+<li class="lvl-1"><a href="#bölüm-d-detayli-ayarlar">BÖLÜM D — DETAYLI AYARLAR</a></li>
+<li class="lvl-2"><a href="#21-mağaza-kimliği">21. Mağaza Kimliği</a></li>
+<li class="lvl-3"><a href="#211-genel">21.1 Genel</a></li>
+<li class="lvl-3"><a href="#212-iletişim">21.2 İletişim</a></li>
+<li class="lvl-3"><a href="#213-işletme-konumu">21.3 İşletme Konumu</a></li>
+<li class="lvl-3"><a href="#214-çalışma-saatleri">21.4 Çalışma Saatleri</a></li>
+<li class="lvl-3"><a href="#215-sosyal-medya">21.5 Sosyal Medya</a></li>
+<li class="lvl-2"><a href="#22-pazarlama">22. Pazarlama</a></li>
+<li class="lvl-3"><a href="#221-seo-defaults">22.1 SEO Defaults</a></li>
+<li class="lvl-3"><a href="#222-newsletter">22.2 Newsletter</a></li>
+<li class="lvl-3"><a href="#223-exit-intent-kuponu">22.3 Exit-intent Kuponu</a></li>
+<li class="lvl-2"><a href="#23-ticaret">23. Ticaret</a></li>
+<li class="lvl-3"><a href="#231-para-birimi-kdv">23.1 Para Birimi &amp; KDV</a></li>
+<li class="lvl-3"><a href="#232-kargo">23.2 Kargo</a></li>
+<li class="lvl-3"><a href="#233-stok-uyarısı">23.3 Stok Uyarısı</a></li>
+<li class="lvl-3"><a href="#234-kupon-politikası">23.4 Kupon Politikası</a></li>
+<li class="lvl-3"><a href="#235-sadakat-programı">23.5 Sadakat Programı</a></li>
+<li class="lvl-2"><a href="#24-analitik">24. Analitik</a></li>
+<li class="lvl-3"><a href="#241-master-switch">24.1 Master Switch</a></li>
+<li class="lvl-3"><a href="#242-google-analytics-4">24.2 Google Analytics 4</a></li>
+<li class="lvl-3"><a href="#243-google-tag-manager">24.3 Google Tag Manager</a></li>
+<li class="lvl-3"><a href="#244-meta-pixel">24.4 Meta Pixel</a></li>
+<li class="lvl-3"><a href="#245-meta-conversion-api">24.5 Meta Conversion API</a></li>
+<li class="lvl-3"><a href="#246-microsoft-clarity">24.6 Microsoft Clarity</a></li>
+<li class="lvl-3"><a href="#247-cookie-consent">24.7 Cookie / Consent</a></li>
+<li class="lvl-2"><a href="#25-entegrasyonlar">25. Entegrasyonlar</a></li>
+<li class="lvl-3"><a href="#251-iyzico-ödeme">25.1 iyzico (Ödeme)</a></li>
+<li class="lvl-3"><a href="#252-smtp-email">25.2 SMTP (Email)</a></li>
+<li class="lvl-3"><a href="#253-sms-sağlayıcı">25.3 SMS Sağlayıcı</a></li>
+<li class="lvl-3"><a href="#254-whatsapp-business">25.4 WhatsApp Business</a></li>
+<li class="lvl-3"><a href="#255-anthropic-ai">25.5 Anthropic AI</a></li>
+<li class="lvl-3"><a href="#256-şirket-yasal-mali">25.6 Şirket / Yasal &amp; Mali</a></li>
+<li class="lvl-3"><a href="#257-banka-hesapları-havale-için">25.7 Banka Hesapları (Havale için)</a></li>
+<li class="lvl-1"><a href="#bölüm-e-iş-akişlari">BÖLÜM E — İŞ AKIŞLARI</a></li>
+<li class="lvl-2"><a href="#26-yeni-ürün-ekleme-akışı">26. Yeni Ürün Ekleme Akışı</a></li>
+<li class="lvl-2"><a href="#27-günlük-sipariş-işleme">27. Günlük Sipariş İşleme</a></li>
+<li class="lvl-2"><a href="#28-kampanya-başlatma">28. Kampanya Başlatma</a></li>
+<li class="lvl-3"><a href="#a-indirim-kuponu-kampanyası">A. İndirim Kuponu Kampanyası</a></li>
+<li class="lvl-3"><a href="#b-anasayfa-banner-kampanyası">B. Anasayfa Banner Kampanyası</a></li>
+<li class="lvl-3"><a href="#c-newsletter-patlatma">C. Newsletter Patlatma</a></li>
+<li class="lvl-2"><a href="#29-stok-yönetimi">29. Stok Yönetimi</a></li>
+<li class="lvl-2"><a href="#30-müşteri-şikayeti-çözme">30. Müşteri Şikayeti Çözme</a></li>
+<li class="lvl-2"><a href="#31-aylık-bakım-kontrolü">31. Aylık Bakım Kontrolü</a></li>
+<li class="lvl-1"><a href="#bölüm-f-teknik-bakim">BÖLÜM F — TEKNİK &amp; BAKIM</a></li>
+<li class="lvl-2"><a href="#32-cron-job-listesi">32. Cron Job Listesi</a></li>
+<li class="lvl-2"><a href="#33-yedekleme">33. Yedekleme</a></li>
+<li class="lvl-3"><a href="#a-cpanel-ile-önerilir">A. cPanel ile (Önerilir)</a></li>
+<li class="lvl-3"><a href="#b-ssh-ile-gelişmiş">B. SSH ile (Gelişmiş)</a></li>
+<li class="lvl-3"><a href="#c-otomatik-cloud-yedek">C. Otomatik Cloud Yedek</a></li>
+<li class="lvl-2"><a href="#34-sql-migration-çalıştırma">34. SQL Migration Çalıştırma</a></li>
+<li class="lvl-3"><a href="#tercih-edilen-yol-admin-panelden">Tercih edilen yol: Admin Panel'den</a></li>
+<li class="lvl-3"><a href="#alternatif-phpmyadmin">Alternatif: phpMyAdmin</a></li>
+<li class="lvl-2"><a href="#35-hata-yönetimi">35. Hata Yönetimi</a></li>
+<li class="lvl-3"><a href="#a-müşteri-tarafında-hata-olursa">A. Müşteri Tarafında Hata Olursa</a></li>
+<li class="lvl-3"><a href="#b-hata-loglarına-bakma">B. Hata Loglarına Bakma</a></li>
+<li class="lvl-3"><a href="#c-yaygın-hata-tipleri">C. Yaygın Hata Tipleri</a></li>
+<li class="lvl-1"><a href="#bölüm-g-sorun-giderme">BÖLÜM G — SORUN GİDERME</a></li>
+<li class="lvl-2"><a href="#36-sss-müşteri-tarafı">36. SSS — Müşteri Tarafı</a></li>
+<li class="lvl-2"><a href="#37-sss-yönetim-tarafı">37. SSS — Yönetim Tarafı</a></li>
+<li class="lvl-2"><a href="#38-acil-durum-rehberi">38. Acil Durum Rehberi</a></li>
+<li class="lvl-3"><a href="#site-açılmıyor-500-hatası">🆘 Site açılmıyor (500 hatası)</a></li>
+<li class="lvl-3"><a href="#veritabanı-bağlantısı-yok">🆘 Veritabanı bağlantısı yok</a></li>
+<li class="lvl-3"><a href="#ödeme-alamıyorum">🆘 Ödeme alamıyorum</a></li>
+<li class="lvl-3"><a href="#hack-şüpheli-aktivite">🆘 Hack / şüpheli aktivite</a></li>
+<li class="lvl-3"><a href="#tüm-sitedeki-müşterilere-acil-duyuru">🆘 Tüm sitedeki müşterilere acil duyuru</a></li>
+<li class="lvl-1"><a href="#yardım">📞 Yardım</a></li>
+</ol></div></nav>
+<main class="main">
+<a href="index.html" class="back-link">← Dokümantasyon Ana Sayfa</a>
+<div class="doc-hero">
+<h1>Detaylı Site Kullanım Kılavuzu</h1>
+<div class="meta">Versiyon 1.0 · 19 Mayıs 2026</div>
+</div>
+<h1 id="detaylı-site-kullanım-kılavuzu">📚 Detaylı Site Kullanım Kılavuzu <a class="anchor" href="#detaylı-site-kullanım-kılavuzu">¶</a></h1>
+<blockquote>Bu doküman sitenizin <strong>tüm özelliklerinin</strong> detaylı kullanımını anlatır. Müşteri tarafı, yönetim paneli, ayarlar, iş akışları ve bakım — hepsi tek bir yerde.</blockquote>
+<p><strong>Versiyon:</strong> 1.0 · <strong>Tarih:</strong> 2026-05-19</p>
+<hr>
+<h1 id="bölüm-a-site-tanitimi">BÖLÜM A — SİTE TANITIMI <a class="anchor" href="#bölüm-a-site-tanitimi">¶</a></h1>
+<h2 id="1-genel-bakış">1. Genel Bakış <a class="anchor" href="#1-genel-bakış">¶</a></h2>
+<p>Bu site, modern bir e-ticaret yazılımıdır. Aşağıdaki temel yetenekleri içerir:</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Yetenek</th>
+<th>Açıklama</th>
+</tr></thead><tbody>
+<tr>
+<td>🛒 <strong>Ürün Satışı</strong></td>
+<td>Varyasyonlu (çeşitli boyut/koku) ürünler, stok takibi, indirim</td>
+</tr>
+<tr>
+<td>💳 <strong>Online Ödeme</strong></td>
+<td>iyzico entegrasyonu, taksitli ödeme, havale, kapıda</td>
+</tr>
+<tr>
+<td>👤 <strong>Üyelik Sistemi</strong></td>
+<td>Kayıt, giriş, sosyal giriş (opsiyonel), şifre sıfırlama</td>
+</tr>
+<tr>
+<td>📊 <strong>Analitik</strong></td>
+<td>GA4 + GTM + Meta Pixel + CAPI + Clarity, KVKK uyumlu</td>
+</tr>
+<tr>
+<td>📧 <strong>Email &amp; SMS</strong></td>
+<td>Sipariş bildirimleri, kampanya, sepet terk hatırlatma</td>
+</tr>
+<tr>
+<td>🏆 <strong>Sadakat</strong></td>
+<td>Puan toplama/kullanma, seviye sistemi, doğum günü kuponu</td>
+</tr>
+<tr>
+<td>📝 <strong>Blog</strong></td>
+<td>Yazı yönetimi, kategori, SEO optimizasyonu</td>
+</tr>
+<tr>
+<td>🔍 <strong>SEO</strong></td>
+<td>Sitemap, JSON-LD, breadcrumb, meta yönetimi</td>
+</tr>
+<tr>
+<td>🌐 <strong>Çok Sayfa</strong></td>
+<td>Hakkımızda, iletişim, KVKK gibi statik sayfalar</td>
+</tr>
+<tr>
+<td>📱 <strong>Mobil Uyumlu</strong></td>
+<td>Tüm sayfalar mobile-first, hızlı, akıcı</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2 id="2-site-mimarisi">2. Site Mimarisi <a class="anchor" href="#2-site-mimarisi">¶</a></h2>
+<pre><code>siteniz.com/
+├── 🏠 Anasayfa (/)
+├── 🛍️  Ürünler (/products)
+├── 📦 Kategoriler (/category/X)
+├── 🛒 Sepet (/cart)
+├── 💳 Ödeme (/checkout)
+├── 👤 Üyelik (/login, /register)
+├── 📊 Hesabım (/account)
+├── 📰 Blog (/blog)
+├── 📄 Statik (/about, /contact, KVKK vb.)
+├── 🔧 Admin (/admin_panel)
+└── 🤖 API/AJAX (/ajax/*, /api/*)</code></pre>
+<h3 id="dosya-yapısı-sunucudaki">Dosya Yapısı (Sunucudaki) <a class="anchor" href="#dosya-yapısı-sunucudaki">¶</a></h3>
+<pre><code>public_html/
+├── pages/          → Müşteri sayfaları (home, cart, checkout vb.)
+├── controllers/    → İşlem alıcılar (sepete ekle, sipariş ver vb.)
+├── components/     → Tekrar kullanılan bloklar (header, footer, banner)
+├── models/         → Veritabanı sınıfları (Product, Order, User vb.)
+├── core/           → Çekirdek (Database, Auth, Session, Csrf, helpers)
+├── admin_panel/    → Yönetim arayüzü
+├── assets/         → CSS, JS, görseller
+├── cron/           → Otomatik çalışacak scriptler
+├── sql/            → Veritabanı migrasyonları
+└── includes/       → Header, footer, paylaşılan kodlar</code></pre>
+<hr>
+<h2 id="3-roller-ve-yetkiler">3. Roller ve Yetkiler <a class="anchor" href="#3-roller-ve-yetkiler">¶</a></h2>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Rol</th>
+<th>Yetkiler</th>
+<th>Erişim</th>
+</tr></thead><tbody>
+<tr>
+<td>🌐 <strong>Misafir</strong></td>
+<td>Ürün görüntüleme, sepete ekleme, misafir checkout</td>
+<td>Tüm açık sayfalar</td>
+</tr>
+<tr>
+<td>👤 <strong>Üye Müşteri</strong></td>
+<td>Misafir + favoriler, puan, sipariş geçmişi, hızlı checkout</td>
+<td>Storefront + /account</td>
+</tr>
+<tr>
+<td>🛠️ <strong>Admin</strong></td>
+<td>Tüm yönetim işlemleri</td>
+<td>Tümü + /admin_panel</td>
+</tr>
+</tbody></table></div>
+<p><strong>Önemli:</strong> Admin panelinde rol detayı yok — admin'siniz veya değilsiniz. Çoklu admin yapacaksanız her birine kullanıcı oluşturup <code>role='admin'</code> yapın.</p>
+<hr>
+<h1 id="bölüm-b-müşteri-tarafi-storefront">BÖLÜM B — MÜŞTERİ TARAFI (Storefront) <a class="anchor" href="#bölüm-b-müşteri-tarafi-storefront">¶</a></h1>
+<h2 id="4-anasayfa">4. Anasayfa <a class="anchor" href="#4-anasayfa">¶</a></h2>
+<p><strong>URL:</strong> <code>/</code></p>
+<p><strong>Bölümler (yukarıdan aşağıya):</strong></p>
+<ol>
+<li><strong>Topbar</strong> — Telefon, email, sosyal linkler (admin'den açılır/kapanır)</li>
+<li><strong>Header</strong> — Logo, menü, arama, sepet, hesap</li>
+<li><strong>Hero Slider</strong> — Banner görselleri (admin → Banner yönetimi)</li>
+<li><strong>Öne Çıkan Kategoriler</strong> — Ürün gruplarına hızlı geçiş</li>
+<li><strong>Çok Satanlar</strong> — Gerçek satış verisinden otomatik</li>
+<li><strong>Yeni Eklenenler</strong> — Son eklenen ürünler</li>
+<li><strong>Kampanyalı Ürünler</strong> — Discount alanı olan ürünler</li>
+<li><strong>Blog Önizleme</strong> — Son 3 yazı</li>
+<li><strong>Bültene Kayıt</strong> — Email yakalama formu</li>
+<li><strong>Footer</strong> — İletişim, sayfalar, sosyal, KVKK</li>
+</ol>
+<p><strong>Admin müdahalesi:</strong> Banner sırası, hangi kategorilerin öne çıkacağı, "Çok satanlar" gibi widget'ların gösterilip gösterilmemesi ayarlardan kontrol edilir.</p>
+<hr>
+<h2 id="5-üyelik-işlemleri">5. Üyelik İşlemleri <a class="anchor" href="#5-üyelik-işlemleri">¶</a></h2>
+<h3 id="51-kayıt">5.1 Kayıt <a class="anchor" href="#51-kayıt">¶</a></h3>
+<p><strong>URL:</strong> <code>/register</code></p>
+<p><strong>Müşteri girer:</strong></p>
+<ul>
+<li>Ad, soyad</li>
+<li>Email (benzersiz olmalı)</li>
+<li>Şifre (en az 8 karakter önerilir)</li>
+<li>Doğum tarihi (opsiyonel ama puan/kampanya için önemli)</li>
+<li>Telefon</li>
+<li>KVKK onay kutusu (zorunlu)</li>
+</ul>
+<p><strong>Otomatik:</strong></p>
+<ul>
+<li>Email doğrulama linki gönderilir (SMTP açıksa)</li>
+<li>Hoşgeldin email'i (varsa şablon)</li>
+</ul>
+<h3 id="52-giriş">5.2 Giriş <a class="anchor" href="#52-giriş">¶</a></h3>
+<p><strong>URL:</strong> <code>/login</code></p>
+<ul>
+<li>Email + şifre</li>
+<li>"Beni hatırla" işaretlenebilir (uzun ömürlü cookie)</li>
+<li>Yanlış şifre 5 kez = rate limit (15dk bekleme)</li>
+</ul>
+<h3 id="53-şifre-sıfırlama">5.3 Şifre Sıfırlama <a class="anchor" href="#53-şifre-sıfırlama">¶</a></h3>
+<p><strong>URL:</strong> <code>/forgot_password</code></p>
+<ol>
+<li>Email gir → sistem reset linki gönderir</li>
+<li>Link 1 saat geçerli, tek kullanımlık</li>
+<li><code>/reset_password?token=XYZ</code> ile yeni şifre belirlenir</li>
+</ol>
+<h3 id="54-çıkış">5.4 Çıkış <a class="anchor" href="#54-çıkış">¶</a></h3>
+<p><strong>URL:</strong> <code>/logout</code> — session temizlenir, anasayfaya yönlenir</p>
+<hr>
+<h2 id="6-ürünler-ve-gezinme">6. Ürünler ve Gezinme <a class="anchor" href="#6-ürünler-ve-gezinme">¶</a></h2>
+<h3 id="61-tüm-ürünler-listesi">6.1 Tüm Ürünler Listesi <a class="anchor" href="#61-tüm-ürünler-listesi">¶</a></h3>
+<p><strong>URL:</strong> <code>/products</code></p>
+<p><strong>Özellikler:</strong></p>
+<ul>
+<li>Sayfalama (her sayfada 20-24 ürün)</li>
+<li>Sıralama: Yeni, Fiyat (artan/azalan), Popüler, A-Z</li>
+<li>Filtreler: Kategori, fiyat aralığı, stokta var/yok</li>
+<li>Arama (sağ üstteki kutu)</li>
+</ul>
+<h3 id="62-kategori-sayfası">6.2 Kategori Sayfası <a class="anchor" href="#62-kategori-sayfası">¶</a></h3>
+<p><strong>URL:</strong> <code>/category/{slug}</code></p>
+<p>Kategoriye özel:</p>
+<ul>
+<li>Kategori başlığı + açıklama</li>
+<li>Alt kategoriler (varsa)</li>
+<li>Sadece bu kategoriye ait ürünler</li>
+<li>SEO başlık, meta description (admin'den)</li>
+</ul>
+<h3 id="63-tüm-kategoriler">6.3 Tüm Kategoriler <a class="anchor" href="#63-tüm-kategoriler">¶</a></h3>
+<p><strong>URL:</strong> <code>/categories</code> (kategori ağacı görüntüsü)</p>
+<h3 id="64-arama">6.4 Arama <a class="anchor" href="#64-arama">¶</a></h3>
+<ul>
+<li>Header'daki arama kutusu</li>
+<li>Hem ürün adı hem açıklamada arar</li>
+<li>Sonuç sayfası <code>/products?q=kelime</code></li>
+</ul>
+<hr>
+<h2 id="7-ürün-detay-sayfası">7. Ürün Detay Sayfası <a class="anchor" href="#7-ürün-detay-sayfası">¶</a></h2>
+<p><strong>URL:</strong> <code>/product/{slug}</code></p>
+<h3 id="71-görsel-galeri">7.1 Görsel Galeri <a class="anchor" href="#71-görsel-galeri">¶</a></h3>
+<ul>
+<li>Ana görsel + küçük thumb'lar</li>
+<li>Tıklayınca büyük modal açılır (lightbox)</li>
+<li>Mobile'da swipe ile geçiş</li>
+</ul>
+<h3 id="72-ürün-bilgileri">7.2 Ürün Bilgileri <a class="anchor" href="#72-ürün-bilgileri">¶</a></h3>
+<ul>
+<li>Ürün adı + kategori</li>
+<li>Fiyat (varsa indirimli + üstü çizili eski fiyat)</li>
+<li><strong>"Sadece N tane kaldı"</strong> rozeti (düşük stokta)</li>
+<li><strong>Sosyal kanıt:</strong> "🔥 Son 24 saatte X satıldı"</li>
+<li>Stok durumu (Var / Yok / Az kaldı)</li>
+</ul>
+<h3 id="73-varyasyonlar">7.3 Varyasyonlar <a class="anchor" href="#73-varyasyonlar">¶</a></h3>
+<p>Eğer ürünün farklı boyut/çeşitleri varsa:</p>
+<ul>
+<li>Dropdown veya buton grubu</li>
+<li>Her varyasyonun <strong>kendi stoğu ve fiyatı</strong> olabilir</li>
+<li>Seçim yapılınca fiyat ve "sadece N kaldı" güncellenir</li>
+</ul>
+<h3 id="74-adet-seçimi-sepete-ekleme">7.4 Adet Seçimi + Sepete Ekleme <a class="anchor" href="#74-adet-seçimi-sepete-ekleme">¶</a></h3>
+<ul>
+<li>"+/-" tuşları veya manuel adet</li>
+<li>"Sepete Ekle" tuşu → AJAX, sayfa yenilenmez</li>
+<li>Sepete eklenince <strong>mini modal</strong> açılır:</li>
+<li>"Sepete eklendi" + ürün özeti</li>
+<li>"Sepete Git" / "Alışverişe Devam Et" tuşları</li>
+</ul>
+<h3 id="75-diğer-eylemler">7.5 Diğer Eylemler <a class="anchor" href="#75-diğer-eylemler">¶</a></h3>
+<ul>
+<li><strong>❤️ Favorilere Ekle</strong> (üye girişi gerek)</li>
+<li><strong>🔁 Karşılaştırmaya Ekle</strong> (4 ürüne kadar)</li>
+<li><strong>🔖 Sonra Al</strong> (üye girişi gerek)</li>
+<li><strong>📤 Paylaş</strong> (WhatsApp/X/Facebook/Pinterest/Email/Kopyala)</li>
+</ul>
+<h3 id="76-açıklama-sekmeleri">7.6 Açıklama Sekmeleri <a class="anchor" href="#76-açıklama-sekmeleri">¶</a></h3>
+<ul>
+<li>📝 <strong>Açıklama</strong> — Detaylı ürün metni (admin'den HTML)</li>
+<li>📋 <strong>Özellikler</strong> — Teknik özellikler tablosu</li>
+<li>❓ <strong>SSS</strong> — Accordion (admin'den girilir)</li>
+<li>⭐ <strong>Yorumlar</strong> — Müşteri yorumları + puan</li>
+</ul>
+<h3 id="77-yorum-bölümü">7.7 Yorum Bölümü <a class="anchor" href="#77-yorum-bölümü">¶</a></h3>
+<p><strong>Üye olmayan:</strong> Yorumları okuyabilir, yazamaz. <strong>Üye:</strong> Bu ürünü <strong>satın almışsa</strong> yorum yazabilir.</p>
+<ul>
+<li>1-5 yıldız</li>
+<li>Başlık + metin</li>
+<li>Admin onayından sonra yayınlanır</li>
+</ul>
+<h3 id="78-cross-sell">7.8 Cross-Sell <a class="anchor" href="#78-cross-sell">¶</a></h3>
+<p>"Bunlarla Harika Gider" — gerçek satış verisinden, bu ürünü alanların aldığı diğer 4 ürün.</p>
+<h3 id="79-son-görüntülenenler">7.9 Son Görüntülenenler <a class="anchor" href="#79-son-görüntülenenler">¶</a></h3>
+<p>Sayfanın altında, müşterinin son gezdiği ürünlerin rafı (cookie/localStorage).</p>
+<h3 id="710-breadcrumb-yol-izi">7.10 Breadcrumb (Yol İzi) <a class="anchor" href="#710-breadcrumb-yol-izi">¶</a></h3>
+<p>Üstte: <code>Ana Sayfa › Kategori › Ürün Adı</code> — hem kullanıcı için, hem Google için (JSON-LD).</p>
+<hr>
+<h2 id="8-sepet-ve-ödeme">8. Sepet ve Ödeme <a class="anchor" href="#8-sepet-ve-ödeme">¶</a></h2>
+<h3 id="81-sepet-sayfası">8.1 Sepet Sayfası <a class="anchor" href="#81-sepet-sayfası">¶</a></h3>
+<p><strong>URL:</strong> <code>/cart</code></p>
+<p><strong>Bölümler:</strong></p>
+<ul>
+<li>🚚 <strong>Ücretsiz kargo progress bar</strong> (en üstte)</li>
+<li>"Ücretsiz kargoya 45₺ kaldı" → %78 dolu çubuk</li>
+<li>Eşik geçilince "🎉 Ücretsiz kargo kazandınız!"</li>
+<li>📦 <strong>Ürün listesi</strong> (tablo / mobile'da kart)</li>
+<li>Görsel, ad, varyasyon, birim fiyat, adet, ara toplam</li>
+<li>"+/-" ile adet değiştirme, "Sil" butonu</li>
+<li>🎟️ <strong>Kupon kodu kutusu</strong></li>
+<li>💰 <strong>Sipariş özeti</strong> (sağda / mobile'da altta)</li>
+<li>Ara toplam</li>
+<li>İndirim</li>
+<li>Kargo</li>
+<li><strong>Toplam</strong></li>
+<li>🔗 <strong>"Bunlarla harika gider"</strong> cross-sell (altta)</li>
+</ul>
+<p><strong>Butonlar:</strong></p>
+<ul>
+<li>← <strong>Alışverişe Devam Et</strong></li>
+<li>🗑️ <strong>Sepeti Temizle</strong></li>
+<li>✅ <strong>Ödemeye Geç</strong> (büyük altın CTA)</li>
+</ul>
+<h3 id="82-ödeme-sayfası-checkout">8.2 Ödeme Sayfası (Checkout) <a class="anchor" href="#82-ödeme-sayfası-checkout">¶</a></h3>
+<p><strong>URL:</strong> <code>/checkout</code></p>
+<p><strong>Akış (tek sayfa):</strong></p>
+<h4 id="adım-1-iletişim">Adım 1 — İletişim <a class="anchor" href="#adım-1-iletişim">¶</a></h4>
+<ul>
+<li>Email (üyeyseniz dolu gelir)</li>
+<li>Telefon</li>
+</ul>
+<h4 id="adım-2-teslimat-adresi">Adım 2 — Teslimat Adresi <a class="anchor" href="#adım-2-teslimat-adresi">¶</a></h4>
+<ul>
+<li>Üyeyseniz: kayıtlı adresler listesi + yeni ekle</li>
+<li>Misafir: tüm alanlar elden girilir</li>
+<li>Ad, soyad</li>
+<li>Adres (mahalle, sokak)</li>
+<li>İl, ilçe, posta kodu</li>
+</ul>
+<h4 id="adım-3-fatura-bilgisi">Adım 3 — Fatura Bilgisi <a class="anchor" href="#adım-3-fatura-bilgisi">¶</a></h4>
+<ul>
+<li>"Adresimle aynı" işaretliyse tek tıkla aynı bilgi</li>
+<li>Kurumsal fatura için vergi no/dairesi alanı</li>
+</ul>
+<h4 id="adım-4-hediye-paketi-opsiyonel">Adım 4 — Hediye Paketi (Opsiyonel) <a class="anchor" href="#adım-4-hediye-paketi-opsiyonel">¶</a></h4>
+<ul>
+<li>Hediye olarak paketle? (+ücret olabilir)</li>
+<li>Hediye mesajı (kart)</li>
+</ul>
+<h4 id="adım-5-kargo-yöntemi">Adım 5 — Kargo Yöntemi <a class="anchor" href="#adım-5-kargo-yöntemi">¶</a></h4>
+<ul>
+<li>Standart / Hızlı / Mağazadan Al (varsa)</li>
+</ul>
+<h4 id="adım-6-ödeme-yöntemi">Adım 6 — Ödeme Yöntemi <a class="anchor" href="#adım-6-ödeme-yöntemi">¶</a></h4>
+<ul>
+<li>💳 <strong>Kredi Kartı</strong> (iyzico — taksit dahil)</li>
+<li>🏦 <strong>Banka Havalesi</strong> (banka bilgileri gösterilir)</li>
+<li>📦 <strong>Kapıda Ödeme</strong> (varsa)</li>
+</ul>
+<h4 id="adım-7-onay">Adım 7 — Onay <a class="anchor" href="#adım-7-onay">¶</a></h4>
+<ul>
+<li>Sözleşmeler kabul kutuları (mesafeli satış, ön bilgi, KVKK)</li>
+<li>🔵 <strong>"Siparişi Tamamla"</strong> tuşu</li>
+</ul>
+<h3 id="83-ödeme-sonrası">8.3 Ödeme Sonrası <a class="anchor" href="#83-ödeme-sonrası">¶</a></h3>
+<ul>
+<li><strong>Başarılı:</strong> Sipariş onay sayfası + email + (SMS aktifse) SMS</li>
+<li><strong>Başarısız:</strong> Hata mesajı + tekrar deneme</li>
+</ul>
+<h3 id="84-sipariş-takibi">8.4 Sipariş Takibi <a class="anchor" href="#84-sipariş-takibi">¶</a></h3>
+<p><strong>URL:</strong> <code>/order/{order_number}</code></p>
+<ul>
+<li>Sipariş durumu (Onay bekliyor → Hazırlanıyor → Kargoda → Teslim)</li>
+<li>Kargo takip numarası (admin girince görünür)</li>
+<li>Ürün listesi + tutarlar</li>
+</ul>
+<hr>
+<h2 id="9-hesabım-paneli">9. Hesabım Paneli <a class="anchor" href="#9-hesabım-paneli">¶</a></h2>
+<p><strong>URL:</strong> <code>/account</code> (giriş gerektirir)</p>
+<h3 id="91-profil">9.1 Profil <a class="anchor" href="#91-profil">¶</a></h3>
+<ul>
+<li>Ad, soyad, telefon güncelleme</li>
+<li>Email değişimi (yeni email'e onay linki gider)</li>
+<li>Şifre değişimi</li>
+<li><strong>Doğum tarihi</strong> (bir kez girilince değiştirilemez — sahtekarlık koruması)</li>
+</ul>
+<h3 id="92-adres-defteri">9.2 Adres Defteri <a class="anchor" href="#92-adres-defteri">¶</a></h3>
+<ul>
+<li>Yeni adres ekle</li>
+<li>Mevcut adresleri düzenle/sil</li>
+<li>Varsayılan adres seç</li>
+</ul>
+<h3 id="93-siparişlerim">9.3 Siparişlerim <a class="anchor" href="#93-siparişlerim">¶</a></h3>
+<ul>
+<li>Tüm siparişler liste</li>
+<li>Tıklayınca detay</li>
+<li>"İade Talep Et" butonu (uygun durumda)</li>
+<li>"Tekrar Sipariş Ver" (sepete aynı ürünleri ekler)</li>
+</ul>
+<h3 id="94-favorilerim">9.4 Favorilerim <a class="anchor" href="#94-favorilerim">¶</a></h3>
+<ul>
+<li>Beğendiğin ürünler</li>
+<li>Direkt sepete ekle veya çıkar</li>
+</ul>
+<h3 id="95-sonra-al">9.5 Sonra Al <a class="anchor" href="#95-sonra-al">¶</a></h3>
+<ul>
+<li>Sepetteyken "Sonra Al" dedikleri buraya gider</li>
+<li>Düşmemesi için</li>
+<li>Tek tıkla geri sepete</li>
+</ul>
+<h3 id="96-puan-ve-sadakat">9.6 Puan ve Sadakat <a class="anchor" href="#96-puan-ve-sadakat">¶</a></h3>
+<ul>
+<li>🏆 <strong>Seviye rozeti</strong> (Yeni / Sadık / VIP)</li>
+<li><strong>Mevcut puan bakiyesi</strong></li>
+<li><strong>Son hareketler</strong> (kazandı / kullandı / expire)</li>
+<li>"Puan nasıl kazanılır?" açıklama bloğu</li>
+</ul>
+<h3 id="97-iade-talepleri">9.7 İade Talepleri <a class="anchor" href="#97-iade-talepleri">¶</a></h3>
+<ul>
+<li>Açılmış iade istekleri durumu</li>
+<li>Admin yanıtı</li>
+</ul>
+<h3 id="98-bülten-tercihleri">9.8 Bülten Tercihleri <a class="anchor" href="#98-bülten-tercihleri">¶</a></h3>
+<ul>
+<li>Email bülten aç/kapat</li>
+<li>SMS bildirim aç/kapat</li>
+</ul>
+<h3 id="99-karşılaştırma">9.9 Karşılaştırma <a class="anchor" href="#99-karşılaştırma">¶</a></h3>
+<ul>
+<li>Karşılaştırmaya eklediğin ürünler (max 4)</li>
+<li>Yan yana özellikler tablosu</li>
+</ul>
+<hr>
+<h2 id="10-içerik-sayfaları">10. İçerik Sayfaları <a class="anchor" href="#10-içerik-sayfaları">¶</a></h2>
+<h3 id="101-blog">10.1 Blog <a class="anchor" href="#101-blog">¶</a></h3>
+<p><strong>URL:</strong> <code>/blog</code></p>
+<ul>
+<li>Yazı listesi (sayfalama)</li>
+<li>Kategori filtresi</li>
+<li>Yazıya tıklayınca <code>/post/{slug}</code></li>
+</ul>
+<h3 id="102-blog-yazısı">10.2 Blog Yazısı <a class="anchor" href="#102-blog-yazısı">¶</a></h3>
+<ul>
+<li>Başlık, görsel, içerik (HTML)</li>
+<li>Sosyal paylaşım butonları</li>
+<li>Yazar, tarih</li>
+<li>Yorumlar (üyelik gerektirir)</li>
+<li>İlgili yazılar</li>
+</ul>
+<h3 id="103-iletişim">10.3 İletişim <a class="anchor" href="#103-iletişim">¶</a></h3>
+<p><strong>URL:</strong> <code>/contact</code></p>
+<ul>
+<li>Adres, telefon, email</li>
+<li>Google Maps embed (varsa)</li>
+<li>İletişim formu</li>
+<li>Çalışma saatleri</li>
+</ul>
+<h3 id="104-statik-sayfalar">10.4 Statik Sayfalar <a class="anchor" href="#104-statik-sayfalar">¶</a></h3>
+<p><strong>URL:</strong> <code>/page/{slug}</code></p>
+<ul>
+<li>Hakkımızda</li>
+<li>Mesafeli Satış Sözleşmesi</li>
+<li>Gizlilik Politikası</li>
+<li>KVKK Aydınlatma</li>
+<li>Çerez Politikası</li>
+<li>Sıkça Sorulan Sorular</li>
+<li>... (admin'den eklenebilir)</li>
+</ul>
+<h3 id="105-bültene-abone">10.5 Bültene Abone <a class="anchor" href="#105-bültene-abone">¶</a></h3>
+<ul>
+<li>Anasayfada veya footer'da form</li>
+<li>Email + KVKK onay</li>
+<li>Onay maili (double opt-in)</li>
+<li>İptal: email içinde "Aboneliği iptal et" → <code>/unsubscribe</code></li>
+</ul>
+<hr>
+<h1 id="bölüm-c-yönetim-paneli-admin">BÖLÜM C — YÖNETİM PANELİ (Admin) <a class="anchor" href="#bölüm-c-yönetim-paneli-admin">¶</a></h1>
+<h2 id="11-admin-girişi">11. Admin Girişi <a class="anchor" href="#11-admin-girişi">¶</a></h2>
+<p><strong>URL:</strong> <code>/admin_panel/login.php</code> veya doğrudan <code>/admin_panel/</code></p>
+<ul>
+<li>Admin kullanıcı email + şifre</li>
+<li>Yanlış giriş loglanır (<code>admin_login_attempts</code> tablosu)</li>
+<li>Başarılı girişten sonra Dashboard'a yönlenir</li>
+</ul>
+<blockquote>⚠️ Admin şifrenizi <strong>3 ayda bir</strong> değiştirin. En az 12 karakter, karışık.</blockquote>
+<hr>
+<h2 id="12-komuta-merkezi-dashboard">12. Komuta Merkezi (Dashboard) <a class="anchor" href="#12-komuta-merkezi-dashboard">¶</a></h2>
+<p><strong>URL:</strong> <code>/admin_panel/dashboard.php</code></p>
+<h3 id="121-üst-kpi-kartları">12.1 Üst KPI Kartları <a class="anchor" href="#121-üst-kpi-kartları">¶</a></h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Kart</th>
+<th>Anlam</th>
+</tr></thead><tbody>
+<tr>
+<td>💰 <strong>Bugün Ciro</strong></td>
+<td>Bugünkü onaylanmış sipariş toplamı (+ dünle kıyas)</td>
+</tr>
+<tr>
+<td>📦 <strong>Bugün Sipariş</strong></td>
+<td>Bugünkü sipariş adedi</td>
+</tr>
+<tr>
+<td>🛒 <strong>AOV</strong></td>
+<td>Ortalama sepet tutarı (son 30 gün)</td>
+</tr>
+<tr>
+<td>📈 <strong>Dönüşüm Oranı</strong></td>
+<td>Ziyaretçi → sipariş oranı</td>
+</tr>
+</tbody></table></div>
+<h3 id="122-grafikler">12.2 Grafikler <a class="anchor" href="#122-grafikler">¶</a></h3>
+<ul>
+<li><strong>7 günlük ciro trendi</strong> (çizgi grafik)</li>
+<li><strong>Aylık satış</strong> (bar grafik)</li>
+<li><strong>Ödeme yöntemi dağılımı</strong> (pasta)</li>
+</ul>
+<h3 id="123-uyarı-paneli">12.3 Uyarı Paneli <a class="anchor" href="#123-uyarı-paneli">¶</a></h3>
+<ul>
+<li>🔴 Stoğu kritik ürün sayısı → tıkla, liste aç</li>
+<li>🟡 Bekleyen sipariş sayısı</li>
+<li>🟡 Onay bekleyen yorum sayısı</li>
+<li>🟡 Okunmamış müşteri mesajı</li>
+</ul>
+<h3 id="124-hızlı-eylemler-sol-üstte">12.4 Hızlı Eylemler (sol üstte) <a class="anchor" href="#124-hızlı-eylemler-sol-üstte">¶</a></h3>
+<ul>
+<li>➕ <strong>Ürün Ekle</strong> → ürün ekleme formuna direkt</li>
+<li>📦 <strong>Bekleyen Siparişler</strong> → onay bekleyen liste</li>
+<li>⭐ <strong>Bekleyen Yorumlar</strong> → moderation kuyruğu</li>
+</ul>
+<h3 id="125-son-aktivite-tablosu">12.5 Son Aktivite Tablosu <a class="anchor" href="#125-son-aktivite-tablosu">¶</a></h3>
+<ul>
+<li>Son siparişler (sip no, müşteri, tutar, durum)</li>
+<li>Hızlı görüntüle linki</li>
+</ul>
+<hr>
+<h2 id="13-sidebar-navigasyon">13. Sidebar Navigasyon <a class="anchor" href="#13-sidebar-navigasyon">¶</a></h2>
+<p>Sol kenarda 6 ana menü grubu vardır:</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Grup</th>
+<th>İçerik</th>
+</tr></thead><tbody>
+<tr>
+<td>📊 <strong>Satış</strong></td>
+<td>Siparişler, Kuponlar, Terk Sepet, POS</td>
+</tr>
+<tr>
+<td>📈 <strong>Analiz</strong></td>
+<td>Satış Raporu, Ürün Performansı, Kupon Raporu</td>
+</tr>
+<tr>
+<td>📦 <strong>Katalog</strong></td>
+<td>Ürünler, Kategoriler, Medya</td>
+</tr>
+<tr>
+<td>📝 <strong>İçerik &amp; SEO</strong></td>
+<td>Sayfalar, Blog, Banner, SEO, Yönlendirme</td>
+</tr>
+<tr>
+<td>👥 <strong>Müşteri</strong></td>
+<td>Müşteriler, Yorumlar, Mesajlar, Bülten, Sadakat</td>
+</tr>
+<tr>
+<td>⚙️ <strong>Sistem</strong></td>
+<td>Ayarlar, Araçlar, Bildirim Logları</td>
+</tr>
+</tbody></table></div>
+<p><strong>Grup başlığına tıklayınca</strong> alt menü açılır (accordion).</p>
+<p><strong>Aktif sayfa</strong> otomatik vurgulanır.</p>
+<p><strong>Badge'ler</strong> sayı gösterir (örn: 5 bekleyen sipariş).</p>
+<hr>
+<h2 id="14-satış-yönetimi">14. Satış Yönetimi <a class="anchor" href="#14-satış-yönetimi">¶</a></h2>
+<h3 id="141-siparişler-listesi">14.1 Siparişler Listesi <a class="anchor" href="#141-siparişler-listesi">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/orders/list.php</code></p>
+<p><strong>Filtreler:</strong></p>
+<ul>
+<li>Durum (Beklemede, Onaylandı, Hazırlanıyor, Kargoda, Teslim, İptal, İade)</li>
+<li>Tarih aralığı</li>
+<li>Ödeme yöntemi</li>
+<li>Arama (sipariş no, müşteri ad, email)</li>
+</ul>
+<p><strong>Tablo sütunları:</strong></p>
+<ul>
+<li>Sip no, Müşteri, Tarih, Tutar, Ödeme, Durum, Eylemler</li>
+</ul>
+<p><strong>Toplu işlemler</strong> (üstteki checkbox'lar):</p>
+<ul>
+<li>Toplu Kargoya Ver</li>
+<li>Toplu Teslim İşaretle</li>
+<li>Toplu İptal</li>
+<li>Toplu Email Tekrar Gönder</li>
+<li>CSV İndir</li>
+</ul>
+<h3 id="142-sipariş-detay">14.2 Sipariş Detay <a class="anchor" href="#142-sipariş-detay">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/orders/view.php?id=X</code></p>
+<p><strong>Bölümler:</strong></p>
+<ul>
+<li>👤 Müşteri bilgileri (ad, email, telefon, "Müşteri Profili" linki)</li>
+<li>📍 Teslimat + Fatura adresleri</li>
+<li>📦 Ürün listesi (görsel, ad, adet, fiyat)</li>
+<li>💰 Tutar dökümü (ara toplam, kargo, indirim, KDV, toplam)</li>
+<li>🎟️ Kullanılan kupon (varsa)</li>
+<li>💳 Ödeme bilgisi (yöntem, taksit, durum)</li>
+<li>🎁 Hediye notu (varsa)</li>
+<li>📜 <strong>Sipariş geçmişi</strong> (her durum değişikliği zaman damgalı)</li>
+<li>📝 <strong>İç notlar</strong> (sadece admin görür)</li>
+</ul>
+<p><strong>Eylemler:</strong></p>
+<ul>
+<li>➡️ Durumu güncelle (dropdown)</li>
+<li>📧 Email tekrar gönder</li>
+<li>📱 SMS gönder (SMS aktifse)</li>
+<li>📄 PDF fatura indir (e-fatura entegrasyonu varsa)</li>
+<li>🚚 Kargo takip no gir</li>
+<li>💸 Para iade et (kısmi veya tam)</li>
+</ul>
+<h3 id="143-kuponlar">14.3 Kuponlar <a class="anchor" href="#143-kuponlar">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/coupons.php</code></p>
+<p><strong>Liste:</strong> Aktif kuponlar, kullanım sayısı, geçerlilik</p>
+<p><strong>Yeni kupon ekle:</strong></p>
+<ul>
+<li>Kod (örn: HOSGELDIN10)</li>
+<li>Tip: Yüzde / Sabit tutar / Ücretsiz kargo</li>
+<li>Değer</li>
+<li>Minimum sepet tutarı</li>
+<li>Maksimum kullanım (toplam ve kişi başı)</li>
+<li>Geçerlilik tarih aralığı</li>
+<li>Sadece üyelere / herkese</li>
+<li>Belli ürün/kategori için mi</li>
+<li>Etiket (otomatik / manuel / kampanya)</li>
+</ul>
+<h3 id="144-terk-edilmiş-sepetler">14.4 Terk Edilmiş Sepetler <a class="anchor" href="#144-terk-edilmiş-sepetler">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/abandoned-carts.php</code></p>
+<p><strong>Liste:</strong> Sepete eklemiş ama tamamlamamış kullanıcılar:</p>
+<ul>
+<li>Müşteri (üye veya email yakalanmış misafir)</li>
+<li>Sepet içeriği + tutar</li>
+<li>Son aktivite zamanı</li>
+<li>Gönderilen hatırlatma email'leri (1/2/3)</li>
+</ul>
+<p><strong>Eylemler:</strong></p>
+<ul>
+<li>Manuel hatırlatma gönder</li>
+<li>İndirim kuponu üret + gönder</li>
+<li>Notlandır</li>
+</ul>
+<h3 id="145-pos-satış-noktası">14.5 POS (Satış Noktası) <a class="anchor" href="#145-pos-satış-noktası">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/pos.php</code></p>
+<p><strong>Ne işe yarar:</strong> Yüz yüze satış (mağazada) için hızlı sipariş oluşturma.</p>
+<ul>
+<li>Müşteri seç (mevcut veya yeni)</li>
+<li>Ürün ekle (arama veya barkod)</li>
+<li>Adet, indirim</li>
+<li>Ödeme: Nakit / Kart / Havale</li>
+<li>Onayla → sistem normal sipariş gibi kaydeder</li>
+</ul>
+<hr>
+<h2 id="15-analiz-raporlar">15. Analiz &amp; Raporlar <a class="anchor" href="#15-analiz-raporlar">¶</a></h2>
+<h3 id="151-satış-raporu">15.1 Satış Raporu <a class="anchor" href="#151-satış-raporu">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/reports/sales.php</code></p>
+<p><strong>Filtreler:</strong> Tarih aralığı</p>
+<p><strong>Gösterilen:</strong></p>
+<ul>
+<li>Toplam ciro, sipariş, AOV</li>
+<li>Günlük breakdown tablosu</li>
+<li>Ödeme yöntemi dağılımı</li>
+<li>Sehir/bölge bazlı satış</li>
+<li>En çok satan saatler (ısı haritası)</li>
+</ul>
+<p><strong>Eylem:</strong> CSV dışa aktar</p>
+<h3 id="152-ürün-performansı">15.2 Ürün Performansı <a class="anchor" href="#152-ürün-performansı">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/reports/products.php</code></p>
+<p><strong>Gösterilen:</strong></p>
+<ul>
+<li>En çok satan 50 ürün (adet ve ciro)</li>
+<li>En çok görüntülenen</li>
+<li>En çok sepete eklenip terk edilen</li>
+<li>Stok devir hızı</li>
+</ul>
+<p><strong>Eylem:</strong> CSV dışa aktar</p>
+<h3 id="153-kupon-raporu">15.3 Kupon Raporu <a class="anchor" href="#153-kupon-raporu">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/reports/coupons.php</code></p>
+<p><strong>Gösterilen:</strong></p>
+<ul>
+<li>Hangi kupon kaç kez kullanılmış</li>
+<li>Toplam indirim tutarı</li>
+<li>ROI (kuponla satılan / kupon değeri)</li>
+</ul>
+<hr>
+<h2 id="16-katalog-yönetimi">16. Katalog Yönetimi <a class="anchor" href="#16-katalog-yönetimi">¶</a></h2>
+<h3 id="161-ürün-listesi">16.1 Ürün Listesi <a class="anchor" href="#161-ürün-listesi">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/products/list.php</code></p>
+<p><strong>Filtreler:</strong> Kategori, durum (aktif/pasif), stok durumu, arama</p>
+<p><strong>Sütunlar:</strong> Görsel, Ad, SKU, Kategori, Fiyat, Stok, Durum, Eylemler</p>
+<p><strong>Toplu eylemler:</strong> Aktif yap, pasif yap, sil, kategori ata, CSV indir</p>
+<h3 id="162-ürün-eklemedüzenleme">16.2 Ürün Ekleme/Düzenleme <a class="anchor" href="#162-ürün-eklemedüzenleme">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/products/edit.php</code> (yeni) veya <code>?id=X</code> (düzenle)</p>
+<p><strong>Bölümler:</strong></p>
+<h4 id="a-temel-bilgiler">A. Temel Bilgiler <a class="anchor" href="#a-temel-bilgiler">¶</a></h4>
+<ul>
+<li>Ad, slug (otomatik), kategori, marka, SKU</li>
+</ul>
+<h4 id="b-açıklama">B. Açıklama <a class="anchor" href="#b-açıklama">¶</a></h4>
+<ul>
+<li>Kısa açıklama (liste sayfasında)</li>
+<li>Uzun açıklama (HTML editör)</li>
+</ul>
+<h4 id="c-fiyat-ve-stok">C. Fiyat ve Stok <a class="anchor" href="#c-fiyat-ve-stok">¶</a></h4>
+<ul>
+<li>Liste fiyatı, indirimli fiyat (boş bırak = indirimsiz)</li>
+<li>Stok adedi (varyasyonsuzsa)</li>
+<li>Düşük stok eşiği (genel ayarı override)</li>
+<li>KDV oranı</li>
+</ul>
+<h4 id="d-görseller">D. Görseller <a class="anchor" href="#d-görseller">¶</a></h4>
+<ul>
+<li>Sürükle bırak veya tıkla yükle</li>
+<li>Ana görsel (ilk olan)</li>
+<li>Sıralama (sürükle)</li>
+<li>Alt text (SEO için önemli)</li>
+</ul>
+<h4 id="e-varyasyonlar">E. Varyasyonlar <a class="anchor" href="#e-varyasyonlar">¶</a></h4>
+<ul>
+<li>Boyut, koku, renk gibi seçenekler</li>
+<li>Her varyasyon: SKU, ek fiyat, stok</li>
+</ul>
+<h4 id="f-seo">F. SEO <a class="anchor" href="#f-seo">¶</a></h4>
+<ul>
+<li>Meta başlık, meta description</li>
+<li>Open Graph görsel</li>
+<li>Canonical URL</li>
+</ul>
+<h4 id="g-sss-faq">G. SSS (FAQ) <a class="anchor" href="#g-sss-faq">¶</a></h4>
+<ul>
+<li>Soru-cevap çiftleri</li>
+<li>PDP'de accordion görünür</li>
+</ul>
+<h4 id="h-diğer">H. Diğer <a class="anchor" href="#h-diğer">¶</a></h4>
+<ul>
+<li>"Öne çıkan" işareti (anasayfa için)</li>
+<li>Yayın durumu (Taslak / Yayında / Pasif)</li>
+</ul>
+<h3 id="163-stok-yönetimi">16.3 Stok Yönetimi <a class="anchor" href="#163-stok-yönetimi">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/products/stock.php</code></p>
+<ul>
+<li>Tüm ürünlerin stok özeti</li>
+<li>Kritik stok listesi</li>
+<li>Stok girişi/çıkışı log'u</li>
+<li>Manuel stok düzeltme</li>
+</ul>
+<h3 id="164-toplu-güncelleme">16.4 Toplu Güncelleme <a class="anchor" href="#164-toplu-güncelleme">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/products/bulk-update.php</code></p>
+<p><strong>Akış:</strong></p>
+<ol>
+<li>CSV şablonu indir (sütunlar: sku, price, stock)</li>
+<li>Excel'de düzenle</li>
+<li>Yükle</li>
+<li><strong>Önce "Dry Run"</strong> → ne değişecek görmek için</li>
+<li>Hata yoksa <strong>"Commit"</strong> → atomic uygula</li>
+</ol>
+<h3 id="165-çöp-kutusu">16.5 Çöp Kutusu <a class="anchor" href="#165-çöp-kutusu">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/products/trash.php</code></p>
+<ul>
+<li>Silinen (soft-delete) ürünler</li>
+<li>30 gün içinde geri yüklenebilir</li>
+<li>Sonra otomatik temizlenir (cron)</li>
+</ul>
+<h3 id="166-kategoriler">16.6 Kategoriler <a class="anchor" href="#166-kategoriler">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/categories.php</code></p>
+<ul>
+<li>Hiyerarşik liste (ana &gt; alt &gt; alt-alt)</li>
+<li>Sürükle bırak ile sıra değiştirme</li>
+<li>Yeni kategori ekle:</li>
+<li>Ad, slug, üst kategori</li>
+<li>Görsel, ikon</li>
+<li>SEO başlık/açıklama</li>
+<li>Sıra</li>
+<li>Aktif/pasif</li>
+</ul>
+<h3 id="167-medya-kütüphanesi">16.7 Medya Kütüphanesi <a class="anchor" href="#167-medya-kütüphanesi">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/media/library.php</code></p>
+<ul>
+<li>Tüm yüklenmiş görseller/dosyalar</li>
+<li>Filtreleme: tip, tarih, kullanım yeri</li>
+<li>Toplu seçim, silme</li>
+<li>"Bu görsel nerede kullanılıyor" referans listesi</li>
+</ul>
+<h3 id="168-medya-çöp-kutusu">16.8 Medya Çöp Kutusu <a class="anchor" href="#168-medya-çöp-kutusu">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/media/trash.php</code></p>
+<ul>
+<li>Silinen medya 30 gün burada</li>
+<li>Geri yükle veya kalıcı sil</li>
+</ul>
+<hr>
+<h2 id="17-içerik-seo-yönetimi">17. İçerik &amp; SEO Yönetimi <a class="anchor" href="#17-içerik-seo-yönetimi">¶</a></h2>
+<h3 id="171-sayfalar">17.1 Sayfalar <a class="anchor" href="#171-sayfalar">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/pages/list.php</code></p>
+<ul>
+<li>Statik sayfalar (hakkımızda, KVKK vb.)</li>
+<li>Yeni sayfa ekle:</li>
+<li>Başlık, slug, içerik (HTML editör)</li>
+<li>Şablon (sade / iletişim / SSS)</li>
+<li>SEO alanları</li>
+<li>Menüde göster?</li>
+</ul>
+<h3 id="172-blog">17.2 Blog <a class="anchor" href="#172-blog">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/blog/posts.php</code></p>
+<p><strong>Yazı ekleme:</strong></p>
+<ul>
+<li>Başlık, slug, kategori, etiketler</li>
+<li>Kapak görseli</li>
+<li>Özet (kart için)</li>
+<li>İçerik (HTML editör)</li>
+<li>Yayın tarihi (ileri tarih = zamanlanmış)</li>
+<li>Yazar</li>
+<li>SEO</li>
+</ul>
+<h3 id="173-blog-kategorileri">17.3 Blog Kategorileri <a class="anchor" href="#173-blog-kategorileri">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/blog/categories.php</code></p>
+<ul>
+<li>Kategori adı, slug, açıklama</li>
+</ul>
+<h3 id="174-blog-içeri-aktarım">17.4 Blog İçeri Aktarım <a class="anchor" href="#174-blog-içeri-aktarım">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/blog/import.php</code></p>
+<ul>
+<li>WordPress XML import</li>
+<li>CSV import</li>
+</ul>
+<h3 id="175-bannerlar">17.5 Bannerlar <a class="anchor" href="#175-bannerlar">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/banners.php</code></p>
+<ul>
+<li>Hero slider içeriği</li>
+<li>Banner ekle:</li>
+<li>Görsel (önerilen 1920x600px)</li>
+<li>Başlık + alt başlık</li>
+<li>CTA tuş metni + linki</li>
+<li>Aktif tarih aralığı</li>
+<li>Sıra</li>
+<li>Hedef sayfa (anasayfa, kategori, ürün)</li>
+</ul>
+<h3 id="176-seo-yöneticisi">17.6 SEO Yöneticisi <a class="anchor" href="#176-seo-yöneticisi">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/seo_manager.php</code></p>
+<ul>
+<li>Sitenin genel SEO ayarları</li>
+<li>Robots.txt düzenle</li>
+<li>Sitemap.xml URL (otomatik üretilir, manuel yenile butonu)</li>
+<li>Open Graph defaults</li>
+<li>Schema.org kurum bilgileri</li>
+</ul>
+<h3 id="177-url-yönlendirme-redirects">17.7 URL Yönlendirme (Redirects) <a class="anchor" href="#177-url-yönlendirme-redirects">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/redirects.php</code></p>
+<ul>
+<li>301/302 yönlendirme kuralları</li>
+<li>Eski URL → yeni URL</li>
+<li>Slug değişikliklerinden sonra SEO kaybı önler</li>
+</ul>
+<hr>
+<h2 id="18-müşteri-yönetimi">18. Müşteri Yönetimi <a class="anchor" href="#18-müşteri-yönetimi">¶</a></h2>
+<h3 id="181-müşteri-listesi">18.1 Müşteri Listesi <a class="anchor" href="#181-müşteri-listesi">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/customers/list.php</code></p>
+<p><strong>Filtreler:</strong> Seviye, kayıt tarihi, son alışveriş</p>
+<p><strong>Sütunlar:</strong> Ad, Email, Telefon, Sipariş Sayısı, LTV, Seviye</p>
+<h3 id="182-müşteri-detay-360">18.2 Müşteri Detay (360°) <a class="anchor" href="#182-müşteri-detay-360">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/customers/view.php?id=X</code></p>
+<p><strong>Tabs:</strong></p>
+<ul>
+<li>📋 <strong>Profil</strong> — temel bilgi, KVKK durumu</li>
+<li>🛒 <strong>Siparişler</strong> — geçmiş + tutar</li>
+<li>❤️ <strong>Favoriler</strong></li>
+<li>⭐ <strong>Yorumlar</strong></li>
+<li>📍 <strong>Adresler</strong></li>
+<li>🎟️ <strong>Kullandığı kuponlar</strong></li>
+<li>🏆 <strong>Puan geçmişi</strong> + bakiye</li>
+<li>📱 <strong>SMS log</strong> — gönderilen tüm SMS'ler</li>
+<li>📧 <strong>Email log</strong> — opsiyonel</li>
+<li>📊 <strong>Davranış</strong> — son ziyaret, en çok baktığı ürünler</li>
+</ul>
+<p><strong>Admin eylemleri:</strong></p>
+<ul>
+<li>Şifre sıfırlama linki gönder</li>
+<li>Manuel puan ekle/çıkar</li>
+<li>Özel kupon üret</li>
+<li>Hesabı askıya al</li>
+<li>KVKK silme talebi varsa anonimleştir</li>
+</ul>
+<h3 id="183-müşteri-düzenleme">18.3 Müşteri Düzenleme <a class="anchor" href="#183-müşteri-düzenleme">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/customers/edit.php?id=X</code></p>
+<ul>
+<li>Profil bilgileri (admin tarafından düzeltme)</li>
+<li>Doğum tarihi düzeltme (admin yapabilir, müşteri yapamaz)</li>
+<li>Email değiştirme</li>
+</ul>
+<h3 id="184-yorumlar">18.4 Yorumlar <a class="anchor" href="#184-yorumlar">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/reviews.php</code></p>
+<p><strong>Filtre:</strong> Onay bekleyen / yayında / reddedilmiş</p>
+<p><strong>Eylem:</strong></p>
+<ul>
+<li>Onayla (yayına çıkar)</li>
+<li>Reddet (sil)</li>
+<li>Düzenle (uygunsuz kelime temizle)</li>
+<li>Müşteriye cevap yaz</li>
+</ul>
+<h3 id="185-yorumlar-eski-tablo">18.5 Yorumlar (Eski tablo) <a class="anchor" href="#185-yorumlar-eski-tablo">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/comments.php</code></p>
+<ul>
+<li>Eski yorum sistemi, blog yorumları gibi</li>
+</ul>
+<h3 id="186-müşteri-mesajları">18.6 Müşteri Mesajları <a class="anchor" href="#186-müşteri-mesajları">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/messages.php</code></p>
+<p>İletişim formundan gelen mesajlar:</p>
+<ul>
+<li>Okunmamış sayısı badge</li>
+<li>Cevap yaz (otomatik email gider)</li>
+<li>Kategorize et, etiketle, arşivle</li>
+</ul>
+<h3 id="187-bülten-aboneleri">18.7 Bülten Aboneleri <a class="anchor" href="#187-bülten-aboneleri">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/newsletter/subscribers.php</code></p>
+<ul>
+<li>Aboneler listesi</li>
+<li>Onay durumu (double opt-in)</li>
+<li>Toplu CSV indir</li>
+<li>Manuel ekle</li>
+</ul>
+<h3 id="188-bülten-kampanyaları">18.8 Bülten Kampanyaları <a class="anchor" href="#188-bülten-kampanyaları">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/newsletter/campaigns.php</code></p>
+<ul>
+<li>Yeni kampanya:</li>
+<li>Konu satırı (AI öneri tuşu var — Anthropic API açıksa)</li>
+<li>HTML editör veya hazır şablon</li>
+<li>Hedef segment (tümü, VIP, yeni üye vb.)</li>
+<li>Test gönder (kendi adresinize)</li>
+<li>Zamanlama</li>
+<li>Gönder</li>
+<li>Açılma/tıklama istatistikleri</li>
+</ul>
+<h3 id="189-sadakat-müşteriler">18.9 Sadakat - Müşteriler <a class="anchor" href="#189-sadakat-müşteriler">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/loyalty/customers.php</code></p>
+<ul>
+<li>Sadakat programındaki müşteriler</li>
+<li>Seviye, puan, son aktivite</li>
+</ul>
+<h3 id="1810-sadakat-işlemler">18.10 Sadakat - İşlemler <a class="anchor" href="#1810-sadakat-işlemler">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/loyalty/transactions.php</code></p>
+<ul>
+<li>Tüm puan hareketleri (kazan/harca/expire/iade)</li>
+<li>Filtre: müşteri, tarih, işlem tipi</li>
+</ul>
+<hr>
+<h2 id="19-sistem-ayarları">19. Sistem Ayarları <a class="anchor" href="#19-sistem-ayarları">¶</a></h2>
+<p><strong>Hub URL:</strong> <code>/admin_panel/settings.php</code> veya <code>/admin_panel/settings/index.php</code></p>
+<p>5 ana kategori kartı:</p>
+<h3 id="a-mağaza-kimliği-settingsidentityphp">A. 🏪 Mağaza Kimliği (<code>settings/identity.php</code>) <a class="anchor" href="#a-mağaza-kimliği-settingsidentityphp">¶</a></h3>
+<ul>
+<li>Genel: site adı, slogan, logo, favicon, topbar</li>
+<li>İletişim: telefon, email, fax</li>
+<li>Konum: adres, harita koordinatı</li>
+<li>Çalışma saatleri</li>
+<li>Sosyal medya linkleri</li>
+</ul>
+<h3 id="b-pazarlama-settingsmarketingphp">B. 📢 Pazarlama (<code>settings/marketing.php</code>) <a class="anchor" href="#b-pazarlama-settingsmarketingphp">¶</a></h3>
+<ul>
+<li>SEO defaults</li>
+<li>Newsletter ayarları</li>
+<li>Exit-intent</li>
+<li>Banner ayarları</li>
+</ul>
+<h3 id="c-ticaret-settingscommercephp">C. 🛒 Ticaret (<code>settings/commerce.php</code>) <a class="anchor" href="#c-ticaret-settingscommercephp">¶</a></h3>
+<ul>
+<li>Para birimi, KDV</li>
+<li>Kargo: ücretsiz eşik, fiyatlar</li>
+<li>Stok uyarısı eşikleri</li>
+<li>Kupon ayarları</li>
+<li>Sadakat programı</li>
+</ul>
+<h3 id="d-analitik-settingsanalyticsphp">D. 📊 Analitik (<code>settings/analytics.php</code>) <a class="anchor" href="#d-analitik-settingsanalyticsphp">¶</a></h3>
+<ul>
+<li>GA4 Measurement ID</li>
+<li>GTM Container ID</li>
+<li>Meta Pixel ID + CAPI Token</li>
+<li>Microsoft Clarity ID</li>
+<li>Master "Analitik aktif" switch'i</li>
+</ul>
+<h3 id="e-entegrasyonlar-settingsintegrationsphp">E. 🧩 Entegrasyonlar (<code>settings/integrations.php</code>) <a class="anchor" href="#e-entegrasyonlar-settingsintegrationsphp">¶</a></h3>
+<ul>
+<li>iyzico (API key, secret, mode)</li>
+<li>SMTP (email gönderim)</li>
+<li>SMS (NetGSM / İletiMerkezi)</li>
+<li>WhatsApp Business</li>
+<li>Anthropic AI API</li>
+<li>Şirket / vergi bilgileri</li>
+<li>Banka hesapları (havale için)</li>
+<li>KVKK metinleri</li>
+</ul>
+<blockquote>Detay için → <a href="#bölüm-d--detaylı-ayarlar">BÖLÜM D — DETAYLI AYARLAR</a></blockquote>
+<hr>
+<h2 id="20-araçlar-bakım">20. Araçlar (Bakım) <a class="anchor" href="#20-araçlar-bakım">¶</a></h2>
+<h3 id="201-sql-migration-yöneticisi">20.1 SQL Migration Yöneticisi <a class="anchor" href="#201-sql-migration-yöneticisi">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/tools/migrations.php</code></p>
+<ul>
+<li>Bekleyen migration'ları listeler</li>
+<li>Çalıştırılmışları "tamamlandı" işareti ile gösterir</li>
+<li>Tek tıkla çalıştırma</li>
+<li>Güvenlik analizi (INSERT/UPDATE/DELETE sayısı önceden)</li>
+</ul>
+<h3 id="202-görsel-yeniden-boyutlandırma">20.2 Görsel Yeniden Boyutlandırma <a class="anchor" href="#202-görsel-yeniden-boyutlandırma">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/tools/resize_images.php</code></p>
+<ul>
+<li>Eski yüklenmiş büyük görselleri toplu küçültür</li>
+<li>WebP'ye çevirir</li>
+<li>Disk alanı kazandırır</li>
+</ul>
+<h3 id="203-reset-aracı">20.3 Reset Aracı <a class="anchor" href="#203-reset-aracı">¶</a></h3>
+<p><strong>URL:</strong> <code>/admin_panel/tools/reset.php</code></p>
+<blockquote>⚠️ <strong>TEHLİKELİ</strong> — Demo verileri temizler. Üretimde <strong>asla</strong> kullanmayın.</blockquote>
+<hr>
+<h1 id="bölüm-d-detayli-ayarlar">BÖLÜM D — DETAYLI AYARLAR <a class="anchor" href="#bölüm-d-detayli-ayarlar">¶</a></h1>
+<h2 id="21-mağaza-kimliği">21. Mağaza Kimliği <a class="anchor" href="#21-mağaza-kimliği">¶</a></h2>
+<p><strong>URL:</strong> <code>/admin_panel/settings/identity.php</code></p>
+<h3 id="211-genel">21.1 Genel <a class="anchor" href="#211-genel">¶</a></h3>
+<ul>
+<li><strong>Site Adı:</strong> Header'da, email'lerde, SEO'da kullanılır</li>
+<li><strong>Slogan/Tagline:</strong> Site adının altında</li>
+<li><strong>Logo:</strong> Header'daki ana logo (PNG, transparan arka plan önerilir)</li>
+<li><strong>Favicon:</strong> Tarayıcı sekmesindeki ikon (32x32, ICO veya PNG)</li>
+<li><strong>Topbar:</strong> En üstteki ince çubuk (telefon vs.) açık/kapalı</li>
+</ul>
+<h3 id="212-iletişim">21.2 İletişim <a class="anchor" href="#212-iletişim">¶</a></h3>
+<ul>
+<li>Telefon (footer + iletişim sayfası)</li>
+<li>WhatsApp (yeşil floating buton için)</li>
+<li>Email</li>
+<li>Fax (kullanmıyorsanız boş bırakın)</li>
+</ul>
+<h3 id="213-işletme-konumu">21.3 İşletme Konumu <a class="anchor" href="#213-işletme-konumu">¶</a></h3>
+<ul>
+<li>Adres metni</li>
+<li>Enlem/boylam (Google Maps embed için)</li>
+<li>Harita yüksekliği</li>
+</ul>
+<h3 id="214-çalışma-saatleri">21.4 Çalışma Saatleri <a class="anchor" href="#214-çalışma-saatleri">¶</a></h3>
+<ul>
+<li>Pazartesi-Cuma: 09:00-18:00</li>
+<li>Cumartesi: 10:00-16:00</li>
+<li>Pazar: Kapalı</li>
+<li>... (her gün için)</li>
+</ul>
+<h3 id="215-sosyal-medya">21.5 Sosyal Medya <a class="anchor" href="#215-sosyal-medya">¶</a></h3>
+<ul>
+<li>Instagram, Facebook, X, YouTube, Pinterest, TikTok URL'leri</li>
+<li>Boş bırakılırsa o icon gösterilmez</li>
+</ul>
+<hr>
+<h2 id="22-pazarlama">22. Pazarlama <a class="anchor" href="#22-pazarlama">¶</a></h2>
+<p><strong>URL:</strong> <code>/admin_panel/settings/marketing.php</code></p>
+<h3 id="221-seo-defaults">22.1 SEO Defaults <a class="anchor" href="#221-seo-defaults">¶</a></h3>
+<ul>
+<li>Site genel meta başlık template'i</li>
+<li>Site genel meta description</li>
+<li>Open Graph görsel (paylaşımda görünen)</li>
+<li>Twitter Card türü</li>
+</ul>
+<h3 id="222-newsletter">22.2 Newsletter <a class="anchor" href="#222-newsletter">¶</a></h3>
+<ul>
+<li>Aktif / pasif</li>
+<li>Onay zorunlu mu (double opt-in)</li>
+<li>Hoşgeldin email metni</li>
+<li>Otomatik abone yapma (kayıt formunda)</li>
+</ul>
+<h3 id="223-exit-intent-kuponu">22.3 Exit-intent Kuponu <a class="anchor" href="#223-exit-intent-kuponu">¶</a></h3>
+<ul>
+<li>Aktif / pasif</li>
+<li>Hangi kupon kodunu göstereceği</li>
+<li>Minimum saniye (varsayılan 15)</li>
+<li>Cookie ömrü (varsayılan 30 gün)</li>
+</ul>
+<hr>
+<h2 id="23-ticaret">23. Ticaret <a class="anchor" href="#23-ticaret">¶</a></h2>
+<p><strong>URL:</strong> <code>/admin_panel/settings/commerce.php</code></p>
+<h3 id="231-para-birimi-kdv">23.1 Para Birimi &amp; KDV <a class="anchor" href="#231-para-birimi-kdv">¶</a></h3>
+<ul>
+<li>Para birimi (TL varsayılan)</li>
+<li>KDV oranı (varsayılan %20)</li>
+<li>Fiyatlar KDV dahil mi?</li>
+</ul>
+<h3 id="232-kargo">23.2 Kargo <a class="anchor" href="#232-kargo">¶</a></h3>
+<ul>
+<li><strong>Ücretsiz kargo eşiği:</strong> Bu tutar üstü kargo bedava</li>
+<li>Standart kargo bedeli</li>
+<li>Hızlı kargo bedeli (varsa)</li>
+<li>Kargo firmaları (Yurtiçi, MNG, Aras vb.)</li>
+</ul>
+<h3 id="233-stok-uyarısı">23.3 Stok Uyarısı <a class="anchor" href="#233-stok-uyarısı">¶</a></h3>
+<ul>
+<li><strong>Düşük stok eşiği:</strong> Bu sayının altında "Az kaldı" göster (varsayılan 5)</li>
+<li><strong>Stoğu kritik eşik:</strong> Admin'e email gitsin (varsayılan 3)</li>
+<li>Admin email adresi</li>
+</ul>
+<h3 id="234-kupon-politikası">23.4 Kupon Politikası <a class="anchor" href="#234-kupon-politikası">¶</a></h3>
+<ul>
+<li>Birden fazla kupon kullanılabilir mi?</li>
+<li>İndirimli ürünlerde kupon geçerli mi?</li>
+</ul>
+<h3 id="235-sadakat-programı">23.5 Sadakat Programı <a class="anchor" href="#235-sadakat-programı">¶</a></h3>
+<ul>
+<li><strong>Aktif/pasif</strong></li>
+<li><strong>Kazanma oranı:</strong> 1₺ = X puan</li>
+<li><strong>Kullanma değeri:</strong> X puan = 1₺</li>
+<li><strong>Süresi:</strong> Puan kaç ay sonra silinir (varsayılan 12)</li>
+<li><strong>Seviye eşikleri:</strong></li>
+<li>Sadık: yıllık X₺ harcama</li>
+<li>VIP: yıllık X₺ harcama</li>
+<li>Seviye ayrıcalıkları (kupon, kargo, doğum günü)</li>
+</ul>
+<hr>
+<h2 id="24-analitik">24. Analitik <a class="anchor" href="#24-analitik">¶</a></h2>
+<p><strong>URL:</strong> <code>/admin_panel/settings/analytics.php</code></p>
+<h3 id="241-master-switch">24.1 Master Switch <a class="anchor" href="#241-master-switch">¶</a></h3>
+<ul>
+<li><strong>"Analitik Aktif"</strong> — Tek bir kutuyla tüm tracking aç/kapa</li>
+</ul>
+<h3 id="242-google-analytics-4">24.2 Google Analytics 4 <a class="anchor" href="#242-google-analytics-4">¶</a></h3>
+<ul>
+<li>Measurement ID (G-XXXXXXXXXX)</li>
+</ul>
+<h3 id="243-google-tag-manager">24.3 Google Tag Manager <a class="anchor" href="#243-google-tag-manager">¶</a></h3>
+<ul>
+<li>Container ID (GTM-XXXXXXX)</li>
+<li>Aktifse GTM kullanılır, GA4 doğrudan kapatılır (çift sayım önler)</li>
+</ul>
+<h3 id="244-meta-pixel">24.4 Meta Pixel <a class="anchor" href="#244-meta-pixel">¶</a></h3>
+<ul>
+<li>Pixel ID (16 hane)</li>
+</ul>
+<h3 id="245-meta-conversion-api">24.5 Meta Conversion API <a class="anchor" href="#245-meta-conversion-api">¶</a></h3>
+<ul>
+<li>Access Token</li>
+<li>"CAPI Aktif" checkbox</li>
+<li>Test Event Code (test sırasında)</li>
+</ul>
+<h3 id="246-microsoft-clarity">24.6 Microsoft Clarity <a class="anchor" href="#246-microsoft-clarity">¶</a></h3>
+<ul>
+<li>Project ID</li>
+</ul>
+<h3 id="247-cookie-consent">24.7 Cookie / Consent <a class="anchor" href="#247-cookie-consent">¶</a></h3>
+<ul>
+<li>Banner gösterilsin mi?</li>
+<li>Banner pozisyonu (alt / üst)</li>
+<li>Banner metni</li>
+</ul>
+<hr>
+<h2 id="25-entegrasyonlar">25. Entegrasyonlar <a class="anchor" href="#25-entegrasyonlar">¶</a></h2>
+<p><strong>URL:</strong> <code>/admin_panel/settings/integrations.php</code></p>
+<h3 id="251-iyzico-ödeme">25.1 iyzico (Ödeme) <a class="anchor" href="#251-iyzico-ödeme">¶</a></h3>
+<ul>
+<li>API Key</li>
+<li>Secret Key</li>
+<li>Mode: Sandbox (test) / Production (canlı)</li>
+<li>3D Secure aktif mi?</li>
+<li>Taksit ayarları (kaç ay ve hangi bankalar)</li>
+</ul>
+<h3 id="252-smtp-email">25.2 SMTP (Email) <a class="anchor" href="#252-smtp-email">¶</a></h3>
+<ul>
+<li>Host (örn: mail.kendidomain.com)</li>
+<li>Port (587, 465)</li>
+<li>Kullanıcı / şifre</li>
+<li>TLS / SSL</li>
+<li>Gönderen ad / email</li>
+<li><strong>Test maili gönder</strong> tuşu</li>
+</ul>
+<h3 id="253-sms-sağlayıcı">25.3 SMS Sağlayıcı <a class="anchor" href="#253-sms-sağlayıcı">¶</a></h3>
+<ul>
+<li>Sağlayıcı: NetGSM veya İletiMerkezi</li>
+<li>Kullanıcı, şifre</li>
+<li>Gönderen başlığı (onaylı)</li>
+<li>"SMS Aktif" checkbox</li>
+<li><strong>Test SMS gönder</strong> tuşu</li>
+</ul>
+<h3 id="254-whatsapp-business">25.4 WhatsApp Business <a class="anchor" href="#254-whatsapp-business">¶</a></h3>
+<ul>
+<li>API token (Meta WA Business)</li>
+<li>Telefon numarası</li>
+<li>Otomatik mesaj şablonları</li>
+</ul>
+<h3 id="255-anthropic-ai">25.5 Anthropic AI <a class="anchor" href="#255-anthropic-ai">¶</a></h3>
+<ul>
+<li>API Key</li>
+<li>Model seçimi (Sonnet / Opus)</li>
+<li>Kullanım alanı:</li>
+<li>Newsletter konu satırı öneri</li>
+<li>Ürün açıklama yardımı</li>
+<li>Yorum özet</li>
+</ul>
+<h3 id="256-şirket-yasal-mali">25.6 Şirket / Yasal &amp; Mali <a class="anchor" href="#256-şirket-yasal-mali">¶</a></h3>
+<ul>
+<li>Şirket adı, vergi no, vergi dairesi</li>
+<li>MERSİS no</li>
+<li>Ticaret sicil no</li>
+<li>KEP adresi</li>
+<li>KVKK Aydınlatma metni (HTML)</li>
+<li>Mesafeli Satış Sözleşmesi (HTML)</li>
+<li>Ön Bilgilendirme Formu (HTML)</li>
+<li>Çerez Politikası (HTML)</li>
+</ul>
+<h3 id="257-banka-hesapları-havale-için">25.7 Banka Hesapları (Havale için) <a class="anchor" href="#257-banka-hesapları-havale-için">¶</a></h3>
+<ul>
+<li>Banka adı, hesap sahibi, IBAN</li>
+<li>Birden fazla banka eklenebilir</li>
+</ul>
+<hr>
+<h1 id="bölüm-e-iş-akişlari">BÖLÜM E — İŞ AKIŞLARI <a class="anchor" href="#bölüm-e-iş-akişlari">¶</a></h1>
+<h2 id="26-yeni-ürün-ekleme-akışı">26. Yeni Ürün Ekleme Akışı <a class="anchor" href="#26-yeni-ürün-ekleme-akışı">¶</a></h2>
+<ol>
+<li><strong>Admin → Katalog → Ürünler → "Yeni Ürün"</strong></li>
+<li><strong>Temel bilgiler:</strong> Ad, slug, kategori</li>
+<li><strong>Görseller:</strong> Ana görsel + galeri (en az 1080x1080 önerilir)</li>
+<li><strong>Fiyat &amp; stok:</strong> Liste fiyatı, varsa indirim, stok adedi</li>
+<li><strong>Açıklama:</strong> Kısa + uzun açıklama (alt-text'leri görsel için unutma!)</li>
+<li><strong>Varyasyon (varsa):</strong> Boyut/koku gibi seçenekleri ekle, her birinin SKU/stoğu</li>
+<li><strong>SEO:</strong> Meta başlık + description, alt-text</li>
+<li><strong>SSS (FAQ):</strong> En az 3 sıkça sorulan soru ekle</li>
+<li><strong>Yayın durumu:</strong> "Yayında" işaretle</li>
+<li><strong>Kaydet</strong></li>
+<li><strong>Test:</strong> Storefront'ta görüntüle → düzgün mü?</li>
+</ol>
+<p><strong>İpucu:</strong> İlk ürünü eklerken adım adım gidin, sonra benzer ürünleri "Kopyala" özelliği ile hızlı oluşturabilirsiniz.</p>
+<hr>
+<h2 id="27-günlük-sipariş-işleme">27. Günlük Sipariş İşleme <a class="anchor" href="#27-günlük-sipariş-işleme">¶</a></h2>
+<p><strong>Sabah rutini (15 dk):</strong></p>
+<ol>
+<li><strong>Dashboard → "Bekleyen Siparişler"</strong> sayısına bak</li>
+<li><strong>Siparişler → "Beklemede"</strong> filtresi seç</li>
+<li>Her siparişi aç:</li>
+</ol>
+<ul>
+<li>Adres düzgün mü (yanlış yazım var mı)?</li>
+<li>Ödeme onaylandı mı?</li>
+</ul>
+<ol>
+<li><strong>Bulk işlem ile</strong> seç → "Onayla" (durum: Hazırlanıyor)</li>
+<li>Müşteriye otomatik email gider</li>
+<li><strong>Depo/üretim</strong> süreci başlar</li>
+</ol>
+<p><strong>Kargolama (öğleden sonra):</strong></p>
+<ol>
+<li>Hazırlanan siparişleri seç</li>
+<li><strong>"Toplu Kargoya Ver"</strong> tuşu</li>
+<li>Kargo firmasına teslim et, takip no al</li>
+<li>Her siparişe takip no gir</li>
+<li>Otomatik SMS + email gider müşteriye</li>
+</ol>
+<p><strong>Teslim sonrası:</strong></p>
+<ul>
+<li>Kargo firması "teslim edildi" raporu gönderince admin'de durumu "Teslim" yap</li>
+<li>Bu işlem <strong>otomatik puan ekler</strong> (Sadakat aktifse)</li>
+</ul>
+<hr>
+<h2 id="28-kampanya-başlatma">28. Kampanya Başlatma <a class="anchor" href="#28-kampanya-başlatma">¶</a></h2>
+<h3 id="a-indirim-kuponu-kampanyası">A. İndirim Kuponu Kampanyası <a class="anchor" href="#a-indirim-kuponu-kampanyası">¶</a></h3>
+<ol>
+<li><strong>Admin → Satış → Kuponlar → "Yeni Kupon"</strong></li>
+<li>Kod: KIS2026 (vb.)</li>
+<li>Tip: %10 veya 50₺</li>
+<li>Min sepet: 200₺</li>
+<li>Geçerlilik: 1 hafta</li>
+<li>Maks kullanım: 500 (toplam) / 1 (kişi başı)</li>
+<li><strong>Kaydet</strong></li>
+<li><strong>Bülten kampanyası</strong> oluştur, kupon kodunu içeren mail at</li>
+</ol>
+<h3 id="b-anasayfa-banner-kampanyası">B. Anasayfa Banner Kampanyası <a class="anchor" href="#b-anasayfa-banner-kampanyası">¶</a></h3>
+<ol>
+<li><strong>Admin → İçerik → Bannerlar → "Yeni"</strong></li>
+<li>Görsel hazırla (1920x600 önerilir)</li>
+<li>Başlık, CTA metni, hedef link</li>
+<li>Yayın tarihi → sona erme</li>
+<li><strong>Kaydet</strong> → anasayfada otomatik görünür</li>
+</ol>
+<h3 id="c-newsletter-patlatma">C. Newsletter Patlatma <a class="anchor" href="#c-newsletter-patlatma">¶</a></h3>
+<ol>
+<li><strong>Admin → Müşteri → Bülten → Kampanyalar → "Yeni"</strong></li>
+<li><strong>AI konu önerici</strong> (varsa) çalıştır</li>
+<li>Hedef: tüm aktif aboneler</li>
+<li><strong>Test gönder</strong> kendine</li>
+<li>Onayla → Gönder</li>
+</ol>
+<hr>
+<h2 id="29-stok-yönetimi">29. Stok Yönetimi <a class="anchor" href="#29-stok-yönetimi">¶</a></h2>
+<p><strong>Haftalık rutin:</strong></p>
+<ol>
+<li><strong>Dashboard</strong> → "Stoğu kritik ürün" sayısı kaç?</li>
+<li><strong>Katalog → Stok</strong> sayfası → kritik listeyi gör</li>
+<li>Tedarikçiye sipariş ver</li>
+<li>Mal gelince <strong>Toplu Güncelleme</strong> ile CSV yükle (zaman kazandırır)</li>
+</ol>
+<p><strong>Stok girişi (manuel):</strong></p>
+<ol>
+<li>Ürün → Düzenle → Stok alanını güncelle</li>
+<li>Kaydet (otomatik log'a yazılır)</li>
+</ol>
+<p><strong>Varyasyonlu ürün:</strong></p>
+<ul>
+<li>Varyasyon sekmesinde her boyut/kokunun ayrı stoğunu güncelle</li>
+</ul>
+<hr>
+<h2 id="30-müşteri-şikayeti-çözme">30. Müşteri Şikayeti Çözme <a class="anchor" href="#30-müşteri-şikayeti-çözme">¶</a></h2>
+<p><strong>Müşteri mesaj yollarsa:</strong></p>
+<ol>
+<li><strong>Admin → Müşteri → Mesajlar</strong> → okunmamış kuyrukta</li>
+<li>Mesajı aç, oku</li>
+<li><strong>Müşterinin profilini</strong> aç (link)</li>
+<li>Sipariş geçmişine bak, sorunu anla</li>
+<li><strong>Cevap yaz</strong> → otomatik email gider</li>
+<li>Gerekirse <strong>özel kupon üret</strong> (telafi için)</li>
+<li>Mesajı <strong>"Çözüldü"</strong> olarak işaretle</li>
+</ol>
+<p><strong>Telefonla şikayet:</strong></p>
+<ol>
+<li>Müşteriyi adı/email ile <strong>CRM'de bul</strong></li>
+<li>Sipariş geçmişine, yorumlarına, son aktivitesine bak</li>
+<li>Çözümü uygulayıp <strong>iç not</strong> olarak yaz (sonra hatırlamak için)</li>
+</ol>
+<hr>
+<h2 id="31-aylık-bakım-kontrolü">31. Aylık Bakım Kontrolü <a class="anchor" href="#31-aylık-bakım-kontrolü">¶</a></h2>
+<p><strong>Her ay 1 saat ayırın:</strong></p>
+<ul>
+<li class="task"><input type="checkbox"  disabled> <strong>Veritabanı yedeği</strong> al (cPanel → Yedek)</li>
+<li class="task"><input type="checkbox"  disabled> <strong>Stok devir</strong> raporuna bak → satılmayan ürünleri pasif yap veya indirime sok</li>
+<li class="task"><input type="checkbox"  disabled> <strong>Cron logları</strong> kontrol et → hata var mı?</li>
+<li class="task"><input type="checkbox"  disabled> <strong>SMS/Email</strong> kotanı kontrol et</li>
+<li class="task"><input type="checkbox"  disabled> <strong>iyzico</strong> ödeme onay oranı (başarısız ödeme analizi)</li>
+<li class="task"><input type="checkbox"  disabled> <strong>GA4 → Conversion</strong> funnel'a bak — nerede düşüş var?</li>
+<li class="task"><input type="checkbox"  disabled> <strong>Microsoft Clarity</strong> → kaydedilmiş 5 oturum izle (müşteri davranışı anla)</li>
+<li class="task"><input type="checkbox"  disabled> <strong>Çerez politikası</strong>, KVKK metni güncel mi?</li>
+<li class="task"><input type="checkbox"  disabled> <strong>Sayfa hızı testi</strong> (PageSpeed Insights)</li>
+<li class="task"><input type="checkbox"  disabled> <strong>Eski medya</strong> çöp kutusunu temizle</li>
+<li class="task"><input type="checkbox"  disabled> <strong>Admin şifresi</strong> 3 ayda bir değiş</li>
+</ul>
+<hr>
+<h1 id="bölüm-f-teknik-bakim">BÖLÜM F — TEKNİK &amp; BAKIM <a class="anchor" href="#bölüm-f-teknik-bakim">¶</a></h1>
+<h2 id="32-cron-job-listesi">32. Cron Job Listesi <a class="anchor" href="#32-cron-job-listesi">¶</a></h2>
+<p>cPanel → Cron Jobs:</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Sıklık</th>
+<th>Komut</th>
+<th>Görev</th>
+</tr></thead><tbody>
+<tr>
+<td><code>0 8 * * *</code></td>
+<td><code>php /home/USER/public_html/cron/abandoned-cart.php</code></td>
+<td>Terk sepet hatırlatma (3 aşama)</td>
+</tr>
+<tr>
+<td><code>0 9 * * *</code></td>
+<td><code>php /home/USER/public_html/cron/low-stock-alert.php</code></td>
+<td>Düşük stok admin uyarısı</td>
+</tr>
+<tr>
+<td><code>0 9 * * *</code></td>
+<td><code>php /home/USER/public_html/cron/birthday-coupon.php</code></td>
+<td>Doğum günü kuponu</td>
+</tr>
+<tr>
+<td><code>0 3 * * *</code></td>
+<td><code>php /home/USER/public_html/cron/loyalty-expire.php</code></td>
+<td>Puan expire (12ay)</td>
+</tr>
+<tr>
+<td><code>0 2 * * 1</code></td>
+<td><code>php /home/USER/public_html/cron/loyalty-tier-update.php</code></td>
+<td>Müşteri seviye güncelle</td>
+</tr>
+<tr>
+<td><code>*/5 * * * *</code></td>
+<td><code>php /home/USER/public_html/cron/cart-reservation-cleanup.php</code></td>
+<td>Sepet rezervasyon temizleme</td>
+</tr>
+<tr>
+<td><code>0 4 * * *</code></td>
+<td><code>php /home/USER/public_html/cron/price-drop-notify.php</code></td>
+<td>Fiyat düştü bildirimi</td>
+</tr>
+</tbody></table></div>
+<blockquote>💡 <strong>USER</strong> yerine cPanel kullanıcı adınızı yazın.</blockquote>
+<hr>
+<h2 id="33-yedekleme">33. Yedekleme <a class="anchor" href="#33-yedekleme">¶</a></h2>
+<h3 id="a-cpanel-ile-önerilir">A. cPanel ile (Önerilir) <a class="anchor" href="#a-cpanel-ile-önerilir">¶</a></h3>
+<ol>
+<li>cPanel → <strong>Yedekler</strong> veya <strong>Yedekleme Sihirbazı</strong></li>
+<li><strong>Tam Yedek</strong> veya <strong>Yalnız Veritabanı</strong></li>
+<li>İndir + güvenli yere kaydet (Google Drive, dış disk)</li>
+</ol>
+<p><strong>Sıklık:</strong> Haftalık tam yedek, günlük veritabanı yedek</p>
+<h3 id="b-ssh-ile-gelişmiş">B. SSH ile (Gelişmiş) <a class="anchor" href="#b-ssh-ile-gelişmiş">¶</a></h3>
+<pre><code class="lang-bash"># Veritabanı yedek
+mysqldump -u USER -p DBNAME &gt; backup_$(date +%F).sql
+
+# Dosya yedek (zip)
+tar -czf files_$(date +%F).tar.gz public_html/</code></pre>
+<h3 id="c-otomatik-cloud-yedek">C. Otomatik Cloud Yedek <a class="anchor" href="#c-otomatik-cloud-yedek">¶</a></h3>
+<ul>
+<li>UpdraftPlus (WP değil, manuel kurmak gerekir)</li>
+<li>Veya kendi cron'unuzla S3'e yükle</li>
+</ul>
+<hr>
+<h2 id="34-sql-migration-çalıştırma">34. SQL Migration Çalıştırma <a class="anchor" href="#34-sql-migration-çalıştırma">¶</a></h2>
+<h3 id="tercih-edilen-yol-admin-panelden">Tercih edilen yol: Admin Panel'den <a class="anchor" href="#tercih-edilen-yol-admin-panelden">¶</a></h3>
+<ol>
+<li><strong>Admin → Sistem → Araçlar → SQL Migration</strong></li>
+<li>Bekleyen migration'ları gör</li>
+<li>Sırayla "Çalıştır"</li>
+<li>Güvenlik analizini incele</li>
+<li><strong>Hata olursa</strong> → çalıştırma, ekrana göster, soru sor</li>
+</ol>
+<h3 id="alternatif-phpmyadmin">Alternatif: phpMyAdmin <a class="anchor" href="#alternatif-phpmyadmin">¶</a></h3>
+<ol>
+<li>cPanel → phpMyAdmin</li>
+<li>Veritabanını seç</li>
+<li>SQL sekmesi</li>
+<li>Migration dosyasının içeriğini yapıştır → Go</li>
+</ol>
+<hr>
+<h2 id="35-hata-yönetimi">35. Hata Yönetimi <a class="anchor" href="#35-hata-yönetimi">¶</a></h2>
+<h3 id="a-müşteri-tarafında-hata-olursa">A. Müşteri Tarafında Hata Olursa <a class="anchor" href="#a-müşteri-tarafında-hata-olursa">¶</a></h3>
+<ul>
+<li>Standart "Bir hata oluştu" sayfası gösterilir</li>
+<li><strong>Admin girişi açıksa</strong> → detay teknik bilgi de gösterilir</li>
+<li>Sunucu log'una otomatik yazılır</li>
+</ul>
+<h3 id="b-hata-loglarına-bakma">B. Hata Loglarına Bakma <a class="anchor" href="#b-hata-loglarına-bakma">¶</a></h3>
+<ul>
+<li>cPanel → <strong>Hatalar</strong> veya <strong>Error Log</strong></li>
+<li><code>error_log</code> dosyası (genellikle <code>public_html/error_log</code>)</li>
+<li>Son 100 satıra bak</li>
+</ul>
+<h3 id="c-yaygın-hata-tipleri">C. Yaygın Hata Tipleri <a class="anchor" href="#c-yaygın-hata-tipleri">¶</a></h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Hata</th>
+<th>Çözüm</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>500 Internal Server Error</strong></td>
+<td>PHP versiyonu uyumsuz, .htaccess hatası</td>
+</tr>
+<tr>
+<td><strong>Database connection failed</strong></td>
+<td>DB credential'lar yanlış, MySQL durmuş</td>
+</tr>
+<tr>
+<td><strong>Memory exhausted</strong></td>
+<td>PHP memory_limit artır (256M)</td>
+</tr>
+<tr>
+<td><strong>File upload too large</strong></td>
+<td>upload_max_filesize artır</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h1 id="bölüm-g-sorun-giderme">BÖLÜM G — SORUN GİDERME <a class="anchor" href="#bölüm-g-sorun-giderme">¶</a></h1>
+<h2 id="36-sss-müşteri-tarafı">36. SSS — Müşteri Tarafı <a class="anchor" href="#36-sss-müşteri-tarafı">¶</a></h2>
+<p><strong>S: Müşteri "şifremi unuttum" linkinin email'i gelmiyor?</strong> C: SMTP ayarları yanlış. Ayarlar → Entegrasyonlar → SMTP → test maili gönder.</p>
+<p><strong>S: Mobilde sepet sayfası bozuk görünüyor?</strong> C: Tarayıcı önbelleği — <code>Cmd+Shift+R</code> / <code>Ctrl+Shift+R</code> ile temizle.</p>
+<p><strong>S: Ödeme yapamıyor, "ödeme başarısız" diyor?</strong> C: iyzico mode "Sandbox"ta olabilir → Production yap. Veya kart bilgisi yanlış. iyzico panelinden hata log'una bak.</p>
+<p><strong>S: Müşteri sipariş verdi ama email gelmemiş diyor?</strong> C: 1) SMTP doğru çalışıyor mu? 2) Spam klasörüne bak. 3) Admin → Siparişler → ilgili sipariş → "Email Tekrar Gönder".</p>
+<p><strong>S: Kupon kodu çalışmıyor diyor?</strong> C: 1) Süresi dolmuş olabilir 2) Min sepet tutarı sağlanmamış 3) Maks kullanıma ulaşılmış 4) Sadece üyelere özel olabilir.</p>
+<p><strong>S: Üyelik formu kabul etmiyor?</strong> C: Email zaten kayıtlı olabilir → şifremi unuttum yönlendir. Veya şifre çok zayıf.</p>
+<hr>
+<h2 id="37-sss-yönetim-tarafı">37. SSS — Yönetim Tarafı <a class="anchor" href="#37-sss-yönetim-tarafı">¶</a></h2>
+<p><strong>S: Admin paneline giremiyorum?</strong> C: 1) Cookie/oturum sıfırlamak için tarayıcı önbelleğini temizle 2) URL'i <code>/admin_panel/login.php</code> olarak gir 3) Şifre sıfırla (<code>forgot_password.php</code>).</p>
+<p><strong>S: Sildiğim ürün hala sitede görünüyor?</strong> C: Migration 101 çalıştırıldı mı? Çalıştırılmadıysa <strong>Sistem → Araçlar → Migration</strong>'dan çalıştır.</p>
+<p><strong>S: Yeni özellik yükledim ama menüde yok?</strong> C: Sidebar'ı yenileyen dosyayı yüklemediniz olabilir. <code>admin_panel/core/header.php</code> veya sidebar dosyasının güncel olduğundan emin olun.</p>
+<p><strong>S: Migration "UYARI" verdi, ne yapayım?</strong> C: Yeşil = güvenli (çalıştır). Sarı = çok satır etkiler (önce yedek al). Kırmızı = TEHLİKE, çalıştırma, soru sor.</p>
+<p><strong>S: SMS göndermiyor?</strong> C: 1) Ayarlar → SMS → "Aktif" işaretli mi? 2) API key/şifre doğru? 3) Gönderen başlığı onaylı mı? 4) Bakiyeniz var mı? 5) SMS Log'da hata mesajına bak.</p>
+<p><strong>S: Analytics veri toplamıyor?</strong> C: 1) Master "Analitik Aktif" switch'i açık mı? 2) GA4 ID girilmiş mi? 3) Çerez onayı verdiniz mi? 4) DebugView'da test et.</p>
+<p><strong>S: Müşterinin doğum tarihini değiştiremiyorum?</strong> C: Müşteri kendi değiştiremez ama <strong>admin değiştirebilir</strong>. Admin → Müşteriler → Düzenle.</p>
+<p><strong>S: Bekleyen sipariş çok ama bana bildirilmiyor?</strong> C: Admin email adresi ayarlarda doğru mu? Cron çalışıyor mu?</p>
+<hr>
+<h2 id="38-acil-durum-rehberi">38. Acil Durum Rehberi <a class="anchor" href="#38-acil-durum-rehberi">¶</a></h2>
+<h3 id="site-açılmıyor-500-hatası">🆘 Site açılmıyor (500 hatası) <a class="anchor" href="#site-açılmıyor-500-hatası">¶</a></h3>
+<ol>
+<li>cPanel → File Manager → <code>.htaccess</code> dosyasını yedek aldıktan sonra geçici yeniden adlandır (<code>.htaccess.bak</code>)</li>
+<li>Site açılıyor mu? Açılıyorsa .htaccess'te hata var</li>
+<li>Hala açılmıyor → cPanel → Error Log → hata mesajı</li>
+</ol>
+<h3 id="veritabanı-bağlantısı-yok">🆘 Veritabanı bağlantısı yok <a class="anchor" href="#veritabanı-bağlantısı-yok">¶</a></h3>
+<ol>
+<li>cPanel → MySQL Databases → DB hala var mı?</li>
+<li><code>config/database.php</code> veya <code>.env</code> → credentials doğru mu?</li>
+<li>cPanel → MySQL → kullanıcı şifresini sıfırla</li>
+</ol>
+<h3 id="ödeme-alamıyorum">🆘 Ödeme alamıyorum <a class="anchor" href="#ödeme-alamıyorum">¶</a></h3>
+<ol>
+<li>iyzico hesabına gir → API durumu</li>
+<li>Sandbox / Production doğru mu?</li>
+<li>Test kartı ile dene: <code>5528790000000008</code>, herhangi tarih, CVV 123</li>
+</ol>
+<h3 id="hack-şüpheli-aktivite">🆘 Hack / şüpheli aktivite <a class="anchor" href="#hack-şüpheli-aktivite">¶</a></h3>
+<ol>
+<li><strong>Admin şifresini hemen değiştir</strong></li>
+<li>cPanel → Hesap → tüm şifreleri değiştir</li>
+<li>Son 7 gün <strong>erişim log'larını</strong> indir, incele</li>
+<li>Son 7 gün <strong>yedeği</strong> geri yükle (kötü ise)</li>
+<li>WordFence/Sucuri tarzı tarama (yoksa manuel: <code>core/</code>, <code>admin_panel/</code> klasörlerini yeni indirip kıyasla)</li>
+</ol>
+<h3 id="tüm-sitedeki-müşterilere-acil-duyuru">🆘 Tüm sitedeki müşterilere acil duyuru <a class="anchor" href="#tüm-sitedeki-müşterilere-acil-duyuru">¶</a></h3>
+<ol>
+<li>Admin → Bültene → Yeni Kampanya</li>
+<li>Hedef: Tümü</li>
+<li>Konu: ACİL [konu]</li>
+<li>Test → Gönder</li>
+</ol>
+<hr>
+<h1 id="yardım">📞 Yardım <a class="anchor" href="#yardım">¶</a></h1>
+<p>Bir özelliği kullanırken takıldıysanız veya yeni geliştirme isteğiniz varsa:</p>
+<p>✅ <strong>Hangi sayfadasınız?</strong> (URL veya menü yolu) ✅ <strong>Hata varsa screenshot atın</strong> ✅ <strong>Beklediğiniz davranışı yazın</strong> ("X olmasını isterdim ama Y oldu")</p>
+<p>Bu kılavuz <strong>yaşayan bir doküman</strong>dır — yeni özellikler eklendikçe güncellenir.</p>
+<hr>
+<p><strong>Son güncellenme:</strong> 2026-05-19 <strong>Versiyon:</strong> 1.0 <strong>Hazırlayan:</strong> Claude (Anthropic)</p>
+</main>
+</div>
+<script>(function(){
+  const btn = document.createElement('a'); btn.href = '#'; btn.className = 'back-to-top'; btn.title = 'Yukarı çık'; btn.textContent = '↑';
+  document.body.appendChild(btn);
+  window.addEventListener('scroll', function(){ btn.classList.toggle('visible', window.scrollY > 600); });
+  btn.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({top: 0, behavior: 'smooth'}); });
+  const tocLinks = document.querySelectorAll('.toc a');
+  const headings = Array.from(document.querySelectorAll('h1[id], h2[id], h3[id]'));
+  function onScroll(){
+    let current = null;
+    for (const h of headings) { if (h.getBoundingClientRect().top <= 80) current = h; }
+    if (current) { tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current.id)); }
+  }
+  window.addEventListener('scroll', onScroll); onScroll();
+})();</script>
+</body>
+</html>

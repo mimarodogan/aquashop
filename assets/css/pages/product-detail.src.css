@@ -1,0 +1,13 @@
+/* Yıldız puanlama girişi — yorum formu */
+.rating-input {
+    direction: rtl;
+    display: inline-flex;
+    gap: 4px;
+    font-size: 32px;
+    line-height: 1;
+}
+.rating-input label:hover,
+.rating-input label:hover ~ label,
+.rating-input input:checked ~ label {
+    color: #E0A800 !important;
+}

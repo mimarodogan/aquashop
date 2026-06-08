@@ -1,0 +1,121 @@
+(function () {
+  'use strict';
+
+  var overlay   = document.getElementById('searchOverlay');
+  var input     = document.getElementById('searchInput');
+  var results   = document.getElementById('searchResults');
+  var closeBtn  = document.getElementById('searchCloseBtn');
+  var openBtns  = document.querySelectorAll('[data-open="search"]');
+
+  if (!overlay || !input || !results) return;
+
+  var timer = null;
+  var lastQ = '';
+  var ajaxBase = (window.__SITE_URL || '') + '/ajax/search.php';
+
+  function open() {
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function () { input.focus(); }, 80);
+  }
+
+  function close() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    input.value = '';
+    results.innerHTML = '';
+    lastQ = '';
+  }
+
+  // Açma butonları
+  openBtns.forEach(function (btn) {
+    btn.addEventListener('click', open);
+  });
+
+  // Kapatma
+  closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) close();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') close();
+  });
+
+  // Arama — 320ms debounce
+  input.addEventListener('input', function () {
+    var q = input.value.trim();
+    clearTimeout(timer);
+    if (q === lastQ) return;
+    lastQ = q;
+
+    if (q.length < 2) {
+      results.innerHTML = '';
+      return;
+    }
+
+    results.innerHTML = '<div class="search-loading"></div>';
+
+    timer = setTimeout(function () {
+      fetch(ajaxBase + '?q=' + encodeURIComponent(q))
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (input.value.trim() !== q) return; // stale response
+          render(q, data);
+        })
+        .catch(function () {
+          results.innerHTML = '<p class="search-empty">Arama sırasında bir hata oluştu.</p>';
+        });
+    }, 320);
+  });
+
+  function esc(s) {
+    var d = document.createElement('div');
+    d.appendChild(document.createTextNode(s));
+    return d.innerHTML;
+  }
+
+  function render(q, data) {
+    var html = '';
+    var hasAny = false;
+
+    // Ürünler
+    if (data.products && data.products.length) {
+      hasAny = true;
+      html += '<div class="search-section-label">Ürünler</div>';
+      data.products.forEach(function (p) {
+        var img = p.image
+          ? '<img src="' + esc(p.image) + '" alt="" class="search-item-img" loading="lazy">'
+          : '<div class="search-item-ph">' + esc((p.name || '?').charAt(0)) + '</div>';
+        var price = '<span class="search-item-price">' + esc(p.price) + '</span>';
+        if (p.old_price) {
+          price += '<span class="search-item-price-old">' + esc(p.old_price) + '</span>';
+        }
+        html += '<a href="' + esc(p.url) + '" class="search-item">'
+          + img
+          + '<span class="search-item-name">' + esc(p.name) + '</span>'
+          + price
+          + '</a>';
+      });
+    }
+
+    // Blog yazıları
+    if (data.posts && data.posts.length) {
+      hasAny = true;
+      html += '<div class="search-section-label">Blog</div>';
+      data.posts.forEach(function (post) {
+        html += '<a href="' + esc(post.url) + '" class="search-item">'
+          + '<div class="search-item-ph" style="font-size:14px;font-family:sans-serif">📝</div>'
+          + '<span class="search-item-name">' + esc(post.title) + '</span>'
+          + '</a>';
+      });
+    }
+
+    if (!hasAny) {
+      html = '<p class="search-empty">«' + esc(q) + '» için sonuç bulunamadı.</p>';
+    } else {
+      html += '<div class="search-footer"><a href="' + esc((window.__SITE_URL || '') + '/urun?q=' + encodeURIComponent(q)) + '">Tüm sonuçlarda ara →</a></div>';
+    }
+
+    results.innerHTML = html;
+  }
+})();

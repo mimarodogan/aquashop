@@ -1,0 +1,20 @@
+{
+    "name": "aquashop/storefront",
+    "description": "AquaShop e-ticaret — akvaryum, balık yemi, filtre, aydınlatma ve sucul yaşam ürünleri mağazası.",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.0"
+    },
+    "autoload": {
+        "files": [
+            "core/bootstrap.php",
+            "core/route_helpers.php",
+            "includes/functions.php"
+        ]
+    },
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist"
+    }
+}

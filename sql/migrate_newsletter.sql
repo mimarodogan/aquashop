@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(190) NOT NULL UNIQUE,
+  name VARCHAR(120) DEFAULT NULL,
+  token VARCHAR(64) NOT NULL,
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  subscribed_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  unsubscribed_at DATETIME DEFAULT NULL,
+  source VARCHAR(40) DEFAULT NULL,
+  KEY idx_active (is_active)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS newsletter_campaigns (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  subject VARCHAR(220) NOT NULL,
+  body MEDIUMTEXT NOT NULL,
+  status ENUM('draft','sending','sent','failed') NOT NULL DEFAULT 'draft',
+  total_recipients INT NOT NULL DEFAULT 0,
+  sent_count INT NOT NULL DEFAULT 0,
+  failed_count INT NOT NULL DEFAULT 0,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  sent_at DATETIME DEFAULT NULL,
+  created_by INT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -1,0 +1,116 @@
+(function () {
+    'use strict';
+
+    // Galeri thumb'ları
+    var main = document.getElementById('pd-mainImg');
+    document.querySelectorAll('.pd-thumb').forEach(function (t) {
+        t.addEventListener('click', function () {
+            if (main) { main.src = t.dataset.src; }
+            document.querySelectorAll('.pd-thumb').forEach(function (x) { x.classList.remove('active'); });
+            t.classList.add('active');
+        });
+    });
+
+    // Adet stepper "Satın Al" butonu için sync
+    var qtyInput = document.querySelector('.qty-stepper input');
+    var buyQty = document.getElementById('buyQty');
+    if (qtyInput && buyQty) {
+        qtyInput.addEventListener('input', function () { buyQty.value = qtyInput.value || 1; });
+        document.querySelectorAll('.qty-btn').forEach(function (b) {
+            b.addEventListener('click', function () {
+                setTimeout(function () { buyQty.value = qtyInput.value || 1; }, 10);
+            });
+        });
+    }
+
+    // Linki kopyala
+    var cb = document.getElementById('copy-link');
+    if (cb) {
+        cb.addEventListener('click', function () {
+            navigator.clipboard.writeText(location.href);
+            if (window.toast) { window.toast.success('Link kopyalandı'); }
+        });
+    }
+
+    // Varyasyon seçici
+    var chips = document.querySelectorAll('.variation-chip');
+    if (!chips.length) { return; }
+
+    var priceEl = document.getElementById('pd-price');
+    var oldEl = document.getElementById('pd-oldprice');
+    var discEl = document.getElementById('pd-discount');
+    var varInput = document.getElementById('selected-variant');
+    var qtyIn = document.getElementById('qty-input');
+    var addBtn = document.getElementById('add-btn');
+    var mainImg = document.querySelector('.pd-main img');
+
+    function fmt(v) {
+        var n = parseFloat(v);
+        if (isNaN(n)) return '';
+        return new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n) + ' ₺';
+    }
+
+    chips.forEach(function (c) {
+        c.addEventListener('click', function () {
+            if (c.disabled) return;
+
+            chips.forEach(function (x) {
+                x.classList.remove('active');
+                x.style.background = 'var(--olive-2)';
+                x.style.color = 'var(--ink)';
+                x.style.borderColor = 'var(--gold-border)';
+            });
+            c.classList.add('active');
+            c.style.background = 'var(--ink)';
+            c.style.color = 'var(--on-dark)';
+            c.style.borderColor = 'var(--ink)';
+
+            var price = c.dataset.price;
+            var old = c.dataset.old;
+            var stock = parseInt(c.dataset.stock, 10) || 0;
+            var img = c.dataset.image;
+
+            if (priceEl) priceEl.textContent = fmt(price);
+            if (oldEl) {
+                if (old && parseFloat(old) > parseFloat(price)) {
+                    oldEl.textContent = fmt(old);
+                    oldEl.style.display = '';
+                    if (discEl) {
+                        discEl.textContent = '%' + Math.max(0, Math.round((1 - price / old) * 100));
+                        discEl.style.display = '';
+                    }
+                } else {
+                    oldEl.style.display = 'none';
+                    if (discEl) discEl.style.display = 'none';
+                }
+            }
+            if (varInput) varInput.value = c.dataset.variant;
+            if (qtyIn) {
+                qtyIn.max = stock;
+                if (parseInt(qtyIn.value, 10) > stock) qtyIn.value = stock || 1;
+            }
+            if (addBtn) {
+                if (stock <= 0) {
+                    addBtn.disabled = true;
+                    addBtn.textContent = 'Stokta Yok';
+                } else {
+                    addBtn.disabled = false;
+                    addBtn.textContent = 'Sepete Ekle →';
+                }
+            }
+            // Stok rozeti güncelle ("Sadece N kaldı" / "Stokta Yok")
+            var stockBadge = document.getElementById('pd-stock-badge');
+            if (stockBadge) {
+                var threshold = parseInt(stockBadge.dataset.threshold || '10', 10);
+                if (stock <= 0) {
+                    stockBadge.innerHTML = '<span class="stock-badge stock-out">Stokta Yok</span>';
+                } else if (stock <= threshold) {
+                    stockBadge.innerHTML = '<span class="stock-badge stock-low">⚡ Sadece ' + stock + ' adet kaldı</span>';
+                } else {
+                    stockBadge.innerHTML = '';
+                }
+            }
+            if (mainImg && img) mainImg.src = img;
+        });
+    });
+})();

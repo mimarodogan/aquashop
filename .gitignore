@@ -1,0 +1,41 @@
+# ═══════════════════════════════════════════════════════════════════
+#  SIRLAR — ASLA commit edilmez (DB şifresi / ortam değişkenleri)
+# ═══════════════════════════════════════════════════════════════════
+/.env
+/.env.*
+!/.env.example
+/config/db.php
+
+# ═══════════════════════════════════════════════════════════════════
+#  Çalışma zamanı verisi / kullanıcı yüklemeleri (PII + şişkinlik)
+#  → uploads/ klasör yapısı ve .htaccess güvenlik dosyaları korunur,
+#    içindeki müşteri görselleri/ürün medyası commit EDİLMEZ.
+# ═══════════════════════════════════════════════════════════════════
+/uploads/*
+!/uploads/.htaccess
+!/uploads/.cache/
+/uploads/.cache/*
+!/uploads/.cache/.htaccess
+
+# ═══════════════════════════════════════════════════════════════════
+#  Yerel araçlar / editör / işletim sistemi (uygulamaya ait değil)
+# ═══════════════════════════════════════════════════════════════════
+/.agents/
+/.claude/
+/yedek/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# ═══════════════════════════════════════════════════════════════════
+#  Loglar / geçici dosyalar
+# ═══════════════════════════════════════════════════════════════════
+*.log
+/tmp/
+*.tmp
+*.bak
+*.cache

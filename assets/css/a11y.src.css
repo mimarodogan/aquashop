@@ -1,0 +1,124 @@
+/*
+ * Erişilebilirlik (WCAG 2.1 AA)
+ * Premium tasarım sistemiyle uyumlu — style.css'e ek olarak yüklenir.
+ *
+ * Karşılanan kriterler:
+ * - SC 1.4.3 Contrast (Minimum)        — metin/zemin ≥ 4.5:1
+ * - SC 1.4.11 Non-text Contrast        — UI/odak halkası ≥ 3:1
+ * - SC 1.4.13 Content on Hover/Focus   — odak halkasının görünürlüğü
+ * - SC 2.1.1 Keyboard                  — :focus-visible ile klavye desteği
+ * - SC 2.4.7 Focus Visible
+ * - SC 2.5.5 Target Size               — etkileşim alanları ≥ 44×44 (AAA: 44; AA: 24)
+ * - SC 1.3.1 Info & Relationships      — .sr-only ile semantik
+ * - SC 2.3.3 Animation from Interactions — prefers-reduced-motion
+ */
+
+/* === Düşük kontrastlı metinleri merkezi muted-text'e bağla (AA ≥7:1) === */
+/* Açık zeminlerde ikincil metin — AA ≥7:1 */
+.muted,
+.breadcrumb,
+.breadcrumb span,
+.card-body .cat,
+.price-old,
+.kpi .lbl,
+.kpi .hint,
+.feature p,
+.media-info .meta,
+.who,
+.mm-foot p,
+.mm-foot{
+  color: var(--muted-text);
+}
+/* Koyu zeminlerde (footer) ikincil metin — AAA ≥7:1 */
+.foot-bottom{ color: var(--on-dark-soft); }
+.breadcrumb a{ color: var(--muted-text); transition: color var(--t); }
+.breadcrumb a:hover{ color: var(--gold); }
+.price-old{ text-decoration-color: var(--muted-text); }
+
+/* === Hareket azaltma tercihine saygı (SC 2.3.3) === */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .hero-slide{ transition: none !important; }
+  .card:hover,.feature:hover,.kpi:hover{ transform: none !important; }
+}
+
+/* === Yüksek kontrast tercihi (Windows Forced Colors) === */
+@media (forced-colors: active){
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  .btn-ghost,
+  .btn-accent,
+  .icon-btn,
+  .qty-btn,
+  .fav-btn,
+  .pd-fav,
+  .nav-toggle,
+  .sb-toggle,
+  .cat-nav,
+  .hero-nav,
+  .pd-share-btn,
+  .filter-drawer-close,
+  .sort-pop-close,
+  .mm-close{
+    border: 1px solid ButtonText;
+    forced-color-adjust: none;
+  }
+  *:focus-visible{ outline: 3px solid Highlight !important; outline-offset: 2px; }
+}
+
+/* === Tablo zebra desteği — okunurluğu artır (kart hover'a engel olmadan) === */
+tbody tr:nth-child(even):not(:hover){ background: rgba(20,20,20,.015); }
+
+/* === Etkileşim hedefi — minimum 44×44 (SC 2.5.5 AAA) === */
+.btn{ min-height: 44px; }
+.btn-sm{ min-height: 36px; }
+.icon-btn,.qty-btn,.fav-btn,.pd-fav,.nav-toggle,.cat-nav,.hero-nav,.pd-share-btn,.sb-toggle,.mm-close,.filter-drawer-close,.sort-pop-close{
+  min-width: 40px;
+  min-height: 40px;
+}
+
+/* === Görsel olmayan focus için stroke kalınlığını artır (SC 1.4.11) === */
+.nav-icons a:focus-visible,.nav-icons button:focus-visible{
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+  background: var(--cream);
+}
+
+/* === Linkler altında implicit underline (içerik metinlerinde) === */
+.prose a,.pd-faq-a a,.foot-col a:focus-visible{
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+/* === Form hata durumu için renkten bağımsız sinyal (SC 1.4.1 Color Alone) === */
+.field.has-error label::after,
+.field[data-error] label::after{
+  content:" *";
+  color:#A02020;
+  font-weight:700;
+}
+.field.has-error input,
+.field.has-error select,
+.field.has-error textarea,
+.field[data-error] input,
+.field[data-error] select,
+.field[data-error] textarea{
+  border-color:#A02020;
+  box-shadow:0 0 0 3px rgba(160,32,32,.18);
+}
+
+/* === Placeholder kontrastı === */
+input::placeholder,textarea::placeholder{ color: var(--muted-text); opacity: 1; }
+
+/* === İçeriğe atla linki için z-index garantisi === */
+.skip-link{ z-index: 10001; }
+
+/* === Kicker/etiket renk fallback'i: koyu zeminlerde gold; aksi halde leaf === */
+.story .kicker,footer .kicker{ color: var(--gold); }

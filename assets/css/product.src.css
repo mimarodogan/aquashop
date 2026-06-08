@@ -1,0 +1,186 @@
+/* Zengin metin açıklama (admin Quill'den gelen HTML) */
+.prose h2{font-size:24px;margin:20px 0 10px;color:var(--ink);font-family:'Playfair Display',serif;font-weight:500}
+.prose h3{font-size:19px;margin:18px 0 8px;color:var(--ink);font-family:'Playfair Display',serif;font-weight:500}
+.prose h4{font-size:16px;margin:16px 0 6px;color:var(--ink);font-weight:600}
+.prose p{margin:0 0 14px}
+.prose ul,.prose ol{margin:8px 0 16px 22px;padding:0}
+.prose li{margin:6px 0}
+.prose blockquote{margin:18px 0;padding:12px 18px;border-left:3px solid var(--gold);background:var(--cream);color:var(--muted-text);font-style:italic;border-radius:0 var(--radius) var(--radius) 0}
+.prose a{color:var(--leaf);text-decoration:underline;text-underline-offset:3px}
+.prose a:hover{color:var(--gold)}
+.prose strong{font-weight:600;color:var(--ink)}
+.prose em{font-style:italic}
+.prose > *:last-child{margin-bottom:0}
+
+/* Ürün detay */
+.cart-actions{display:flex;gap:10px;align-items:center;margin-bottom:32px;flex-wrap:nowrap}
+.cart-actions .add-form{display:flex;gap:10px;align-items:center;flex:1;min-width:0}
+.cart-actions .add-btn{flex:1;height:52px;padding:0 18px;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;min-width:0}
+.cart-actions .pd-fav{flex:0 0 52px;width:52px;height:52px}
+
+.qty-stepper{display:inline-flex;align-items:center;border:1px solid var(--gold-border);border-radius:999px;padding:4px;background:transparent;height:52px;flex:0 0 auto}
+.qty-stepper input{width:54px;text-align:center;background:transparent;border:none;color:var(--champagne);font-size:16px;font-weight:600;outline:none;-moz-appearance:textfield}
+.qty-stepper input::-webkit-outer-spin-button,.qty-stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.qty-btn{width:36px;height:36px;border-radius:999px;background:transparent;border:none;color:var(--gold);font-size:20px;cursor:pointer;line-height:1;transition:all .15s}
+.qty-btn:hover{background:var(--cream);color:var(--ink)}
+.qty-stepper{transition:border-color var(--t)}
+.qty-stepper:focus-within{border-color:var(--gold)}
+
+.pd-fav{width:54px;height:54px;border-radius:999px;background:var(--olive-2);border:1px solid var(--gold-border);color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:all var(--t);box-shadow:var(--shadow-xs)}
+.pd-fav:hover{background:var(--cream);color:var(--gold);border-color:var(--gold)}
+.pd-fav.active{background:var(--gold);color:var(--on-dark);border-color:var(--gold)}
+.pd-fav svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.6}
+.pd-fav.active svg{fill:currentColor}
+
+.product-detail{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:start}
+.pd-image-col{display:flex;flex-direction:column;gap:14px}
+.pd-main{aspect-ratio:1;border-radius:var(--radius-lg);border:1px solid var(--gold-border);background:var(--cream);overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm)}
+.pd-main img{width:100%;height:100%;object-fit:cover}
+.pd-thumbs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.pd-thumb{aspect-ratio:1;border:1.5px solid var(--gold-border);border-radius:6px;overflow:hidden;background:transparent;cursor:pointer;padding:0;transition:border-color .15s}
+.pd-thumb:hover,.pd-thumb.active{border-color:var(--gold)}
+.pd-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+
+.pd-price-row{display:flex;align-items:baseline;flex-wrap:wrap;gap:14px;margin-bottom:8px}
+.pd-price{font-family:'Inter',sans-serif;color:var(--ink);font-size:32px;font-weight:600;line-height:1;letter-spacing:-.01em}
+.pd-oldprice{font-family:'Inter',sans-serif;color:var(--muted-text);font-size:20px;text-decoration:line-through;line-height:1;font-weight:400}
+.pd-discount{background:var(--gold);color:var(--on-dark);font-weight:600;font-size:12px;padding:5px 10px;border-radius:var(--radius-sm);letter-spacing:.06em}
+
+.pd-share{margin-top:28px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pd-share-btn{width:42px;height:42px;border-radius:999px;border:none;color:#fff;display:grid;place-items:center;cursor:pointer;transition:transform .15s,opacity .15s,box-shadow .15s;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.pd-share-btn:hover{transform:translateY(-3px) scale(1.08);opacity:.92;box-shadow:0 6px 18px rgba(0,0,0,.22)}
+.pd-share-btn:active{transform:scale(.95)}
+.pd-share-btn svg{width:18px;height:18px;display:block}
+/* Brand renkleri */
+.pd-share-btn[data-brand="whatsapp"]{background:#25D366}
+.pd-share-btn[data-brand="facebook"]{background:#1877F2}
+.pd-share-btn[data-brand="twitter-x"]{background:#000}
+.pd-share-btn[data-brand="linkedin"]{background:#0A66C2}
+.pd-share-btn[data-brand="email"]{background:#EA4335}
+.pd-share-btn[data-brand="copy"]{background:#555;color:#fff}
+
+/* SSS akordiyon */
+.pd-faqs{display:flex;flex-direction:column;gap:8px}
+.pd-faq{border:1px solid var(--gold-border);border-radius:var(--radius);background:var(--olive-2);overflow:hidden;transition:border-color var(--t)}
+.pd-faq[open]{border-color:var(--ink);box-shadow:var(--shadow-xs)}
+.pd-faq summary{
+  list-style:none;cursor:pointer;padding:18px 20px;
+  color:var(--ink);font-size:15px;font-weight:500;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  transition:color var(--t),background var(--t)
+}
+.pd-faq summary::-webkit-details-marker{display:none}
+.pd-faq summary::after{content:'+';color:var(--ink);font-size:22px;line-height:1;font-weight:300;transition:transform var(--t)}
+.pd-faq[open] summary::after{transform:rotate(45deg)}
+.pd-faq summary:hover{color:var(--gold);background:var(--cream)}
+.pd-faq-a{padding:0 20px 18px;color:var(--muted-text);font-size:14px;line-height:1.75;font-weight:400}
+
+/* Mağaza üst toolbar (Önerilen Sıralama / Filtrele) */
+.shop-toolbar{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--gold-border);border-radius:var(--radius);overflow:hidden;background:var(--olive-2);margin-top:8px;box-shadow:var(--shadow-xs)}
+.shop-tool{
+  background:transparent;border:none;color:var(--ink);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:16px 12px;font-size:13px;letter-spacing:.06em;font-weight:500;cursor:pointer;
+  transition:all var(--t);border-right:1px solid var(--gold-border);min-height:52px
+}
+.shop-tool:last-child{border-right:none}
+.shop-tool:hover{color:var(--gold);background:var(--cream)}
+.shop-tool svg{width:18px;height:18px;color:var(--ink);stroke-width:1.6}
+.shop-tool:hover svg{color:var(--gold)}
+.shop-tool .ft-badge{color:var(--gold);font-weight:600}
+
+/* Sıralama popup */
+.sort-pop{position:fixed;inset:0;z-index:1000;display:none;align-items:flex-end;justify-content:center;opacity:0;transition:opacity .25s}
+.sort-pop.show{display:flex}
+.sort-pop.show{opacity:1}
+.sort-pop-overlay{position:absolute;inset:0;background:rgba(20,20,20,.5);backdrop-filter:blur(4px)}
+.sort-pop-card{position:relative;background:var(--olive-2);border-top-left-radius:var(--radius-lg);border-top-right-radius:var(--radius-lg);width:100%;max-width:520px;padding:8px 0 14px;transform:translateY(20px);transition:transform var(--t);box-shadow:var(--shadow-lg)}
+.sort-pop.show .sort-pop-card{transform:translateY(0)}
+.sort-pop-head{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;font-family:'Playfair Display',serif;color:var(--ink);font-size:20px;font-weight:500;border-bottom:1px solid var(--gold-border)}
+.sort-pop-close{width:36px;height:36px;border-radius:999px;background:transparent;border:1px solid var(--gold-border);color:var(--ink);font-size:22px;cursor:pointer;transition:all var(--t)}
+.sort-pop-close:hover{background:var(--cream);border-color:var(--ink)}
+.sort-pop ul{list-style:none;padding:8px 0;margin:0}
+.sort-pop ul li a{display:block;padding:14px 24px;color:var(--champagne);font-size:14px;transition:all var(--t)}
+.sort-pop ul li a:hover{background:var(--cream);color:var(--gold)}
+.sort-pop ul li a.active{color:var(--gold);font-weight:600;background:rgba(107,122,47,.06)}
+
+@media (min-width:701px){
+  .sort-pop{align-items:center}
+  .sort-pop-card{border-radius:14px;max-width:420px}
+}
+
+/* Filtre drawer (sağdan açılan) */
+.filter-drawer{position:fixed;inset:0;z-index:1000;display:none;opacity:0;visibility:hidden;transition:opacity .25s}
+.filter-drawer.show{display:block}
+.filter-drawer.show{opacity:1;visibility:visible}
+.filter-drawer-overlay{position:absolute;inset:0;background:rgba(20,20,20,.5);backdrop-filter:blur(4px)}
+.filter-drawer-panel{
+  position:absolute;top:0;right:0;bottom:0;width:min(90%,420px);
+  background:var(--olive-2);
+  display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.8,.2,1);
+  box-shadow:var(--shadow-lg)
+}
+.filter-drawer.show .filter-drawer-panel{transform:translateX(0)}
+.filter-drawer-head{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--gold-border)}
+.filter-drawer-head h3{font-family:'Playfair Display',serif;color:var(--ink);font-size:22px;margin:0;font-weight:500}
+.filter-drawer-close{width:38px;height:38px;border-radius:999px;border:1px solid var(--gold-border);background:transparent;color:var(--ink);font-size:22px;cursor:pointer;transition:all var(--t)}
+.filter-drawer-close:hover{background:var(--cream);border-color:var(--ink)}
+.filter-drawer-body{flex:1;overflow-y:auto;padding:8px 20px 18px}
+.filter-drawer-foot{display:flex;gap:10px;padding:18px 20px;border-top:1px solid var(--gold-border);background:var(--olive)}
+
+.ft-section{padding:18px 0;border-bottom:1px solid var(--gold-border)}
+.ft-section:last-child{border-bottom:none}
+.ft-section h4{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);margin:0 0 12px;font-weight:600}
+.ft-section input[type=text],.ft-section input[type=number]{padding:11px 14px;background:var(--olive-2);border:1px solid var(--gold-border);border-radius:var(--radius);color:var(--ink);font-size:14px;width:100%;transition:all var(--t)}
+.ft-section input:focus{border-color:var(--gold);outline:none;box-shadow:0 0 0 3px rgba(107,122,47,.18)}
+.ft-radio,.ft-check{display:flex;align-items:center;gap:10px;padding:8px 0;color:var(--champagne);font-size:14px;cursor:pointer;transition:color var(--t)}
+.ft-radio:hover,.ft-check:hover{color:var(--gold)}
+.ft-radio em,.ft-check em{color:var(--muted-text);font-style:normal;font-size:12px;margin-left:4px}
+.ft-radio input,.ft-check input{accent-color:var(--gold);width:16px;height:16px;flex-shrink:0}
+.ft-pricerow{display:flex;gap:8px;align-items:center}
+.ft-pricerow input{flex:1}
+.ft-pricerow span{color:var(--muted-text)}
+.pd-info h2{margin:14px 0 18px;font-size:34px;line-height:1.2}
+.pd-info .lead{color:var(--muted-text);font-size:16px;line-height:1.7;margin-bottom:24px;font-weight:300}
+
+@media (max-width:700px){
+  .product-detail{grid-template-columns:1fr;gap:24px}
+  .pd-image img{object-fit:contain;background:var(--olive-2)}
+  .pd-info h2{font-size:24px;margin:8px 0 12px}
+  .pd-price{font-size:26px}
+  .cart-actions{gap:8px}
+  .cart-actions .add-btn{padding:0 10px;font-size:11px;letter-spacing:.16em}
+  .qty-stepper input{width:38px;font-size:15px}
+  .qty-btn{width:30px;height:30px;font-size:18px}
+  .qty-stepper{padding:3px}
+}
+
+/* Aktif filtre çipleri */
+.active-chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px}
+.active-chips .chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:999px;
+  background:rgba(107,122,47,.08);border:1px solid rgba(107,122,47,.3);
+  color:var(--leaf);font-size:12px;letter-spacing:.04em;font-weight:500;
+  text-decoration:none;transition:all var(--t)
+}
+.active-chips .chip:hover{background:var(--gold);color:var(--on-dark);border-color:var(--gold)}
+.active-chips .chip span{font-size:14px;line-height:1;opacity:.8}
+.active-chips .chip-clear{background:transparent;color:var(--muted-text);border-color:var(--gold-border)}
+.active-chips .chip-clear:hover{background:var(--ink);color:var(--on-dark);border-color:var(--ink)}
+
+/* Filtre listesi (kategori/marka uzun listeler) */
+.ft-list{display:flex;flex-direction:column;gap:2px;max-height:260px;overflow-y:auto;padding-right:4px}
+.ft-list::-webkit-scrollbar{width:6px}
+.ft-list::-webkit-scrollbar-thumb{background:var(--gold-border);border-radius:3px}
+
+/* details/summary akordiyon */
+details.ft-section{padding:14px 0;border-bottom:1px solid var(--gold-border)}
+details.ft-section[open]{padding-bottom:14px}
+details.ft-section summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 0 10px}
+details.ft-section summary::-webkit-details-marker{display:none}
+details.ft-section summary h4{margin:0;display:inline-flex;align-items:center;gap:6px}
+details.ft-section summary em{color:var(--gold);font-style:normal;font-size:11px;font-weight:600;text-transform:none;letter-spacing:0}
+details.ft-section summary::after{content:'+';color:var(--ink);font-size:20px;line-height:1;font-weight:300;transition:transform var(--t)}
+details.ft-section[open] summary::after{transform:rotate(45deg)}

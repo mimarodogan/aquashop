@@ -1,0 +1,132 @@
+/**
+ * Exit-Intent Modal Tetikleyici
+ * ─────────────────────────────
+ * - Desktop: mouseleave (üst kenardan çıkış)
+ * - Mobil:   scroll yukarı hızla (back-scroll), sayfayı kapatmaya hazırlık
+ * - Tek oturum: ilk tetiklemeden sonra kapanırsa session boyunca tekrar açılmaz
+ * - 30 gün: form gönderilirse cookie ile kalıcı olarak suskunlaşır (sunucu tarafında set ediliyor)
+ *
+ * AJAX endpoint: /ajax/exit-intent.php
+ */
+(function () {
+    'use strict';
+
+    var modal = document.getElementById('exit-modal');
+    if (!modal) return;
+
+    var form = document.getElementById('exit-modal-form');
+    var msg  = document.getElementById('exit-modal-msg');
+    var triggered = false;
+    var dismissedThisSession = false;
+
+    function openModal() {
+        if (triggered || dismissedThisSession) return;
+        if (document.cookie.indexOf('exit_intent_done=') !== -1) return;
+        triggered = true;
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        // İlk focusable elemente odaklan
+        var email = form.querySelector('input[type=email]');
+        if (email) setTimeout(function () { email.focus(); }, 100);
+        // ESC ile kapat
+        document.addEventListener('keydown', escClose);
+    }
+
+    function closeModal() {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        dismissedThisSession = true;
+        document.removeEventListener('keydown', escClose);
+    }
+
+    function escClose(e) {
+        if (e.key === 'Escape') closeModal();
+    }
+
+    // Kapat butonu + overlay click
+    modal.querySelectorAll('[data-exit-close]').forEach(function (b) {
+        b.addEventListener('click', closeModal);
+    });
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) closeModal();
+    });
+
+    // Form submit — AJAX
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var btn = form.querySelector('button[type=submit]');
+            if (btn) { btn.disabled = true; btn.textContent = 'Gönderiliyor...'; }
+            if (msg) { msg.hidden = true; msg.textContent = ''; msg.classList.remove('em-err'); }
+
+            var fd = new FormData(form);
+            fetch((window.__SITE_URL || '') + '/ajax/exit-intent.php', {
+                method: 'POST',
+                body: fd,
+                credentials: 'same-origin',
+            }).then(function (r) {
+                return r.json().catch(function () { return { ok: false, error: 'parse' }; });
+            }).then(function (data) {
+                if (data && data.ok) {
+                    if (msg) {
+                        msg.hidden = false;
+                        msg.innerHTML = '✓ Teşekkürler! Kupon kodunuz: '
+                            + '<strong style="font-family:monospace;font-size:16px;color:#1A1A1A">'
+                            + (data.coupon || '') + '</strong>'
+                            + '<br><small>Checkout sayfasında uygulayın.</small>';
+                    }
+                    if (form) form.style.display = 'none';
+                    if (window.toast) window.toast.success('Kuponunuz hazır!');
+                } else {
+                    if (msg) {
+                        msg.hidden = false;
+                        msg.classList.add('em-err');
+                        msg.textContent = data.error === 'invalid_email'
+                            ? 'Geçerli bir e-posta girin.'
+                            : (data.error === 'rate_limit'
+                                ? 'Çok fazla deneme — biraz bekleyin.'
+                                : 'Bir hata oluştu, lütfen tekrar deneyin.');
+                    }
+                    if (btn) { btn.disabled = false; btn.textContent = 'İndirim Kuponumu Al'; }
+                }
+            }).catch(function () {
+                if (msg) {
+                    msg.hidden = false;
+                    msg.classList.add('em-err');
+                    msg.textContent = 'Bağlantı hatası. Lütfen tekrar deneyin.';
+                }
+                if (btn) { btn.disabled = false; btn.textContent = 'İndirim Kuponumu Al'; }
+            });
+        });
+    }
+
+    // Tetikleyici: mouseleave (desktop)
+    var lastScrollY = window.scrollY;
+    var quickScrollUpCount = 0;
+
+    function onMouseLeave(e) {
+        // Sadece sayfanın üstünden çıkış
+        if (e.clientY <= 5) openModal();
+    }
+
+    function onScroll() {
+        var y = window.scrollY;
+        var diff = lastScrollY - y;
+        // Mobil heuristic: kullanıcı 200px+ hızlı yukarı kaydırırsa
+        if (diff > 200 && y < 300) {
+            quickScrollUpCount++;
+            if (quickScrollUpCount >= 1) openModal();
+        }
+        lastScrollY = y;
+    }
+
+    // Kullanıcı sayfada en az 15 sn geçirdiyse tetikleyicileri aktive et
+    // (Hemen gelen ziyaretçiye saldırgan görünmesin)
+    setTimeout(function () {
+        if (window.matchMedia && window.matchMedia('(pointer: fine)').matches) {
+            document.documentElement.addEventListener('mouseleave', onMouseLeave);
+        } else {
+            window.addEventListener('scroll', onScroll, { passive: true });
+        }
+    }, 15000);
+})();

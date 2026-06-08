@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yeni Eklenen Özellikler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
+:root { --bg: #faf7ee; --panel: #ffffff; --ink: #2d2d2d; --muted: #6b7560; --olive: #4a5a2a; --olive-dark: #2d3a18; --gold: #b8956a; --gold-light: #d4b88c; --border: #e8dfc8; --code-bg: #f4eedd; --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(74,90,42,.04); --radius: 8px; --hl: #fff8e5; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; font-size: 15px; line-height: 1.7; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+.layout { display: grid; grid-template-columns: 280px 1fr; max-width: 1400px; margin: 0 auto; gap: 0; min-height: 100vh; }
+.toc { border-right: 1px solid var(--border); background: rgba(255,255,255,.6); position: relative; }
+.toc-inner { position: sticky; top: 0; max-height: 100vh; overflow-y: auto; padding: 32px 24px; }
+.toc-title { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin: 0 0 16px; font-weight: 600; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+.toc ol { list-style: none; margin: 0; padding: 0; }
+.toc li { margin: 0; }
+.toc a { display: block; padding: 6px 12px; color: var(--muted); text-decoration: none; border-left: 2px solid transparent; font-size: 13px; line-height: 1.4; transition: all .15s ease; }
+.toc a:hover { color: var(--olive); background: var(--hl); border-left-color: var(--gold); }
+.toc .lvl-1 > a { font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--olive-dark); margin-top: 16px; padding-left: 8px; }
+.toc .lvl-2 > a { padding-left: 20px; font-weight: 500; }
+.toc .lvl-3 > a { padding-left: 32px; font-size: 12px; }
+.toc a.active { color: var(--olive-dark); background: var(--hl); border-left-color: var(--gold); font-weight: 600; }
+.main { padding: 48px 64px; max-width: 920px; }
+.doc-hero { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 2px solid var(--border); }
+.doc-hero h1 { margin: 0 0 12px; font-size: 36px; font-family: 'Playfair Display', Georgia, serif; color: var(--olive-dark); letter-spacing: -.5px; line-height: 1.1; }
+.doc-hero .meta { color: var(--muted); font-size: 13px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); text-decoration: none; font-size: 13px; margin-bottom: 24px; padding: 6px 12px; border-radius: 6px; background: rgba(255,255,255,.5); border: 1px solid var(--border); transition: all .15s ease; }
+.back-link:hover { color: var(--olive-dark); background: var(--hl); border-color: var(--gold-light); }
+h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', Georgia, serif; color: var(--olive-dark); line-height: 1.25; scroll-margin-top: 24px; font-weight: 600; }
+h1 { font-size: 32px; margin: 56px 0 16px; padding-bottom: 12px; border-bottom: 2px solid var(--gold-light); }
+h2 { font-size: 26px; margin: 48px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+h3 { font-size: 21px; margin: 36px 0 12px; }
+h4 { font-size: 17px; margin: 24px 0 10px; color: var(--olive); }
+h5, h6 { font-size: 15px; margin: 18px 0 8px; color: var(--olive); }
+.anchor { opacity: 0; margin-left: 8px; text-decoration: none; color: var(--gold); font-weight: 400; transition: opacity .15s ease; }
+h1:hover .anchor, h2:hover .anchor, h3:hover .anchor, h4:hover .anchor { opacity: 1; }
+p { margin: 12px 0; }
+a { color: var(--olive); text-decoration: underline; text-decoration-color: var(--gold-light); text-underline-offset: 3px; }
+a:hover { color: var(--olive-dark); text-decoration-color: var(--gold); }
+strong { font-weight: 700; color: var(--olive-dark); }
+em { color: var(--olive); }
+ul, ol { padding-left: 24px; margin: 12px 0; }
+li { margin: 6px 0; }
+li.task { list-style: none; margin-left: -24px; padding-left: 4px; }
+li.task input[type=checkbox] { margin-right: 8px; transform: scale(1.1); accent-color: var(--olive); }
+code { background: var(--code-bg); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', 'SF Mono', Menlo, Monaco, Consolas, monospace; font-size: .88em; color: var(--olive-dark); }
+pre { background: var(--olive-dark); color: #f4eedd; padding: 20px 24px; border-radius: var(--radius); overflow-x: auto; margin: 18px 0; font-size: 13px; line-height: 1.6; }
+pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
+.table-wrap { overflow-x: auto; margin: 20px 0; border-radius: var(--radius); border: 1px solid var(--border); background: var(--panel); box-shadow: var(--shadow); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+thead { background: var(--olive-dark); color: #faf7ee; }
+th { padding: 12px 16px; text-align: left; font-weight: 600; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; white-space: nowrap; }
+td { padding: 12px 16px; border-top: 1px solid var(--border); vertical-align: top; }
+tbody tr:hover { background: var(--hl); }
+tbody tr:nth-child(even) { background: rgba(232, 223, 200, .15); }
+blockquote { border-left: 4px solid var(--gold); background: var(--hl); padding: 14px 20px; margin: 18px 0; color: var(--olive-dark); border-radius: 0 var(--radius) var(--radius) 0; font-style: italic; }
+blockquote p { margin: 0; }
+hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+@media print { .toc, .anchor, .back-link { display: none; } .layout { grid-template-columns: 1fr; } .main { padding: 0; max-width: 100%; } body { font-size: 11pt; background: white; } h1, h2, h3 { break-after: avoid; } pre, table, blockquote { break-inside: avoid; } a { color: #000; text-decoration: none; } }
+@media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .toc { border-right: none; border-bottom: 1px solid var(--border); } .toc-inner { position: relative; max-height: 220px; padding: 16px; } .main { padding: 24px 20px; } .doc-hero h1 { font-size: 26px; } h1 { font-size: 24px; } h2 { font-size: 20px; } h3 { font-size: 17px; } }
+.back-to-top { position: fixed; bottom: 24px; right: 24px; width: 44px; height: 44px; background: var(--olive-dark); color: #faf7ee; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: var(--shadow); font-size: 20px; opacity: 0; visibility: hidden; transition: opacity .2s ease, transform .2s ease; z-index: 100; }
+.back-to-top.visible { opacity: 1; visibility: visible; }
+.back-to-top:hover { transform: translateY(-2px); background: var(--olive); }
+
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="toc"><div class="toc-inner"><h2 class="toc-title">İçindekiler</h2><ol>
+<li class="lvl-1"><a href="#aquashop-yönetim-paneli-kullanım-kılavuzu">📘 AQUASHOP — Yönetim Paneli Kullanım Kılavuzu</a></li>
+<li class="lvl-2"><a href="#1-başlarken-ilk-kurulum-sırası">1) Başlarken: İlk Kurulum Sırası</a></li>
+<li class="lvl-3"><a href="#adım-1-sql-migrationlarını-çalıştırın">Adım 1: SQL Migration'larını Çalıştırın</a></li>
+<li class="lvl-3"><a href="#adım-2-admin-panel-ayarlar">Adım 2: Admin Panel → Ayarlar</a></li>
+<li class="lvl-3"><a href="#adım-3-cron-jobları-kur">Adım 3: Cron Job'ları Kur</a></li>
+<li class="lvl-2"><a href="#2-faz-0-analitik-ölçüm">2) Faz 0 — Analitik &amp; Ölçüm</a></li>
+<li class="lvl-3"><a href="#21-google-analytics-4-ga4">2.1 Google Analytics 4 (GA4)</a></li>
+<li class="lvl-3"><a href="#22-google-tag-manager-gtm-opsiyonel">2.2 Google Tag Manager (GTM) — Opsiyonel</a></li>
+<li class="lvl-3"><a href="#23-meta-facebook-pixel">2.3 Meta (Facebook) Pixel</a></li>
+<li class="lvl-3"><a href="#24-meta-conversion-api-capi-önerilir">2.4 Meta Conversion API (CAPI) — Önerilir</a></li>
+<li class="lvl-3"><a href="#25-microsoft-clarity-opsiyonel-ama-çok-yararlı">2.5 Microsoft Clarity — Opsiyonel ama Çok Yararlı</a></li>
+<li class="lvl-3"><a href="#26-kvkk-uyumlu-cookie-onay">2.6 KVKK Uyumlu Cookie Onay</a></li>
+<li class="lvl-3"><a href="#27-sunucu-tarafı-sayfa-görüntüleme-takibi">2.7 Sunucu Tarafı Sayfa Görüntüleme Takibi</a></li>
+<li class="lvl-3"><a href="#28-dashboardda-raporlar">2.8 Dashboard'da Raporlar</a></li>
+<li class="lvl-2"><a href="#3-faz-1-dönüşüm-artırıcı-özellikler">3) Faz 1 — Dönüşüm Artırıcı Özellikler</a></li>
+<li class="lvl-3"><a href="#31-sadece-n-tane-kaldı-rozeti">3.1 "Sadece N Tane Kaldı" Rozeti</a></li>
+<li class="lvl-3"><a href="#32-sosyal-kanıt-son-24-saatte-x-satıldı">3.2 Sosyal Kanıt: "Son 24 Saatte X Satıldı"</a></li>
+<li class="lvl-3"><a href="#33-ücretsiz-kargo-progress-bar">3.3 Ücretsiz Kargo Progress Bar</a></li>
+<li class="lvl-3"><a href="#34-bunlarla-harika-gider-cross-sell">3.4 "Bunlarla Harika Gider" (Cross-Sell)</a></li>
+<li class="lvl-3"><a href="#35-sepet-terk-email-akışı">3.5 Sepet Terk Email Akışı</a></li>
+<li class="lvl-3"><a href="#36-exit-intent-kupon-modal">3.6 Exit-Intent Kupon Modal</a></li>
+<li class="lvl-2"><a href="#4-faz-2-operasyon-otomasyonu">4) Faz 2 — Operasyon Otomasyonu</a></li>
+<li class="lvl-3"><a href="#41-sms-bildirimleri">4.1 SMS Bildirimleri</a></li>
+<li class="lvl-3"><a href="#42-toplu-sipariş-işlemleri">4.2 Toplu Sipariş İşlemleri</a></li>
+<li class="lvl-3"><a href="#43-müşteri-360-görünüm">4.3 Müşteri 360° Görünüm</a></li>
+<li class="lvl-3"><a href="#44-toplu-csv-ürünfiyatstok-güncelleme">4.4 Toplu CSV Ürün/Fiyat/Stok Güncelleme</a></li>
+<li class="lvl-3"><a href="#45-düşük-stok-admin-uyarısı">4.5 Düşük Stok Admin Uyarısı</a></li>
+<li class="lvl-2"><a href="#5-faz-3-seo-görünürlük">5) Faz 3 — SEO &amp; Görünürlük</a></li>
+<li class="lvl-3"><a href="#51-breadcrumb-yol-izi">5.1 Breadcrumb (Yol İzi)</a></li>
+<li class="lvl-3"><a href="#52-sosyal-paylaşım-butonları">5.2 Sosyal Paylaşım Butonları</a></li>
+<li class="lvl-3"><a href="#53-sitemap-index-formatı">5.3 Sitemap (Index Formatı)</a></li>
+<li class="lvl-3"><a href="#54-faq-accordion-pdpde">5.4 FAQ Accordion (PDP'de)</a></li>
+<li class="lvl-2"><a href="#6-faz-4-sadakat-programı-puan">6) Faz 4 — Sadakat Programı (Puan)</a></li>
+<li class="lvl-3"><a href="#61-puan-sistemi">6.1 Puan Sistemi</a></li>
+<li class="lvl-3"><a href="#62-müşteri-sayfasında-puan-paneli">6.2 Müşteri Sayfasında Puan Paneli</a></li>
+<li class="lvl-3"><a href="#63-doğum-günü-kuponu">6.3 Doğum Günü Kuponu</a></li>
+<li class="lvl-3"><a href="#64-otomatik-müşteri-seviye-güncelleme">6.4 Otomatik Müşteri Seviye Güncelleme</a></li>
+<li class="lvl-3"><a href="#65-puan-expire-cron">6.5 Puan Expire Cron</a></li>
+<li class="lvl-2"><a href="#7-faz-5-modernleşmiş-admin-panel">7) Faz 5 — Modernleşmiş Admin Panel</a></li>
+<li class="lvl-3"><a href="#71-komuta-merkezi-yeni-dashboard">7.1 Komuta Merkezi (Yeni Dashboard)</a></li>
+<li class="lvl-3"><a href="#72-yenilenmiş-ayarlar-sayfası-hub">7.2 Yenilenmiş Ayarlar Sayfası (Hub)</a></li>
+<li class="lvl-3"><a href="#73-tema-görsel">7.3 Tema (Görsel)</a></li>
+<li class="lvl-3"><a href="#74-sql-migration-yöneticisi">7.4 SQL Migration Yöneticisi</a></li>
+<li class="lvl-3"><a href="#75-admin-hata-sayfası">7.5 Admin Hata Sayfası</a></li>
+<li class="lvl-2"><a href="#8-faz-67-2026-trendleri">8) Faz 6/7 — 2026 Trendleri</a></li>
+<li class="lvl-3"><a href="#81-çok-satanlar">8.1 Çok Satanlar</a></li>
+<li class="lvl-3"><a href="#82-son-görüntülenenler">8.2 Son Görüntülenenler</a></li>
+<li class="lvl-3"><a href="#83-ürün-karşılaştırma">8.3 Ürün Karşılaştırma</a></li>
+<li class="lvl-3"><a href="#84-favorilerekayıt-edilenlere-ekle">8.4 Favorilere/Kayıt Edilenlere Ekle</a></li>
+<li class="lvl-3"><a href="#85-sepet-rezervasyonu-stok-tutma">8.5 Sepet Rezervasyonu (Stok Tutma)</a></li>
+<li class="lvl-3"><a href="#86-qa-skeleton-soru-cevap-eksik">8.6 Q&amp;A Skeleton (Soru-Cevap) — Eksik</a></li>
+<li class="lvl-3"><a href="#87-fotovideo-yorumları-eksik">8.7 Foto/Video Yorumları — Eksik</a></li>
+<li class="lvl-3"><a href="#88-hediye-paketleme-order">8.8 Hediye Paketleme (Order)</a></li>
+<li class="lvl-2"><a href="#9-cron-job-listesi-otomatik-görevler">9) Cron Job Listesi (Otomatik Görevler)</a></li>
+<li class="lvl-2"><a href="#10-hızlı-sorun-giderme-sss">10) Hızlı Sorun Giderme (SSS)</a></li>
+<li class="lvl-3"><a href="#sepet-sayfası-mobilde-bozuk-görünüyor">"Sepet sayfası mobilde bozuk görünüyor"</a></li>
+<li class="lvl-3"><a href="#analitik-veri-gelmiyor">"Analitik veri gelmiyor"</a></li>
+<li class="lvl-3"><a href="#sms-gitmedi">"SMS gitmedi"</a></li>
+<li class="lvl-3"><a href="#sildiğim-ürün-hala-görünüyor">"Sildiğim ürün hala görünüyor"</a></li>
+<li class="lvl-3"><a href="#cron-çalışmıyor">"Cron çalışmıyor"</a></li>
+<li class="lvl-3"><a href="#migration-güvenlik-analizinde-uyari-çıktı">"Migration güvenlik analizinde UYARI çıktı"</a></li>
+<li class="lvl-3"><a href="#hangi-dosyaları-yüklemem-gerek">"Hangi dosyaları yüklemem gerek?"</a></li>
+<li class="lvl-2"><a href="#yardım-geliştirme-talebi">📞 Yardım / Geliştirme Talebi</a></li>
+</ol></div></nav>
+<main class="main">
+<a href="index.html" class="back-link">← Dokümantasyon Ana Sayfa</a>
+<div class="doc-hero">
+<h1>Yeni Eklenen Özellikler</h1>
+<div class="meta">Faz 0 → Faz 7 · Versiyon 1.0</div>
+</div>
+<h1 id="aquashop-yönetim-paneli-kullanım-kılavuzu">📘 AQUASHOP — Yönetim Paneli Kullanım Kılavuzu <a class="anchor" href="#aquashop-yönetim-paneli-kullanım-kılavuzu">¶</a></h1>
+<blockquote>Bu kılavuz, sitenize eklenen tüm yeni özelliklerin <strong>ne işe yaradığını</strong>, <strong>nasıl ayarlanacağını</strong> ve <strong>müşterinin nasıl gördüğünü</strong> açıklar. Teknik bilgi gerektirmez.</blockquote>
+<hr>
+<h2 id="1-başlarken-ilk-kurulum-sırası">1) Başlarken: İlk Kurulum Sırası <a class="anchor" href="#1-başlarken-ilk-kurulum-sırası">¶</a></h2>
+<p>Yeni bir özellik aktive etmeden önce <strong>bu sıra</strong>yı takip edin:</p>
+<h3 id="adım-1-sql-migrationlarını-çalıştırın">Adım 1: SQL Migration'larını Çalıştırın <a class="anchor" href="#adım-1-sql-migrationlarını-çalıştırın">¶</a></h3>
+<p><strong>Admin → Araçlar → SQL Migration Yöneticisi</strong> (<code>/admin_panel/tools/migrations.php</code>)</p>
+<ul>
+<li>Bekleyen tüm migration'ları sırayla "Çalıştır" tuşuna basın</li>
+<li>Güvenlik analizi açılırsa, görüntü kontrol edip onaylayın</li>
+<li>Bütün satırlar yeşil olduğunda devam edin</li>
+</ul>
+<h3 id="adım-2-admin-panel-ayarlar">Adım 2: Admin Panel → Ayarlar <a class="anchor" href="#adım-2-admin-panel-ayarlar">¶</a></h3>
+<p>Hangi özellikleri kullanacaksanız, sırasıyla aşağıdaki bölümlere gidip değerleri girin:</p>
+<ul>
+<li>📊 <strong>Analitik &amp; Ölçüm</strong> (Faz 0)</li>
+<li>📱 <strong>SMS Bildirimleri</strong> (Faz 2)</li>
+<li>🏆 <strong>Sadakat Programı</strong> (Faz 4)</li>
+<li>🚚 <strong>Kargo Ayarları</strong> (ücretsiz kargo eşiği)</li>
+</ul>
+<h3 id="adım-3-cron-jobları-kur">Adım 3: Cron Job'ları Kur <a class="anchor" href="#adım-3-cron-jobları-kur">¶</a></h3>
+<p>cPanel → Cron Jobs üzerinden 9. bölümdeki listeyi ekleyin.</p>
+<hr>
+<h2 id="2-faz-0-analitik-ölçüm">2) Faz 0 — Analitik &amp; Ölçüm <a class="anchor" href="#2-faz-0-analitik-ölçüm">¶</a></h2>
+<h3 id="21-google-analytics-4-ga4">2.1 Google Analytics 4 (GA4) <a class="anchor" href="#21-google-analytics-4-ga4">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Sitenizdeki her tıklama, görüntüleme, satışı Google'a gönderir. Hangi ürün satıyor, müşteri nereden geliyor, sepete ekleyip terk eden kim — hepsini görürsünüz.</p>
+<p><strong>Nasıl ayarlanır:</strong></p>
+<ol>
+<li>https://analytics.google.com → Yeni özellik oluştur</li>
+<li>"Measurement ID" değerini kopyalayın (G-XXXXXXXXXX formatında)</li>
+<li><strong>Admin → Ayarlar → Analitik &amp; Ölçüm</strong> → "GA4 Measurement ID" alanına yapıştırın</li>
+<li>"Analitik aktif" kutusunu işaretleyin → <strong>Kaydet</strong></li>
+</ol>
+<p><strong>Otomatik gönderilen olaylar:</strong></p>
+<ul>
+<li><code>view_item</code> — Ürün sayfası açıldığında</li>
+<li><code>view_item_list</code> — Kategori/liste görüntülendiğinde</li>
+<li><code>add_to_cart</code> — Sepete eklendiğinde</li>
+<li><code>view_cart</code> — Sepet açıldığında</li>
+<li><code>begin_checkout</code> — Ödeme adımı başladığında</li>
+<li><code>purchase</code> — Sipariş tamamlandığında</li>
+</ul>
+<p><strong>Test:</strong> GA4 → "DebugView" → telefonla bir ürünü sepete atın, anında görmeli.</p>
+<hr>
+<h3 id="22-google-tag-manager-gtm-opsiyonel">2.2 Google Tag Manager (GTM) — Opsiyonel <a class="anchor" href="#22-google-tag-manager-gtm-opsiyonel">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Tek bir container ile GA4 + Pixel + Clarity + diğer tracker'ları yönetir.</p>
+<p><strong>Nasıl ayarlanır:</strong></p>
+<ol>
+<li>https://tagmanager.google.com → Container oluştur</li>
+<li>ID'yi kopyalayın (GTM-XXXXXXX)</li>
+<li><strong>Ayarlar → Analitik</strong> → "GTM Container ID" alanına yapıştırın</li>
+<li><strong>Kaydet</strong></li>
+</ol>
+<blockquote>⚠️ GTM kullanıyorsanız GA4 ve Pixel'i de <strong>GTM içine</strong> kurun. Hem bizim sistem hem GTM göndermesin (çift sayım olur).</blockquote>
+<hr>
+<h3 id="23-meta-facebook-pixel">2.3 Meta (Facebook) Pixel <a class="anchor" href="#23-meta-facebook-pixel">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Reklam yapacaksanız, Meta'nın hangi reklamın satış getirdiğini anlamasını sağlar.</p>
+<p><strong>Nasıl ayarlanır:</strong></p>
+<ol>
+<li>https://business.facebook.com → Events Manager → Pixel oluştur</li>
+<li>16 haneli Pixel ID'yi kopyalayın</li>
+<li><strong>Ayarlar → Analitik</strong> → "Meta Pixel ID" alanına yapıştırın → <strong>Kaydet</strong></li>
+</ol>
+<hr>
+<h3 id="24-meta-conversion-api-capi-önerilir">2.4 Meta Conversion API (CAPI) — Önerilir <a class="anchor" href="#24-meta-conversion-api-capi-önerilir">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> iOS 14+ kullanıcılarında Pixel takip yapamayınca, <strong>sunucudan</strong> Meta'ya satış bildirir. Kayıp dönüşümleri kurtarır.</p>
+<p><strong>Nasıl ayarlanır:</strong></p>
+<ol>
+<li>Events Manager → Pixel ayarları → "Conversions API" sekmesi</li>
+<li>"Access Token" oluştur, kopyala</li>
+<li><strong>Ayarlar → Analitik</strong> → "Meta CAPI Token" alanına yapıştırın</li>
+<li>"CAPI aktif" kutusunu işaretleyin → <strong>Kaydet</strong></li>
+</ol>
+<blockquote>Test için Events Manager'da "Test Events" sekmesini kullanın.</blockquote>
+<hr>
+<h3 id="25-microsoft-clarity-opsiyonel-ama-çok-yararlı">2.5 Microsoft Clarity — Opsiyonel ama Çok Yararlı <a class="anchor" href="#25-microsoft-clarity-opsiyonel-ama-çok-yararlı">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Tamamen <strong>ücretsiz</strong> ısı haritası + oturum kayıt. Müşterinin sayfada nereye tıkladığını <strong>video gibi</strong> izlersiniz.</p>
+<p><strong>Nasıl ayarlanır:</strong></p>
+<ol>
+<li>https://clarity.microsoft.com → Yeni proje oluştur</li>
+<li>Project ID'yi kopyalayın</li>
+<li><strong>Ayarlar → Analitik</strong> → "Clarity Project ID" alanına yapıştırın → <strong>Kaydet</strong></li>
+</ol>
+<hr>
+<h3 id="26-kvkk-uyumlu-cookie-onay">2.6 KVKK Uyumlu Cookie Onay <a class="anchor" href="#26-kvkk-uyumlu-cookie-onay">¶</a></h3>
+<p><strong>Otomatik:</strong> Tüm tracker'lar yalnızca kullanıcı çerezleri kabul edince yüklenir. Reddederse hiçbir takip yapılmaz. Google Consent Mode v2 standardı.</p>
+<p><strong>Müşteri görünümü:</strong> İlk ziyarette sayfa alt köşesinde "Çerez tercihleri" kutusu.</p>
+<hr>
+<h3 id="27-sunucu-tarafı-sayfa-görüntüleme-takibi">2.7 Sunucu Tarafı Sayfa Görüntüleme Takibi <a class="anchor" href="#27-sunucu-tarafı-sayfa-görüntüleme-takibi">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> GA4 dışında, <strong>bot filtreli</strong> kendi sayfa görüntüleme tablonuz. Bu sayede sunucu tarafında "en çok izlenen ürün" listesi yapılabilir.</p>
+<p><strong>Otomatik:</strong> Hiçbir ayar gerekmez. Arka planda çalışır.</p>
+<hr>
+<h3 id="28-dashboardda-raporlar">2.8 Dashboard'da Raporlar <a class="anchor" href="#28-dashboardda-raporlar">¶</a></h3>
+<p><strong>Nerede:</strong> Admin → Dashboard</p>
+<p>Otomatik gösterilen KPI'lar:</p>
+<ul>
+<li>Bugün / 7 gün / 30 gün ciro karşılaştırması</li>
+<li>Ortalama sepet (AOV)</li>
+<li>Dönüşüm oranı</li>
+<li>Sepet terk oranı</li>
+<li>Top 10 ürün</li>
+<li>Ödeme yöntemi dağılımı</li>
+<li>Kupon performansı</li>
+</ul>
+<p><strong>Detaylı raporlar:</strong> Admin → Raporlar</p>
+<ul>
+<li>Satış Raporu (<code>/admin_panel/reports/sales.php</code>)</li>
+<li>Ürün Performansı (<code>/admin_panel/reports/products.php</code>)</li>
+<li>Kupon Raporu (<code>/admin_panel/reports/coupons.php</code>)</li>
+</ul>
+<p>Hepsi tarih aralığı seçilebilir + CSV dışa aktarım yapılabilir.</p>
+<hr>
+<h2 id="3-faz-1-dönüşüm-artırıcı-özellikler">3) Faz 1 — Dönüşüm Artırıcı Özellikler <a class="anchor" href="#3-faz-1-dönüşüm-artırıcı-özellikler">¶</a></h2>
+<h3 id="31-sadece-n-tane-kaldı-rozeti">3.1 "Sadece N Tane Kaldı" Rozeti <a class="anchor" href="#31-sadece-n-tane-kaldı-rozeti">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Stok azaldığında müşteriye kıtlık hissi verir.</p>
+<p><strong>Nerede görünür:</strong> Ürün detay sayfası + ürün listeleme kartları.</p>
+<p><strong>Ayar:</strong> <strong>Ayarlar → Stok Uyarısı</strong> → "Düşük Stok Eşiği" (varsayılan 5).</p>
+<p><strong>Akıllı davranış:</strong> Varyasyonlu ürünlerde her varyasyon kendi stoğuna göre rozeti gösterir.</p>
+<hr>
+<h3 id="32-sosyal-kanıt-son-24-saatte-x-satıldı">3.2 Sosyal Kanıt: "Son 24 Saatte X Satıldı" <a class="anchor" href="#32-sosyal-kanıt-son-24-saatte-x-satıldı">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> "🔥 Son 24 saatte 12 satıldı · 👁 Şu an 8 kişi inceliyor" mesajı gösterir. Güven artırır.</p>
+<p><strong>Nerede görünür:</strong> Ürün detay sayfasında başlığın altında.</p>
+<p><strong>Otomatik eşik:</strong> Çok az satış varsa hiç göstermez (komik düşmesin diye).</p>
+<p><strong>Ayar:</strong> Otomatik, ayar gerekmez. Şu eşikleri kullanır:</p>
+<ul>
+<li>En az 3 satış → "X satıldı" gösterir</li>
+<li>En az 2 aktif görüntüleyici → "Y kişi inceliyor" gösterir</li>
+</ul>
+<hr>
+<h3 id="33-ücretsiz-kargo-progress-bar">3.3 Ücretsiz Kargo Progress Bar <a class="anchor" href="#33-ücretsiz-kargo-progress-bar">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Sepet açıldığında "Ücretsiz kargoya 45₺ kaldı" çubuğu gösterir. Müşteri eşiği geçmek için bir ürün daha eklemek ister.</p>
+<p><strong>Nerede görünür:</strong> Sepet sayfasının en üstü.</p>
+<p><strong>Ayar:</strong> <strong>Ayarlar → Kargo</strong> → "Ücretsiz Kargo Eşiği" (₺ cinsinden).</p>
+<hr>
+<h3 id="34-bunlarla-harika-gider-cross-sell">3.4 "Bunlarla Harika Gider" (Cross-Sell) <a class="anchor" href="#34-bunlarla-harika-gider-cross-sell">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Gerçek satış verisinden öğrenir. "X alanların %40'ı Y'yi de almış" mantığı (collaborative filtering).</p>
+<p><strong>Nerede görünür:</strong> Sepet sayfasının altında 4'lü grid.</p>
+<p><strong>Otomatik:</strong> Sipariş geçmişi olduğunda çalışır. Az veri varsa "Çok Satanlar" gösterir.</p>
+<hr>
+<h3 id="35-sepet-terk-email-akışı">3.5 Sepet Terk Email Akışı <a class="anchor" href="#35-sepet-terk-email-akışı">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Müşteri sepete ürün eklemiş ama satın almamışsa, <strong>3 aşamalı email</strong> gönderir:</p>
+<ul>
+<li><strong>24 saat sonra:</strong> "Sepetinizi unuttunuz mu?" (hatırlatma)</li>
+<li><strong>72 saat sonra:</strong> "Size özel %5 indirim kuponu" (otomatik kupon)</li>
+<li><strong>7 gün sonra:</strong> "Son şans!" (final mesaj)</li>
+</ul>
+<p><strong>Ayar:</strong> Cron job'u kurun (Bölüm 9). Email şablonları <code>includes/order_mailer.php</code> içinde, düzenleyebilirsiniz.</p>
+<p><strong>Müşteri kapsamı:</strong> Sadece <strong>üye olan</strong> müşterilere gider (email biliyoruz).</p>
+<hr>
+<h3 id="36-exit-intent-kupon-modal">3.6 Exit-Intent Kupon Modal <a class="anchor" href="#36-exit-intent-kupon-modal">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Misafir kullanıcı sayfadan ayrılmak üzereyken (fareyi yukarı çekince veya geri tuşuna basınca) "Size özel %5 indirim" pop-up'ı çıkar.</p>
+<p><strong>Kurallar:</strong></p>
+<ul>
+<li>Sadece <strong>misafir</strong> (üye olmayan) kullanıcıya gösterilir</li>
+<li>Sayfada en az <strong>15 saniye</strong> geçmiş olmalı</li>
+<li><strong>30 günde 1 kez</strong> gösterilir (cookie ile)</li>
+<li>Mobile'da scroll-back (yukarı kaydırma) ile tetiklenir</li>
+</ul>
+<p><strong>Ayar:</strong> <strong>Ayarlar → Pazarlama</strong> → "Exit-intent kupon aktif" + kupon kodu seç.</p>
+<hr>
+<h2 id="4-faz-2-operasyon-otomasyonu">4) Faz 2 — Operasyon Otomasyonu <a class="anchor" href="#4-faz-2-operasyon-otomasyonu">¶</a></h2>
+<h3 id="41-sms-bildirimleri">4.1 SMS Bildirimleri <a class="anchor" href="#41-sms-bildirimleri">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Müşteriye sipariş onayı, kargo çıkış, teslim SMS'i otomatik gider.</p>
+<p><strong>Nasıl ayarlanır:</strong></p>
+<ol>
+<li><strong>NetGSM</strong> veya <strong>İletiMerkezi</strong>'den hesap açın</li>
+<li>Onaylı gönderen başlığınız hazır olmalı (örn: "AQUASHOP")</li>
+<li><strong>Ayarlar → SMS Bildirimleri:</strong></li>
+</ol>
+<ul>
+<li>Sağlayıcı seç (NetGSM / İletiMerkezi)</li>
+<li>API kullanıcı adı / şifre</li>
+<li>Onaylı başlık</li>
+<li>"SMS aktif" işaretle → <strong>Kaydet</strong></li>
+</ul>
+<p><strong>Otomatik gönderilen mesajlar:</strong></p>
+<ul>
+<li>Sipariş onaylandığında → "Siparişiniz alındı"</li>
+<li>Kargoya verildiğinde → "Siparişiniz kargoda, takip no: XYZ"</li>
+<li>Teslim edildiğinde → "Siparişiniz teslim edildi"</li>
+</ul>
+<p><strong>SMS Log:</strong> Admin → Bildirim Logları → SMS Log (tüm gönderiler buradan görülür).</p>
+<hr>
+<h3 id="42-toplu-sipariş-işlemleri">4.2 Toplu Sipariş İşlemleri <a class="anchor" href="#42-toplu-sipariş-işlemleri">¶</a></h3>
+<p><strong>Nerede:</strong> Admin → Siparişler</p>
+<p><strong>Ne işe yarar:</strong> Birden fazla siparişi seçip aynı anda:</p>
+<ul>
+<li>Toplu kargoya ver</li>
+<li>Toplu teslim işaretle</li>
+<li>Toplu iptal et</li>
+<li>Toplu onay maili tekrar gönder</li>
+</ul>
+<p><strong>Nasıl kullanılır:</strong> Sol checkbox'ları seçin → üstteki "Toplu İşlem" menüsünden eylem seçin.</p>
+<hr>
+<h3 id="43-müşteri-360-görünüm">4.3 Müşteri 360° Görünüm <a class="anchor" href="#43-müşteri-360-görünüm">¶</a></h3>
+<p><strong>Nerede:</strong> Admin → Müşteriler → bir müşteriye tıkla</p>
+<p><strong>Gösterilenler:</strong></p>
+<ul>
+<li>LTV (toplam harcadığı tutar)</li>
+<li>Tüm sipariş geçmişi</li>
+<li>Yorumları</li>
+<li>Favorileri</li>
+<li>Adresleri</li>
+<li>Kullandığı kuponlar</li>
+<li>Puan bakiyesi + hareket geçmişi</li>
+<li>Sadakat seviyesi (Yeni / Sadık / VIP)</li>
+</ul>
+<p><strong>Kullanım:</strong> VIP müşteriye özel kampanya planlamak, şikayet eden müşteriyi anlamak için bire bir.</p>
+<hr>
+<h3 id="44-toplu-csv-ürünfiyatstok-güncelleme">4.4 Toplu CSV Ürün/Fiyat/Stok Güncelleme <a class="anchor" href="#44-toplu-csv-ürünfiyatstok-güncelleme">¶</a></h3>
+<p><strong>Nerede:</strong> Admin → Ürün Yönetimi → Toplu Güncelleme</p>
+<p><strong>Ne işe yarar:</strong> Excel'de hazırladığınız fiyat listesini yükleyip tüm ürünlerin fiyat/stoğunu tek seferde günceller.</p>
+<p><strong>Kullanım:</strong></p>
+<ol>
+<li>SKU bazlı CSV hazırlayın (sütunlar: <code>sku, price, stock</code>)</li>
+<li>Yükleyin</li>
+<li><strong>Önce "Dry Run"</strong> (test) yapın — sistem ne değiştireceğini gösterir, hata varsa uyarır</li>
+<li>Doğruysa "Commit" → atomik (ya hepsi olur ya hiçbiri)</li>
+</ol>
+<blockquote>🛡️ Önce dry-run yapmadan asla commit etmeyin.</blockquote>
+<hr>
+<h3 id="45-düşük-stok-admin-uyarısı">4.5 Düşük Stok Admin Uyarısı <a class="anchor" href="#45-düşük-stok-admin-uyarısı">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Her gün admin'e email gönderir: "Şu ürünlerin stoğu 5'in altında: ..."</p>
+<p><strong>Ayar:</strong> <strong>Ayarlar → Stok Uyarısı</strong> → "Eşik" + "Bildirim email" <strong>Cron:</strong> <code>cron/low-stock-alert.php</code> günlük (9. bölüm) <strong>Dedupe:</strong> Aynı ürün için 24 saat içinde 2. uyarı gitmez (spam koruma).</p>
+<hr>
+<h2 id="5-faz-3-seo-görünürlük">5) Faz 3 — SEO &amp; Görünürlük <a class="anchor" href="#5-faz-3-seo-görünürlük">¶</a></h2>
+<h3 id="51-breadcrumb-yol-izi">5.1 Breadcrumb (Yol İzi) <a class="anchor" href="#51-breadcrumb-yol-izi">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> "Ana Sayfa &gt; Kategori &gt; Ürün" şeklinde gezinme. Hem kullanıcı için kolay, hem Google için yapısal veri (schema.org/BreadcrumbList).</p>
+<p><strong>Otomatik:</strong> Ürün ve kategori sayfalarında görünür. Ayar gerekmez.</p>
+<hr>
+<h3 id="52-sosyal-paylaşım-butonları">5.2 Sosyal Paylaşım Butonları <a class="anchor" href="#52-sosyal-paylaşım-butonları">¶</a></h3>
+<p><strong>Nerede:</strong> Ürün sayfaları + blog yazıları altında</p>
+<p><strong>Platformlar:</strong> WhatsApp, X (Twitter), Facebook, Pinterest, Email, "Kopyala"</p>
+<p><strong>Otomatik:</strong> Aktif. Ayar gerekmez.</p>
+<hr>
+<h3 id="53-sitemap-index-formatı">5.3 Sitemap (Index Formatı) <a class="anchor" href="#53-sitemap-index-formatı">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Google'a hangi sayfaları taraması gerektiğini söyler. Index format çoklu site için optimize.</p>
+<p><strong>URL'ler:</strong></p>
+<ul>
+<li><code>siteniz.com/sitemap.xml</code> → Index (alt sitemap'ler listesi)</li>
+<li><code>siteniz.com/sitemap.xml?type=products</code> → Tüm ürünler</li>
+<li><code>siteniz.com/sitemap.xml?type=categories</code> → Tüm kategoriler</li>
+<li><code>siteniz.com/sitemap.xml?type=blog</code> → Blog yazıları</li>
+<li><code>siteniz.com/sitemap.xml?type=pages</code> → Sabit sayfalar</li>
+</ul>
+<p><strong>Google Search Console:</strong> Bu URL'yi ekleyin.</p>
+<hr>
+<h3 id="54-faq-accordion-pdpde">5.4 FAQ Accordion (PDP'de) <a class="anchor" href="#54-faq-accordion-pdpde">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Ürün sayfasında sıkça sorulan sorular bölümü açılır-kapanır şekilde gösterilir.</p>
+<p><strong>Nerede ayarlanır:</strong> Ürün düzenleme sayfasında "FAQ" alanına soru/cevap girin.</p>
+<hr>
+<h2 id="6-faz-4-sadakat-programı-puan">6) Faz 4 — Sadakat Programı (Puan) <a class="anchor" href="#6-faz-4-sadakat-programı-puan">¶</a></h2>
+<h3 id="61-puan-sistemi">6.1 Puan Sistemi <a class="anchor" href="#61-puan-sistemi">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Müşteri alışveriş yaptıkça puan kazanır, sonraki siparişte indirim olarak kullanır.</p>
+<p><strong>Nasıl ayarlanır:</strong> <strong>Ayarlar → Sadakat Programı</strong></p>
+<ul>
+<li><strong>Kazanma oranı:</strong> "1₺ = 1 puan" → 1.00</li>
+<li><strong>Kullanma değeri:</strong> "10 puan = 1₺" → 0.10</li>
+<li><strong>Seviye eşikleri:</strong></li>
+<li>Sadık: 2000₺ (son 12 ay)</li>
+<li>VIP: 10000₺ (son 12 ay)</li>
+<li>"Sadakat aktif" işaretle → <strong>Kaydet</strong></li>
+</ul>
+<p><strong>Otomatik akış:</strong></p>
+<ol>
+<li>Müşteri sipariş verir</li>
+<li>Sipariş <strong>"Teslim Edildi"</strong> durumuna geçince puan eklenir</li>
+<li>İade olursa puan geri alınır</li>
+<li>12 ay kullanılmazsa süresi dolar (cron çalışır)</li>
+</ol>
+<hr>
+<h3 id="62-müşteri-sayfasında-puan-paneli">6.2 Müşteri Sayfasında Puan Paneli <a class="anchor" href="#62-müşteri-sayfasında-puan-paneli">¶</a></h3>
+<p><strong>Nerede:</strong> Müşteri girişi → Hesabım</p>
+<p><strong>Gösterilenler:</strong></p>
+<ul>
+<li>Mevcut puan bakiyesi</li>
+<li>Son hareketler (kazan/harca/expire)</li>
+<li>Seviye rozeti (Yeni / Sadık / VIP)</li>
+</ul>
+<hr>
+<h3 id="63-doğum-günü-kuponu">6.3 Doğum Günü Kuponu <a class="anchor" href="#63-doğum-günü-kuponu">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Müşterinin doğum günü geldiğinde otomatik <strong>%15 indirim kuponu</strong> üretilir, email + SMS ile gönderilir. <strong>14 gün geçerli</strong>, <strong>yılda 1 kez</strong>.</p>
+<p><strong>Müşteri yapamayacağı:</strong> Doğum gününü bir kez girdikten sonra <strong>değiştiremez</strong> (sahtekarlık koruması).</p>
+<p><strong>Cron:</strong> <code>cron/birthday-coupon.php</code> günlük 09:00 (Bölüm 9).</p>
+<hr>
+<h3 id="64-otomatik-müşteri-seviye-güncelleme">6.4 Otomatik Müşteri Seviye Güncelleme <a class="anchor" href="#64-otomatik-müşteri-seviye-güncelleme">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Her Pazartesi 02:00, son 12 ayın harcamasına göre tüm müşterilerin seviyesi yeniden hesaplanır.</p>
+<p><strong>Seviyeler:</strong></p>
+<ul>
+<li><strong>Yeni</strong> (varsayılan)</li>
+<li><strong>Sadık</strong> (eşiği aşmış)</li>
+<li><strong>VIP</strong> (üst eşiği aşmış)</li>
+</ul>
+<p><strong>Cron:</strong> <code>cron/loyalty-tier-update.php</code> (Bölüm 9).</p>
+<hr>
+<h3 id="65-puan-expire-cron">6.5 Puan Expire Cron <a class="anchor" href="#65-puan-expire-cron">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Kazandığı puan 12 ay içinde kullanılmadıysa otomatik silinir.</p>
+<p><strong>Cron:</strong> <code>cron/loyalty-expire.php</code> günlük 03:00 (Bölüm 9).</p>
+<hr>
+<h2 id="7-faz-5-modernleşmiş-admin-panel">7) Faz 5 — Modernleşmiş Admin Panel <a class="anchor" href="#7-faz-5-modernleşmiş-admin-panel">¶</a></h2>
+<h3 id="71-komuta-merkezi-yeni-dashboard">7.1 Komuta Merkezi (Yeni Dashboard) <a class="anchor" href="#71-komuta-merkezi-yeni-dashboard">¶</a></h3>
+<p><strong>Nerede:</strong> Admin → Dashboard</p>
+<p><strong>Ne değişti:</strong></p>
+<ul>
+<li>KPI kartları (ciro, sipariş, AOV, dönüşüm)</li>
+<li>Trend grafikleri</li>
+<li>Hızlı eylem butonları</li>
+<li>Alert/uyarı paneli (düşük stok, bekleyen sipariş)</li>
+<li>En çok satılan ürünler tablosu</li>
+</ul>
+<hr>
+<h3 id="72-yenilenmiş-ayarlar-sayfası-hub">7.2 Yenilenmiş Ayarlar Sayfası (Hub) <a class="anchor" href="#72-yenilenmiş-ayarlar-sayfası-hub">¶</a></h3>
+<p><strong>Ne değişti:</strong> Eskiden tek devasa form'du, herşey karışık geliyordu. Artık <strong>hub ve sayfa</strong> sistemi:</p>
+<p><strong>Ana hub:</strong> <code>/admin_panel/settings.php</code> → 4 ana kategori kartı:</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Kategori</th>
+<th>Alt başlıklar</th>
+</tr></thead><tbody>
+<tr>
+<td>🏪 Mağaza Kimliği</td>
+<td>Genel, İletişim, Konum, Çalışma Saatleri, Sosyal Medya</td>
+</tr>
+<tr>
+<td>📢 Pazarlama</td>
+<td>SEO, Analitik, Exit-intent, Newsletter</td>
+</tr>
+<tr>
+<td>🔧 Operasyon</td>
+<td>SMS, WhatsApp, Stok, Kargo, SMTP</td>
+</tr>
+<tr>
+<td>🧩 Entegrasyonlar</td>
+<td>iyzico, Anthropic AI, Sadakat, Yasal/Mali</td>
+</tr>
+</tbody></table></div>
+<p>Her kategoriye tıklayınca o bölümün ayarları açılır. Çok daha derli toplu.</p>
+<hr>
+<h3 id="73-tema-görsel">7.3 Tema (Görsel) <a class="anchor" href="#73-tema-görsel">¶</a></h3>
+<ul>
+<li><strong>Renk paleti:</strong> Koyu yeşil + altın aksanlar (premium hissi)</li>
+<li><strong>Yazı tipi:</strong> Playfair (başlık) + Inter (gövde)</li>
+<li><strong>Tutarlı kart spacing'i</strong> (24px grid)</li>
+<li><strong>Hover state'leri</strong> ve kontrast iyileştirildi (önceki dark fallback sorunu çözüldü)</li>
+</ul>
+<hr>
+<h3 id="74-sql-migration-yöneticisi">7.4 SQL Migration Yöneticisi <a class="anchor" href="#74-sql-migration-yöneticisi">¶</a></h3>
+<p><strong>Nerede:</strong> Admin → Araçlar → SQL Migration Yöneticisi (<code>/admin_panel/tools/migrations.php</code>)</p>
+<p><strong>Ne işe yarar:</strong> Her yeni özellik geldiğinde phpMyAdmin'e gitmeden, <strong>tek tıkla</strong> SQL migration'ı çalıştırırsınız.</p>
+<p><strong>Güvenlik:</strong></p>
+<ul>
+<li>"Güvenlik analizi" otomatik açılır → kaç INSERT, kaç UPDATE, kaç DELETE göreceksiniz önceden</li>
+<li>Yapılmış migration'lar <strong>tekrar çalışmaz</strong> (idempotent)</li>
+<li>String-aware splitter — HTML entity'ler (<code>&amp;amp;</code>) artık SQL'i kırmaz</li>
+</ul>
+<hr>
+<h3 id="75-admin-hata-sayfası">7.5 Admin Hata Sayfası <a class="anchor" href="#75-admin-hata-sayfası">¶</a></h3>
+<p><strong>Site'de bir hata olursa:</strong></p>
+<ul>
+<li>Normal kullanıcı: Sade "Bir hata oluştu" sayfası</li>
+<li><strong>Admin girişli kullanıcı:</strong> Hata detayı + dosya/satır numarası gösterilir (debug için)</li>
+</ul>
+<p>Bu sayede üretim hatalarını siz görebilirsiniz, müşteri görmez.</p>
+<hr>
+<h2 id="8-faz-67-2026-trendleri">8) Faz 6/7 — 2026 Trendleri <a class="anchor" href="#8-faz-67-2026-trendleri">¶</a></h2>
+<h3 id="81-çok-satanlar">8.1 Çok Satanlar <a class="anchor" href="#81-çok-satanlar">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Gerçek sipariş verisinden en çok satan ürünleri çıkarır.</p>
+<p><strong>Nerede görünür:</strong> Ana sayfa + kategori boş ise.</p>
+<p><strong>Otomatik.</strong></p>
+<hr>
+<h3 id="82-son-görüntülenenler">8.2 Son Görüntülenenler <a class="anchor" href="#82-son-görüntülenenler">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Müşterinin gezdiği ürünlerin küçük listesi.</p>
+<p><strong>Nerede görünür:</strong> Ürün sayfasının altında "Son baktıklarınız" rafı.</p>
+<p><strong>Veri:</strong> Cookie + localStorage (oturum bazlı).</p>
+<hr>
+<h3 id="83-ürün-karşılaştırma">8.3 Ürün Karşılaştırma <a class="anchor" href="#83-ürün-karşılaştırma">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Müşteri 2-4 ürünü yan yana karşılaştırır.</p>
+<p><strong>Müşteri kullanımı:</strong> Ürün kartında "Karşılaştır" → seçilenler sayfa altında küçük bir bar'da → "Karşılaştır" tuşu → tablo açılır.</p>
+<hr>
+<h3 id="84-favorilerekayıt-edilenlere-ekle">8.4 Favorilere/Kayıt Edilenlere Ekle <a class="anchor" href="#84-favorilerekayıt-edilenlere-ekle">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Müşteri kalp ikonuyla ürünü kaydeder, sonra "Hesabım → Favorilerim"den ulaşır.</p>
+<p><strong>Önemli:</strong> Tablo adı <code>favorites</code> (Database'de). <code>user_products</code> değil.</p>
+<hr>
+<h3 id="85-sepet-rezervasyonu-stok-tutma">8.5 Sepet Rezervasyonu (Stok Tutma) <a class="anchor" href="#85-sepet-rezervasyonu-stok-tutma">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Müşteri sepete bir ürün eklediğinde, 15 dakika boyunca o stok "rezerve" sayılır. Başkası alamaz.</p>
+<p><strong>Cron:</strong> <code>cron/cart-reservation-cleanup.php</code> 5 dakikada bir → süresi dolan rezervasyonları temizler.</p>
+<blockquote>⚠️ Yüksek trafikli sitelerde önerilir. Az trafikli sitede gerekli değil — kapalı tutabilirsiniz.</blockquote>
+<hr>
+<h3 id="86-qa-skeleton-soru-cevap-eksik">8.6 Q&amp;A Skeleton (Soru-Cevap) — <em>Eksik</em> <a class="anchor" href="#86-qa-skeleton-soru-cevap-eksik">¶</a></h3>
+<p>Tablo hazır (<code>product_questions</code>) ama PDP'de form + admin moderation sayfası <strong>henüz yapılmadı</strong>. Sonraki sürümde tamamlanacak.</p>
+<hr>
+<h3 id="87-fotovideo-yorumları-eksik">8.7 Foto/Video Yorumları — <em>Eksik</em> <a class="anchor" href="#87-fotovideo-yorumları-eksik">¶</a></h3>
+<p><code>product_reviews.media</code> kolonu eklendi ama upload UI + lightbox <strong>henüz yapılmadı</strong>.</p>
+<hr>
+<h3 id="88-hediye-paketleme-order">8.8 Hediye Paketleme (Order) <a class="anchor" href="#88-hediye-paketleme-order">¶</a></h3>
+<p><strong>Ne işe yarar:</strong> Müşteri sipariş sırasında "hediye paketi" + "hediye mesajı" ekleyebilir.</p>
+<p><strong>Admin:</strong> Sipariş detayında hediye notu görünür.</p>
+<hr>
+<h2 id="9-cron-job-listesi-otomatik-görevler">9) Cron Job Listesi (Otomatik Görevler) <a class="anchor" href="#9-cron-job-listesi-otomatik-görevler">¶</a></h2>
+<p>cPanel → Cron Jobs üzerinden ekleyin. <strong>PHP yolu</strong> ve <strong>dosya yolu</strong> kendi sunucunuza göre değişir (cPanel size gösterir).</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Sıklık</th>
+<th>Cron Expression</th>
+<th>Komut</th>
+<th>Amaç</th>
+</tr></thead><tbody>
+<tr>
+<td>Günlük</td>
+<td><code>0 8 * * *</code></td>
+<td><code>php /home/USER/public_html/cron/abandoned-cart.php</code></td>
+<td>Sepet terk hatırlatma (3 aşama)</td>
+</tr>
+<tr>
+<td>Günlük</td>
+<td><code>0 9 * * *</code></td>
+<td><code>php /home/USER/public_html/cron/low-stock-alert.php</code></td>
+<td>Düşük stok admin uyarısı</td>
+</tr>
+<tr>
+<td>Günlük 09:00</td>
+<td><code>0 9 * * *</code></td>
+<td><code>php /home/USER/public_html/cron/birthday-coupon.php</code></td>
+<td>Doğum günü kuponu</td>
+</tr>
+<tr>
+<td>Günlük 03:00</td>
+<td><code>0 3 * * *</code></td>
+<td><code>php /home/USER/public_html/cron/loyalty-expire.php</code></td>
+<td>12 ay puan expire</td>
+</tr>
+<tr>
+<td>Pazartesi 02:00</td>
+<td><code>0 2 * * 1</code></td>
+<td><code>php /home/USER/public_html/cron/loyalty-tier-update.php</code></td>
+<td>Müşteri seviye güncelle</td>
+</tr>
+<tr>
+<td>5 dk</td>
+<td><code>*/5 * * * *</code></td>
+<td><code>php /home/USER/public_html/cron/cart-reservation-cleanup.php</code></td>
+<td>Sepet rezervasyon temizleme</td>
+</tr>
+</tbody></table></div>
+<blockquote>💡 İlk kez çalıştırmadan önce <strong>cron komutunu terminal'de manuel test edin</strong>: <code>php /yol/cron/birthday-coupon.php</code> → hata vermeli değil.</blockquote>
+<hr>
+<h2 id="10-hızlı-sorun-giderme-sss">10) Hızlı Sorun Giderme (SSS) <a class="anchor" href="#10-hızlı-sorun-giderme-sss">¶</a></h2>
+<h3 id="sepet-sayfası-mobilde-bozuk-görünüyor">"Sepet sayfası mobilde bozuk görünüyor" <a class="anchor" href="#sepet-sayfası-mobilde-bozuk-görünüyor">¶</a></h3>
+<ul>
+<li>Tarayıcı önbelleğini temizle (Ctrl+Shift+R / Cmd+Shift+R)</li>
+<li>Cart sayfasının inline CSS'i var, eksiksiz yüklendiğinden emin ol</li>
+<li>iPhone'da: Ayarlar → Safari → Geçmişi ve Web Verilerini Sil</li>
+</ul>
+<h3 id="analitik-veri-gelmiyor">"Analitik veri gelmiyor" <a class="anchor" href="#analitik-veri-gelmiyor">¶</a></h3>
+<ol>
+<li><strong>Ayarlar → Analitik</strong> → ID'lerin <strong>doğru girildiğini</strong> kontrol et</li>
+<li>"Analitik aktif" işaretli mi?</li>
+<li>Çerez tercih kutusunda <strong>Onayla</strong> dedin mi? (KVKK)</li>
+<li>GA4 → DebugView'da test cihazın görünüyor mu?</li>
+<li>Bot user-agent ile geliyorsan analytics gönderilmez (PageSpeed, Headless dahil)</li>
+</ol>
+<h3 id="sms-gitmedi">"SMS gitmedi" <a class="anchor" href="#sms-gitmedi">¶</a></h3>
+<ol>
+<li><strong>Ayarlar → SMS</strong> → "SMS aktif" mi?</li>
+<li>API kullanıcı/şifre doğru mu? (panele giriş yapabilmen lazım)</li>
+<li><strong>Onaylı gönderen başlığın</strong> sağlayıcıda onaylanmış mı?</li>
+<li>Admin → Bildirim Logları → SMS Log → hata mesajını gör</li>
+</ol>
+<h3 id="sildiğim-ürün-hala-görünüyor">"Sildiğim ürün hala görünüyor" <a class="anchor" href="#sildiğim-ürün-hala-görünüyor">¶</a></h3>
+<ul>
+<li>Yeni sistem: Silme artık <code>is_active = 0</code> da yapıyor → sorun yok</li>
+<li>Eski silinmiş ürünler için migration 101 çalıştırıldı mı? (Migration Yöneticisi'nden)</li>
+</ul>
+<h3 id="cron-çalışmıyor">"Cron çalışmıyor" <a class="anchor" href="#cron-çalışmıyor">¶</a></h3>
+<ul>
+<li>cPanel'de cron eklendiğinde, <strong>email çıktısı</strong> ayarlayın → cron çıktısını email'e yollar, hata görürsünüz</li>
+<li>Sunucu zaman dilimi yanlışsa cron yanlış saatte çalışır (cPanel'de TZ ayarı)</li>
+</ul>
+<h3 id="migration-güvenlik-analizinde-uyari-çıktı">"Migration güvenlik analizinde UYARI çıktı" <a class="anchor" href="#migration-güvenlik-analizinde-uyari-çıktı">¶</a></h3>
+<ul>
+<li>Kırmızı uyarı: tablonu DROP etme veya RİSKLİ bir işlem var → <strong>çalıştırma</strong></li>
+<li>Sarı uyarı: çok satır etkilenecek → <strong>yedek al, sonra çalıştır</strong></li>
+<li>Yeşil: güvenli</li>
+</ul>
+<h3 id="hangi-dosyaları-yüklemem-gerek">"Hangi dosyaları yüklemem gerek?" <a class="anchor" href="#hangi-dosyaları-yüklemem-gerek">¶</a></h3>
+<ul>
+<li>Her özellik talebinden sonra, değiştirilen dosyaların <strong>tam listesi</strong> size verilir</li>
+<li>O liste sayfa açılana kadar <strong>eksiksiz yüklemelisiniz</strong></li>
+<li>Sadece migration dosyası yüklersiniz <strong>ama PHP dosyaları yüklemezseniz</strong> özellik aktif olmaz</li>
+</ul>
+<hr>
+<h2 id="yardım-geliştirme-talebi">📞 Yardım / Geliştirme Talebi <a class="anchor" href="#yardım-geliştirme-talebi">¶</a></h2>
+<p>Bir özelliği kullanırken takılırsanız veya yeni bir özellik isterseniz, doğrudan benimle (Claude) konuşabilirsiniz. Size yardımcı olurken:</p>
+<p>✅ <strong>Hangi sayfada olduğunuzu söyleyin</strong> (URL veya menüden yol) ✅ <strong>Hata varsa screenshot atın</strong> ✅ <strong>Beklediğiniz davranışı yazın</strong> ("X olmasını isterdim ama Y oldu")</p>
+<hr>
+<p><strong>Son güncellenme:</strong> 2026-05-19 <strong>Versiyon:</strong> 1.0</p>
+</main>
+</div>
+<script>(function(){
+  const btn = document.createElement('a'); btn.href = '#'; btn.className = 'back-to-top'; btn.title = 'Yukarı çık'; btn.textContent = '↑';
+  document.body.appendChild(btn);
+  window.addEventListener('scroll', function(){ btn.classList.toggle('visible', window.scrollY > 600); });
+  btn.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({top: 0, behavior: 'smooth'}); });
+  const tocLinks = document.querySelectorAll('.toc a');
+  const headings = Array.from(document.querySelectorAll('h1[id], h2[id], h3[id]'));
+  function onScroll(){
+    let current = null;
+    for (const h of headings) { if (h.getBoundingClientRect().top <= 80) current = h; }
+    if (current) { tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current.id)); }
+  }
+  window.addEventListener('scroll', onScroll); onScroll();
+})();</script>
+</body>
+</html>

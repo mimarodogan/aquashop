@@ -1,0 +1,100 @@
+/*
+ * Kritik CSS — açılışta görünen yapıyı kapsar.
+ * <head> içinde inline yüklenir; gerisi defer edilir.
+ *
+ * TASARIM SİSTEMİ (Premium E-Commerce — Aesop / Apple / Zara)
+ * - Off-white zemin, beyaz yüzeyler, derin antrasit metin/koyu bölümler
+ * - Aksan: yumuşak yeşil (markaya uygun)
+ * - Tipografi: Playfair Display (serif başlık) + Inter (sans-serif gövde)
+ * - Yumuşak gölgeler, ince kenarlıklar, ferah whitespace
+ */
+:root{
+  /* Marka paleti */
+  --olive:#F9F9F9;            /* sayfa zemini (off-white) */
+  --olive-2:#FFFFFF;          /* kart/panel yüzeyi */
+  --midnight:#1A1A1A;         /* koyu bölümler (topbar/footer) — derin antrasit */
+  --gold:#6B7A2F;             /* aksan — yumuşak yeşil ton (AA ≥4.75:1 / beyaz) */
+  --leaf:#4F5C26;             /* aksan koyu — hover & küçük metin (AAA ≥7:1) */
+  --champagne:#1A1A1A;        /* birincil metin — derin antrasit (AAA ≥16:1) */
+  --gold-border:#D8D8D8;      /* dekoratif hairline (yalnızca süs) */
+  --field-border:#8C8C8C;     /* form input kenarı — UI ≥3:1 / SC 1.4.11 */
+  --muted-text:#5F5F5F;       /* ikincil metin (AA ≥7:1 / beyaz) */
+  --ink-soft:#4A4A4A;          /* başlık/etiket — AAA ≥9:1 / beyaz */
+  --ivory:#FFFFFF;
+  --cream:#F4F4F4;
+  --ink:#0A0A0A;              /* en koyu vurgu */
+  --on-dark:#F9F9F9;          /* koyu zemin üstü metin (AAA) */
+  --on-dark-soft:#B8B8B8;     /* koyu zemin üstü ikincil metin (AA ≥4.6:1 / antrasit) */
+  --focus-ring:#6B7A2F;
+
+  /* Soft UI gölgeler */
+  --shadow-xs:0 1px 2px rgba(20,20,20,.04);
+  --shadow-sm:0 2px 8px rgba(20,20,20,.05);
+  --shadow-md:0 8px 24px rgba(20,20,20,.06);
+  --shadow-lg:0 24px 60px rgba(20,20,20,.10);
+
+  /* Köşe yuvarlatma */
+  --radius-sm:4px;
+  --radius:6px;
+  --radius-lg:10px;
+
+  /* Geçiş süresi */
+  --t:.25s cubic-bezier(.4,0,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--olive);color:var(--champagne);font-family:'Inter',sans-serif;line-height:1.65;font-weight:400;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.container{max-width:1280px;margin:0 auto;padding:0 32px}
+
+/* Topbar — koyu antrasit */
+.topbar{background:var(--midnight);color:var(--on-dark);font-size:11px;letter-spacing:.24em;text-transform:uppercase;text-align:center;padding:11px 16px;font-weight:400}
+
+/* Navbar — beyaz zemin, ince kenarlık, yumuşak shadow on scroll */
+.nav{position:sticky;top:0;z-index:10;background:var(--olive-2);border-bottom:1px solid var(--gold-border);transition:box-shadow var(--t)}
+/* padding:20px eşleştirildi — style.css ile aynı değer → layout shift yok */
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:20px 32px;max-width:1280px;margin:0 auto;gap:32px}
+.logo{font-family:'Playfair Display',serif;color:var(--ink);font-size:26px;letter-spacing:.06em;font-weight:700;line-height:1}
+.logo small{display:block;font-family:'Inter',sans-serif;font-size:9px;letter-spacing:.4em;color:var(--muted-text);font-weight:500;margin-top:4px;text-align:center}
+
+/* Nav linkleri — critical: style.css yüklenmeden göründüklerinde asgari stiller */
+.nav-links{display:flex;gap:36px;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--champagne);font-weight:500}
+.nav-icons{display:flex;gap:20px;color:var(--champagne);align-items:center}
+/* nav-icons içindeki butonlar/linkler 40x40 sabit ölçü — CLS önleme.
+   style.css yüklenince eklenecek border-radius vs. boyutu değiştirmez. */
+.nav-icons a,.nav-icons button{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:999px;background:transparent;border:none;padding:0;color:inherit;cursor:pointer}
+.nav-icons svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5}
+.cart-pill{position:relative}
+.logo{white-space:nowrap;flex:0 0 auto}
+/* Nav toggle — critical: style.css async yüklenmeden önce gizlenmeli */
+.nav-toggle{display:none}
+@media(max-width:1100px){.nav-links{display:none}.nav-toggle{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:var(--radius);background:transparent;border:1px solid var(--gold-border);color:var(--ink);cursor:pointer;flex:0 0 auto;padding:0}.nav-inner .logo{font-size:20px}.nav-icons{gap:6px}}
+
+/* FOUC koruması — style.css async yüklenene kadar gizlenmeli */
+/* Skip link: klavye odağı olmadan görünmez */
+.skip-link{position:absolute;left:-9999px;top:0;z-index:100}
+/* Mobil menü: kapalıyken tam ekran kaplamaz */
+.mobile-menu{position:fixed;inset:0;z-index:60;pointer-events:none;visibility:hidden}
+
+/* Anasayfa H1 — LCP candidate (kritik render path'inde olmalı)
+   NOT: Georgia sistem fontu ile — web font beklenmeden anında render edilir.
+   style.css'deki h1{font-family:'Playfair Display'} daha düşük özgüllükte (0-0-1),
+   bu sınıf seçici (0-1-0) kazanır → H1 her zaman Georgia ile görünür. */
+.home-headline{padding:24px 0 4px;background:#FFFFFF}
+.home-headline .container{max-width:1280px;margin:0 auto;padding:0 32px}
+.home-headline-h1{font-family:Georgia,'Times New Roman',serif;color:#0A0A0A;font-size:32px;font-weight:600;line-height:1.15;letter-spacing:-.01em;margin:0 0 8px}
+.home-headline-sub{color:#5F5F5F;font-size:15px;line-height:1.5;margin:0;font-weight:400}
+@media(min-width:768px){.home-headline-h1{font-size:42px}.home-headline{padding:36px 0 8px}.home-headline-sub{font-size:17px}}
+
+/* Mobilde logo altındaki slogan gizle — ikonların sığması için */
+@media(max-width:1100px) {
+  .nav-inner .logo small { display:none; }
+}
+
+/* CLS koruması — async CSS yüklenmeden önce modallar/overlay'lar görünmemeli.
+   Bu kurallar olmadan .exit-modal, .cart-added-modal, .search-overlay
+   default display:block ile render edilip içeriği aşağı iter, CSS gelince
+   kaybolunca layout shift olur. Ayrıca kullanıcı search-overlay'in bir an
+   açılıp kapandığını görüyordu — bu kural onu da çözer. */
+.exit-modal,.cart-added-modal{display:none}
+.search-overlay{position:fixed;inset:0;opacity:0;visibility:hidden}
