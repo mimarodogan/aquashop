@@ -36,8 +36,14 @@ cp config/db.example.php config/db.php
 #    (db.php .env'i otomatik okur)
 
 # 4) Veritabanını oluştur ve şemayı içe aktar
-#    sql/schema.sql → ardından sql/ içindeki migrate_*.sql dosyaları
+#    Tek dosya yeterli: sql/install.sql  (tüm tablolar + kolonlar + indexler + tohum veri)
+#    phpMyAdmin > veritabanını seç > SQL sekmesi > install.sql içeriğini yapıştır > Git
 ```
+
+> **Not:** `sql/install.sql` tüm migration'ların birleştirilmiş halidir (idempotent, MariaDB).
+> Tek başına boş bir veritabanını kurar. `sql/` içindeki ayrı `migrate_*.sql` dosyaları
+> ve admin migration çalıştırıcısı, mevcut kurulumlara artımlı güncelleme için durur.
+> `install.sql` yeniden üretmek için: `cd sql && bash build-install.sh`
 
 Sunucuda `.env` dosyasına `chmod 644` verin. Apache + `mod_rewrite` gereklidir (`.htaccess` SEO dostu URL'leri ve güvenlik kurallarını yönetir).
 
