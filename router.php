@@ -1,9 +1,7 @@
 <?php
-/**
- * Front Controller / Router
- * .htaccess'in tüm istekleri buraya yönlendirdiği merkezi giriş noktası.
- * URL'i parçalara ayırıp ilgili sayfaya yönlendirir; slug değerlerini $_GET'e yazar.
- */
+if (php_sapi_name() === 'cli-server' && is_file(__DIR__ . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))) {
+    return false;
+}
 require_once __DIR__ . '/core/bootstrap.php';
 require_once __DIR__ . '/core/route_helpers.php';
 require_once __DIR__ . '/includes/redirects.php';

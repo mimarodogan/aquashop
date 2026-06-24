@@ -20,7 +20,7 @@ $nonce = base64_encode(random_bytes(16));
 $pageStyles = array();
 $pageScripts = array();
 switch ($page) {
-    case 'home':     $pageStyles[] = 'home.css';   $pageScripts[] = 'home.min.js'; break;
+    case 'home':     $pageScripts[] = 'home.min.js'; $pageScripts[] = 'carousel.js'; break;
     case 'products':  $pageStyles[] = 'product.css'; $pageScripts[] = 'components/loadmore.min.js'; $pageScripts[] = 'pages/products-listing.min.js'; break;
     case 'categories_list': $pageStyles[] = 'product.css'; break;
     case 'category':  $pageStyles[] = 'product.css'; break;
@@ -248,17 +248,19 @@ if ($page === 'home') {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="https://fonts.googleapis.com">
 <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <?php
 // Google Fonts CSS — sunucu tarafında cache'lenir + minified inline embed edilir.
 // display=optional: LCP penceresinde font-swap yapılmaz → LCP skoru temiz ölçülür.
 // (swap yerine optional: ilk ziyarette fallback font, önbellekteyse Playfair görünür)
-$__gfontsCss = google_fonts_inline('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=optional');
+$__gfontsCss = google_fonts_inline('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap');
 if ($__gfontsCss !== ''):
 ?>
 <style id="gfonts-inline"><?= $__gfontsCss ?></style>
 <?php else: /* Fallback: cache yoksa eski yöntem */ ?>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=optional" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=optional"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap"></noscript>
 <?php endif; ?>
 
 <!-- Critical CSS — header/topbar için inline (FCP optimizasyonu) -->
@@ -325,61 +327,201 @@ $cookieMin = asset_min_css('css/components/cookie-banner.css');
   <link rel="stylesheet" href="<?= SITE_URL ?>/assets/css/components/ai-assistant.css?v=<?= asset_v('css/components/ai-assistant.css') ?>">
   <?php endif; ?>
 </noscript>
-
-<!-- Ortak uygulama JS'i (defer ile non-blocking) -->
 <script defer src="<?= SITE_URL ?>/assets/js/toast.min.js?v=<?= asset_v('js/toast.min.js') ?>"></script>
 <script defer src="<?= SITE_URL ?>/assets/js/app.min.js?v=<?= asset_v('js/app.min.js') ?>"></script>
 <?php foreach ($pageScripts as $js): ?>
   <script defer src="<?= SITE_URL ?>/assets/js/<?= e($js) ?>?v=<?= asset_v('js/'.$js) ?>"></script>
 <?php endforeach; ?>
 </head>
-<body>
+<body class="page-<?= e($page ?? '') ?>">
 <?php include APP_ROOT . '/components/analytics-noscript.php'; ?>
 <a href="#main" class="skip-link">Ana içeriğe atla</a>
 
-<?php if (setting('topbar_enabled','1')==='1' && trim((string)setting('topbar_message',''))!==''): ?>
-<div class="topbar" role="region" aria-label="Duyuru"><?= e(setting('topbar_message','')) ?></div>
+<?php
+/* ── Duyuru barı placeholder — aşağıdaki aq-header içinde render ediliyor ── */
+$__topMsg   = trim((string)setting('topbar_message',''));
+$__topPhone = trim((string)setting('contact_phone',''));
+$__topTel   = preg_replace('/[^0-9+]/', '', $__topPhone);
+
+/* ── Ana menü kategorileri — admin: Ürün Yönetimi → Kategoriler (üst seviye). ── */
+$__navCats = array();
+try {
+    $__navCats = db()->query("SELECT name, slug FROM categories WHERE parent_id IS NULL ORDER BY sort_order ASC, name ASC LIMIT 8")->fetchAll();
+} catch (Exception $__e) { $__navCats = array(); }
+$__curCatSlug = ($page==='category' && isset($_GET['slug']) && is_string($_GET['slug'])) ? $_GET['slug'] : '';
+$__searchQ = (isset($_GET['q']) && is_string($_GET['q'])) ? $_GET['q'] : '';
+$__tg = trim((string)setting('site_tagline',''));
+?>
+
+<!-- Duyuru Slider -->
+<?php if (setting('topbar_enabled','1')==='1' && ($__topMsg !== '' || $__topPhone !== '')):
+  $__topSlides = array_values(array_filter(array_map('trim', preg_split('/\s*[•|]\s*/u', $__topMsg))));
+  if ($__topPhone !== '') $__topSlides[] = $__topPhone;
+  while (count($__topSlides) < 3) $__topSlides[] = $__topSlides[0] ?? 'AquaShop\'a Hoşgeldiniz!';
+?>
+<div class="aq-top-announcement" role="region" aria-label="Duyurular">
+  <div class="aq-announcement-slider" aria-live="off">
+    <?php foreach (array_slice($__topSlides, 0, 3) as $__idx => $__sl): ?>
+      <span class="<?= $__idx === 0 ? 'is-active' : '' ?>"><?= e($__sl) ?></span>
+    <?php endforeach; ?>
+  </div>
+</div>
 <?php endif; ?>
 
-<header class="nav">
-  <div class="nav-inner">
-    <button type="button" class="nav-toggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="mobileMenu" data-toggle="mobile-menu">
-      <?= ic('menu', '', 22) ?>
-    </button>
-    <a href="<?= url('home') ?>" class="logo" title="Anasayfa — <?= e(setting('site_name') ?? SITE_NAME_FALLBACK) ?>" aria-label="<?= e(setting('site_name') ?? SITE_NAME_FALLBACK) ?> Anasayfa"><?= e(setting('site_name') ?? SITE_NAME_FALLBACK) ?><?php $tg = trim((string)setting('site_tagline','')); if ($tg !== ''): ?><small aria-hidden="true"><?= e($tg) ?></small><?php endif; ?></a>
-    <nav class="nav-links" aria-label="Ana menü">
-      <a href="<?= url('products') ?>" class="<?= $page==='products'?'active':'' ?>" title="Tüm ürünleri görüntüle">Ürünler</a>
-      <a href="<?= url('categories_list') ?>" class="<?= $page==='categories_list'?'active':'' ?>" title="Tüm kategorileri görüntüle">Kategoriler</a>
-      <a href="<?= url('blog') ?>" class="<?= ($page==='blog'||$page==='post')?'active':'' ?>" title="Blog yazılarını oku">Blog</a>
-      <a href="<?= url('about') ?>" class="<?= $page==='about'?'active':'' ?>" title="Hakkımızda — hikâyemiz">Hakkımızda</a>
-      <a href="<?= url('contact') ?>" class="<?= $page==='contact'?'active':'' ?>" title="İletişim bilgileri">İletişim</a>
-    </nav>
-    <div class="nav-icons">
-      <button type="button" data-open="search" title="Ürünlerde ara" aria-label="Ara" style="background:none;border:none;padding:0;cursor:pointer"><?= ic('search', '', 20) ?></button>
-      <?php if (function_exists('compare_enabled') && compare_enabled() && ($__cmpCnt = count(compare_list())) > 0): ?>
-        <a href="<?= url('compare') ?>" class="cart-pill" title="Karşılaştırma (<?= $__cmpCnt ?>)" aria-label="Karşılaştırma">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7H3M21 7l-4-4M21 7l-4 4M3 17h18M3 17l4-4M3 17l4 4"/></svg>
-          <span class="cnt"><?= (int)$__cmpCnt ?></span>
-        </a>
-      <?php endif; ?>
-      <a href="<?= url('favorites') ?>" class="cart-pill" title="Favorilerim" aria-label="Favoriler">
-        <?= ic('heart', '', 20) ?>
-        <?php if (current_user() && fav_count() > 0): ?><span class="cnt"><?= fav_count() ?></span><?php endif; ?>
-      </a>
-      <?php if (current_user()): ?>
-        <a href="<?= url('account') ?>" title="Hesabım" aria-label="Hesabım"><?= ic('user', '', 20) ?></a>
-      <?php else: ?>
-        <a href="<?= url('login') ?>" title="Giriş Yap" aria-label="Giriş"><?= ic('user', '', 20) ?></a>
-      <?php endif; ?>
-      <a href="<?= url('cart') ?>" class="cart-pill" title="Sepetim" aria-label="Sepet">
-        <?= ic('cart', '', 20) ?>
-        <?php if (cart_count() > 0): ?><span class="cnt"><?= cart_count() ?></span><?php endif; ?>
-      </a>
+<header class="aq-header" id="aq-header">
+
+  <!-- Trust bar + Mini linkler -->
+  <div class="aq-header-top">
+    <div class="aq-container">
+      <div class="aq-header-top-inner">
+        <div class="aq-header-trust">
+          <span><i class="bi bi-shield-check"></i> Güvenli Alışveriş</span>
+          <span><i class="bi bi-truck"></i> Hızlı Teslimat</span>
+          <span><i class="bi bi-arrow-repeat"></i> Kolay İade</span>
+        </div>
+        <div class="aq-header-mini-links">
+          <a href="<?= url('home') ?>">Ana Sayfa</a>
+          <a href="<?= url('account') ?>">Sipariş Takibi</a>
+          <a href="<?= url('about') ?>">Hakkımızda</a>
+          <a href="<?= url('blog') ?>">Blog</a>
+          <a href="<?= url('contact') ?>">İletişim</a>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- Logo + Arama + Aksiyonlar -->
+  <div class="aq-header-main">
+    <div class="aq-container">
+      <div class="aq-header-main-inner">
+        <button type="button" class="aq-mobile-menu-btn" aria-label="Menüyü aç" aria-expanded="false">
+          <i class="bi bi-list"></i>
+        </button>
+        <a href="<?= url('home') ?>" class="aq-logo" aria-label="<?= e($siteName) ?> Anasayfa">
+          <span><?= e($siteName) ?></span>
+          <?php if ($__tg !== ''): ?><small><?= e($__tg) ?></small><?php endif; ?>
+        </a>
+        <form class="aq-search" action="<?= url('products') ?>" method="get" role="search">
+          <button type="submit" aria-label="Ara"><i class="bi bi-search"></i></button>
+          <input type="search" name="q"
+                 placeholder="Ürün, kategori veya marka ara"
+                 aria-label="Ürünlerde ara"
+                 value="<?= e($__searchQ) ?>"
+                 maxlength="120" autocomplete="off">
+          <div class="aq-search-suggestions" style="display:none" role="listbox"></div>
+        </form>
+        <div class="aq-header-actions">
+          <div class="aq-account-menu">
+            <a href="<?= current_user() ? url('account') : url('login') ?>"
+               class="aq-header-action aq-account-trigger" aria-label="Hesabım">
+              <i class="bi bi-person"></i>
+              <span><?= current_user() ? 'Hesabım' : 'Giriş Yap' ?></span>
+            </a>
+            <?php if (!current_user()): ?>
+            <div class="aq-account-dropdown">
+              <div class="aq-account-guest-head">
+                <strong>Hoş geldiniz</strong>
+                <span class="aq-account-guest-text">Alışverişe devam etmek için giriş yapabilir veya üye olabilirsiniz.</span>
+              </div>
+              <a href="<?= url('register') ?>" class="aq-account-auth-btn">
+                <i class="bi bi-person-plus"></i> Üye Ol
+              </a>
+              <a href="<?= url('login') ?>" class="aq-account-auth-btn aq-account-login-btn">
+                <i class="bi bi-box-arrow-in-right"></i> Giriş Yap
+              </a>
+            </div>
+            <?php endif; ?>
+          </div>
+          <a href="<?= url('favorites') ?>" class="aq-header-action" aria-label="Favorilerim">
+            <i class="bi bi-heart"></i>
+            <span>Favorilerim</span>
+            <?php if (current_user() && fav_count() > 0): ?><em><?= fav_count() ?></em><?php endif; ?>
+          </a>
+          <a href="<?= url('cart') ?>" class="aq-header-action" aria-label="Sepetim">
+            <i class="bi bi-cart3"></i>
+            <span>Sepetim</span>
+            <?php if (cart_count() > 0): ?><em><?= cart_count() ?></em><?php endif; ?>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kategori menüsü -->
+  <div class="aq-header-menu aq-header-menu-overflow">
+    <div class="aq-container">
+      <div class="aq-main-menu">
+        <a href="<?= url('categories_list') ?>" class="aq-category-menu-btn">
+          <i class="bi bi-list"></i> <span>Tüm Kategoriler</span>
+        </a>
+        <div class="aq-menu-visible-categories">
+          <?php if ($__navCats): foreach ($__navCats as $__c): ?>
+            <a href="<?= e(url('category',['slug'=>$__c['slug']])) ?>"
+               class="aq-menu-category-link <?= $__curCatSlug===$__c['slug']?'active':'' ?>">
+              <?= e($__c['name']) ?>
+            </a>
+          <?php endforeach; else: ?>
+            <a href="<?= url('products') ?>" class="aq-menu-category-link <?= $page==='products'?'active':'' ?>">Ürünler</a>
+          <?php endif; ?>
+        </div>
+        <div class="aq-menu-more" id="aqMenuMore">
+          <button class="aq-menu-more-btn" aria-expanded="false" aria-controls="aqMoreDrop">
+            Devamı <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="aq-menu-more-dropdown" id="aqMoreDrop" style="display:none">
+            <a href="<?= url('blog') ?>">Blog</a>
+            <a href="<?= url('about') ?>">Hakkımızda</a>
+            <a href="<?= url('contact') ?>">İletişim</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </header>
 
-<?php include __DIR__ . '/mobile-menu.php'; ?>
+<!-- Mobil Menü -->
+<div class="aq-mobile-backdrop" id="aqMobileBackdrop"></div>
+<div class="aq-mobile-panel" id="aqMobilePanel" role="dialog" aria-modal="true" aria-label="Navigasyon">
+  <div class="aq-mobile-panel-head-final">
+    <div class="aq-mobile-logo">
+      <span><?= e($siteName) ?></span>
+      <?php if ($__tg !== ''): ?><small><?= e($__tg) ?></small><?php endif; ?>
+    </div>
+    <button class="aq-mobile-close" aria-label="Menüyü kapat"><i class="bi bi-x-lg"></i></button>
+  </div>
+  <div class="aq-mobile-panel-body-final">
+    <div class="aq-mobile-guest-mini">
+      <?php if (current_user()): ?>
+        <strong>Merhaba!</strong>
+        <span><?= e(current_user()['name'] ?? 'Hesabım') ?></span>
+        <div class="aq-mobile-auth-buttons-final">
+          <a href="<?= url('account') ?>" class="aq-mobile-auth-link aq-mobile-auth-login">Hesabım</a>
+        </div>
+      <?php else: ?>
+        <strong>Hoşgeldiniz!</strong>
+        <span>Hesabınıza giriş yapın</span>
+        <div class="aq-mobile-auth-buttons-final">
+          <a href="<?= url('login') ?>" class="aq-mobile-auth-link aq-mobile-auth-login">Giriş Yap</a>
+          <a href="<?= url('register') ?>" class="aq-mobile-auth-link aq-mobile-auth-register">Üye Ol</a>
+        </div>
+      <?php endif; ?>
+    </div>
+    <div class="aq-mobile-nav-title"><span>Kategoriler</span></div>
+    <nav class="aq-mobile-nav-final" aria-label="Mobil kategori menüsü">
+      <?php foreach (($__navCats ?: []) as $__c): ?>
+      <div class="aq-mobile-category-item">
+        <div class="aq-mobile-category-line">
+          <a href="<?= e(url('category',['slug'=>$__c['slug']])) ?>" class="aq-mobile-category-title-link"><?= e($__c['name']) ?></a>
+        </div>
+      </div>
+      <?php endforeach; ?>
+      <div class="aq-mobile-category-item"><div class="aq-mobile-category-line"><a href="<?= url('blog') ?>" class="aq-mobile-category-title-link">Blog</a></div></div>
+      <div class="aq-mobile-category-item"><div class="aq-mobile-category-line"><a href="<?= url('about') ?>" class="aq-mobile-category-title-link">Hakkımızda</a></div></div>
+      <div class="aq-mobile-category-item"><div class="aq-mobile-category-line"><a href="<?= url('contact') ?>" class="aq-mobile-category-title-link">İletişim</a></div></div>
+    </nav>
+  </div>
+</div>
 
 <?php flash_render(); ?>
 <main id="main" tabindex="-1">

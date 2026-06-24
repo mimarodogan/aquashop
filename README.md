@@ -31,9 +31,11 @@ cd aquashop
 cp .env.example .env
 #    .env içine gerçek DB bilgilerini yaz
 
-# 3) Veritabanı yapılandırması
+# 3) Veritabanı yapılandırması  —  YALNIZCA SIFIRDAN KURULUMDA
+#    ⚠️ Çalışan bir sunucuda config/db.php ZATEN VARSA bu komutu ÇALIŞTIRMAYIN;
+#       gerçek kimlik bilgilerinin üzerine örnek (your_db_user) değerleri yazar.
 cp config/db.example.php config/db.php
-#    (db.php .env'i otomatik okur)
+#    (db.php .env'i otomatik okur; gerçek DB bilgileri .env'dedir)
 
 # 4) Veritabanını oluştur ve şemayı içe aktar
 #    Tek dosya yeterli: sql/install.sql  (tüm tablolar + kolonlar + indexler + tohum veri)

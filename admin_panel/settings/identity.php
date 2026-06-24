@@ -29,8 +29,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_check($_POST['csrf'] ?? null))
             'hours_weekday','hours_saturday','hours_sunday',
             'social_instagram','social_facebook','social_twitter',
             'social_youtube','social_linkedin','social_tiktok',
+            // Anasayfa görünümü
+            'footer_about',
+            'home_promo1_title','home_promo1_text','home_promo1_link',
+            'home_promo2_title','home_promo2_text','home_promo2_link',
+            'home_instagram_user','home_instagram_title','home_instagram_images',
+            // Google Yorumları
+            'google_reviews_rating','google_reviews_count','google_reviews_maps_url','google_reviews_json',
         ],
-        ['topbar_enabled'],
+        ['topbar_enabled','home_instagram_enabled','google_reviews_enabled'],
         [],
         'identity.php'
     );
@@ -134,6 +141,66 @@ require_once __DIR__ . '/../core/header.php';
       <div class="row-2">
         <div class="field"><label>LinkedIn</label><input name="social_linkedin" type="url" value="<?= e(setting('social_linkedin','')) ?>" placeholder="https://linkedin.com/company/..."></div>
         <div class="field"><label>TikTok</label><input name="social_tiktok" type="url" value="<?= e(setting('social_tiktok','')) ?>" placeholder="https://tiktok.com/@..."></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Anasayfa Görünümü</h3>
+    <small class="muted" style="display:block;margin:-6px 0 16px">Anasayfadaki promo kartları, Instagram şeridi ve footer açıklaması. Boş bırakılan bölümler sitede gösterilmez.</small>
+    <div style="display:grid;gap:18px">
+
+      <div class="field">
+        <label>Footer Açıklaması</label>
+        <textarea name="footer_about" rows="2" placeholder="Boş bırakılırsa slogan kullanılır."><?= e(setting('footer_about','')) ?></textarea>
+        <small class="muted">Footer'da marka adının altında görünen kısa tanıtım metni.</small>
+      </div>
+
+      <h4 style="font-family:'Inter',sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-text);margin-top:6px">Promo Kartları (hero altı)</h4>
+      <small class="muted" style="margin:-10px 0 0">Başlık girilen kart gösterilir. İki kart yan yana çıkar.</small>
+      <?php for ($pi = 1; $pi <= 2; $pi++): ?>
+      <div style="border:1px solid var(--gold-border);border-radius:var(--radius);padding:16px;display:grid;gap:12px">
+        <strong style="font-size:13px;color:var(--ink)">Kart <?= $pi ?></strong>
+        <div class="row-2">
+          <div class="field"><label>Başlık</label><input name="home_promo<?= $pi ?>_title" value="<?= e(setting("home_promo{$pi}_title",'')) ?>" placeholder="<?= $pi===1?'Örn: LED Aydınlatma':'Örn: Dış Filtreler' ?>"></div>
+          <div class="field"><label>Bağlantı (URL)</label><input name="home_promo<?= $pi ?>_link" value="<?= e(setting("home_promo{$pi}_link",'')) ?>" placeholder="/kategori/aydinlatma"></div>
+        </div>
+        <div class="field"><label>Alt Metin</label><input name="home_promo<?= $pi ?>_text" value="<?= e(setting("home_promo{$pi}_text",'')) ?>" placeholder="Kısa açıklama (opsiyonel)"></div>
+      </div>
+      <?php endfor; ?>
+
+      <h4 style="font-family:'Inter',sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-text);margin-top:6px">Instagram Şeridi</h4>
+      <label style="display:flex;gap:10px;align-items:center"><input type="checkbox" name="home_instagram_enabled" value="1" <?= setting('home_instagram_enabled','0')==='1'?'checked':'' ?>> Instagram bölümünü göster</label>
+      <small class="muted" style="margin:-10px 0 0">Görünmesi için "Sosyal Medya → Instagram" adresinin dolu olması gerekir.</small>
+      <div class="row-2">
+        <div class="field"><label>Kullanıcı Adı (@)</label><input name="home_instagram_user" value="<?= e(setting('home_instagram_user','')) ?>" placeholder="aquashopbursa"></div>
+        <div class="field"><label>Başlık</label><input name="home_instagram_title" value="<?= e(setting('home_instagram_title','')) ?>" placeholder="Bizi Instagram'da Takip Edin"></div>
+      </div>
+      <div class="field">
+        <label>Görsel URL'leri (her satıra bir tane)</label>
+        <textarea name="home_instagram_images" rows="4" placeholder="https://...&#10;https://..."><?= e(setting('home_instagram_images','')) ?></textarea>
+        <small class="muted">Boş bırakılırsa dekoratif aqua karoları gösterilir; hepsi Instagram profilinize bağlanır.</small>
+      </div>
+
+      <h4 style="font-family:'Inter',sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-text);margin-top:6px">Google Yorumları</h4>
+      <label style="display:flex;gap:10px;align-items:center"><input type="checkbox" name="google_reviews_enabled" value="1" <?= setting('google_reviews_enabled','1')==='1'?'checked':'' ?>> Google Yorumları bölümünü göster</label>
+      <div class="row-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px">
+        <div class="field"><label>Ortalama Puan</label><input name="google_reviews_rating" type="number" step="0.1" min="1" max="5" value="<?= e(setting('google_reviews_rating','4.8')) ?>"></div>
+        <div class="field"><label>Toplam Yorum Sayısı</label><input name="google_reviews_count" type="number" value="<?= e(setting('google_reviews_count','142')) ?>"></div>
+        <div class="field"><label>Harita / Yorum URL</label><input name="google_reviews_maps_url" type="url" value="<?= e(setting('google_reviews_maps_url','https://maps.google.com')) ?>" placeholder="https://g.page/..."></div>
+      </div>
+      <div class="field">
+        <label>Yorumlar (JSON formatında)</label>
+        <textarea name="google_reviews_json" rows="6" placeholder='[
+  {
+    "author": "Ahmet Yılmaz",
+    "rating": 5,
+    "text": "Harika bir mağaza!",
+    "time": "1 hafta önce",
+    "avatar": ""
+  }
+]'><?= e(setting('google_reviews_json','')) ?></textarea>
+        <small class="muted">Kendi Google yorumlarınızı JSON formatında girin. Boş bırakırsanız varsayılan yorumlar gösterilir.</small>
       </div>
     </div>
   </div>

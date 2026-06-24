@@ -187,42 +187,10 @@ $sortLabels = [
 // ── AJAX — sadece kartları döndür ──────────────────────────────
 if ($isAjax) {
     $favIds = fav_ids();
-    foreach ($products as $p): ?>
-      <div class="card" style="position:relative">
-        <form method="post" action="<?= SITE_URL ?>/favorite-toggle.php" class="fav-form">
-          <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-          <input type="hidden" name="id"   value="<?= (int)$p['id'] ?>">
-          <input type="hidden" name="back" value="<?= e($_SERVER['REQUEST_URI'] ?? url('category',['slug'=>$slug])) ?>">
-          <button class="fav-btn <?= in_array((int)$p['id'],$favIds)?'active':'' ?>" type="submit" aria-label="Favori">
-            <?= ic('heart', '', 18) ?>
-          </button>
-        </form>
-        <a href="<?= e(url('product', ['slug'=>$p['slug']])) ?>" style="display:flex;flex-direction:column;flex:1">
-          <div class="card-img">
-            <?php if (!empty($p['old_price'])): ?><span class="badge">İndirim</span><?php endif; ?>
-            <?php if (!empty($p['image'])): ?>
-              <img loading="lazy" decoding="async" width="600" height="660"
-                   src="<?= e($p['image']) ?>" alt="<?= e($p['name']) ?>"
-                   style="width:100%;height:100%;object-fit:cover">
-            <?php else: ?>
-              <span class="ph"><?= e(mb_substr($p['name'],0,1)) ?></span>
-            <?php endif; ?>
-          </div>
-          <div class="card-body">
-            <span class="cat"><?= e($p['cat_name'] ?? 'Genel') ?></span>
-            <h3><?= e($p['name']) ?></h3>
-            <div class="card-foot">
-              <span class="price"><?= money($p['price']) ?>
-                <?php if (!empty($p['old_price'])): ?>
-                  <span class="price-old"><?= money($p['old_price']) ?></span>
-                <?php endif; ?>
-              </span>
-              <span class="icon-btn" aria-hidden="true"><?= ic('cart', '', 17) ?></span>
-            </div>
-          </div>
-        </a>
-      </div>
-    <?php endforeach;
+    $cardBack = $_SERVER['REQUEST_URI'] ?? url('category', ['slug' => $slug]);
+    foreach ($products as $p) {
+        include __DIR__ . '/../components/product-card.php';
+    }
     echo '<div data-has-more="'.($hasMore?'1':'0').'" data-next-offset="'.$nextOffset.'" data-total="'.$totalCount.'" style="display:none"></div>';
     exit;
 }
@@ -312,51 +280,46 @@ if (!empty($products)) {
 }
 ?>
 
-<!-- ── Sayfa başlığı ────────────────────────────────────────── -->
-<section class="page-header">
-  <div class="container">
-    <span class="kicker">
+<section class="aq-category-page-hero aq-category-page-hero-simple">
+  <div class="aq-container">
+    <nav class="aq-breadcrumb" aria-label="Konum">
+      <a href="<?= e(url('home')) ?>">Anasayfa</a>
+      <i class="bi bi-chevron-right" aria-hidden="true"></i>
+      <a href="<?= e(url('categories_list')) ?>">Kategoriler</a>
       <?php if ($parentCat): ?>
-        <a href="<?= e(url('category', ['slug' => $parentCat['slug']])) ?>"><?= e($parentCat['name']) ?></a> /
+        <i class="bi bi-chevron-right" aria-hidden="true"></i>
+        <a href="<?= e(url('category', ['slug' => $parentCat['slug']])) ?>"><?= e($parentCat['name']) ?></a>
       <?php endif; ?>
-      Kategoriler
-    </span>
-    <h1 style="margin-top:10px"><?= e($cat['name']) ?></h1>
-    <nav class="breadcrumb" aria-label="Konum">
-      <a href="<?= e(url('home')) ?>">Anasayfa</a><span aria-hidden="true">/</span>
-      <?php if ($parentCat): ?>
-        <a href="<?= e(url('category', ['slug' => $parentCat['slug']])) ?>"><?= e($parentCat['name']) ?></a><span aria-hidden="true">/</span>
-      <?php endif; ?>
+      <i class="bi bi-chevron-right" aria-hidden="true"></i>
       <span aria-current="page"><?= e($cat['name']) ?></span>
     </nav>
-  </div>
-</section>
 
-<?php if (!empty($cat['description'])): ?>
-<section style="background:var(--cream);border-bottom:1px solid var(--gold-border)">
-  <div class="container" style="padding-top:28px;padding-bottom:28px;max-width:840px">
-    <div class="prose" style="font-size:15px;line-height:1.75;color:var(--muted-text)">
-      <?= nl2br(e($cat['description'])) ?>
+    <div class="aq-category-hero-card">
+      <h1><?= e($cat['name']) ?></h1>
+      <p>
+        <?php if (!empty($cat['description'])): ?>
+          <?= e(mb_substr(strip_tags($cat['description']), 0, 180)) ?><?= mb_strlen(strip_tags($cat['description'])) > 180 ? '...' : '' ?>
+        <?php else: ?>
+          Akvaryum dünyasına uygun ürünleri keşfedin; filtreleyin, sıralayın ve ihtiyacınıza en yakın seçeneği bulun.
+        <?php endif; ?>
+      </p>
     </div>
   </div>
 </section>
-<?php endif; ?>
 
-
-<!-- ── Ürün ızgarası ────────────────────────────────────────── -->
-<section>
-  <div class="container">
+<section class="aq-category-page">
+  <div class="aq-container">
 
     <!-- Toolbar: Filtrele + Sırala -->
-    <div class="shop-toolbar">
+    <div class="shop-toolbar aq-category-toolbar">
       <button type="button" class="shop-tool" id="btn-filter"
               aria-haspopup="dialog" aria-expanded="false" aria-controls="filter-drawer">
-        <?= ic('filter', '', 18) ?>
+        <i class="bi bi-sliders" aria-hidden="true"></i>
         <span>Filtrele<?php if ($filterBadge > 0): ?> <em class="ft-badge">(<?= $filterBadge ?>)</em><?php endif; ?></span>
       </button>
       <button type="button" class="shop-tool" id="btn-sort"
               aria-haspopup="dialog" aria-expanded="false">
-        <?= ic('sort', '', 18) ?>
+        <i class="bi bi-arrow-down-up" aria-hidden="true"></i>
         <span><?= e($sortLabels[$sort] ?? 'Önerilen Sıralama') ?></span>
       </button>
     </div>
@@ -403,79 +366,102 @@ if (!empty($products)) {
     </div>
     <?php endif; ?>
 
-    <!-- Sonuç sayısı -->
-    <p class="muted" style="font-size:13px;margin-bottom:28px">
-      <?= (int)$totalCount ?> ürün bulundu
-    </p>
+    <div class="aq-category-layout">
+      <aside class="aq-category-filter-panel" aria-label="Filtreleme">
+        <div class="aq-category-filter-head">
+          <h2>Filtreleme</h2>
+          <p>Sonuçları daraltın</p>
+        </div>
+        <form method="get" action="<?= e($catBase) ?>" class="aq-category-filter-form">
+          <?php if ($sort !== 'new'): ?>
+            <input type="hidden" name="sort" value="<?= e($sort) ?>">
+          <?php endif; ?>
 
-    <!-- Ürün kartları -->
-    <div class="grid grid-3" id="cat-grid">
-      <?php $favIds = fav_ids(); if ($products): foreach ($products as $p): ?>
-        <div class="card" style="position:relative">
-          <form method="post" action="<?= SITE_URL ?>/favorite-toggle.php" class="fav-form">
-            <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-            <input type="hidden" name="id"   value="<?= (int)$p['id'] ?>">
-            <input type="hidden" name="back" value="<?= e(url('category', ['slug'=>$slug])) ?>">
-            <button class="fav-btn <?= in_array((int)$p['id'],$favIds)?'active':'' ?>" type="submit" aria-label="Favori">
-              <?= ic('heart', '', 18) ?>
-            </button>
-          </form>
-          <a href="<?= e(url('product', ['slug'=>$p['slug']])) ?>" style="display:flex;flex-direction:column;flex:1">
-            <div class="card-img">
-              <?php if (!empty($p['old_price'])): ?><span class="badge">İndirim</span><?php endif; ?>
-              <?php if (!empty($p['image'])): ?>
-                <img loading="lazy" decoding="async" width="600" height="660"
-                     src="<?= e($p['image']) ?>" alt="<?= e($p['name']) ?>"
-                     style="width:100%;height:100%;object-fit:cover">
+          <?php if ($subcats): ?>
+          <details class="aq-category-filter-group" open>
+            <summary>Kategori <i class="bi bi-chevron-up" aria-hidden="true"></i></summary>
+            <div class="aq-category-filter-options">
+              <?php foreach ($subcats as $sc): ?>
+                <label>
+                  <input type="checkbox" name="cats[]" value="<?= (int)$sc['id'] ?>" <?= in_array((int)$sc['id'], $subFilter) ? 'checked' : '' ?>>
+                  <span><?= e($sc['name']) ?></span>
+                  <em><?= (int)$sc['cnt'] ?></em>
+                </label>
+              <?php endforeach; ?>
+            </div>
+          </details>
+          <?php endif; ?>
+
+          <details class="aq-category-filter-group" <?= ($priceMin !== null || $priceMax !== null) ? 'open' : '' ?>>
+            <summary>Fiyat <i class="bi bi-chevron-up" aria-hidden="true"></i></summary>
+            <div class="aq-category-price-row">
+              <input type="number" name="price_min" placeholder="Min" value="<?= $priceMin !== null ? (int)$priceMin : '' ?>" min="<?= $priceRange['min'] ?>" max="<?= $priceRange['max'] ?>">
+              <input type="number" name="price_max" placeholder="Maks" value="<?= $priceMax !== null ? (int)$priceMax : '' ?>" min="<?= $priceRange['min'] ?>" max="<?= $priceRange['max'] ?>">
+            </div>
+          </details>
+
+          <details class="aq-category-filter-group" <?= $saleOnly ? 'open' : '' ?>>
+            <summary>Durum <i class="bi bi-chevron-up" aria-hidden="true"></i></summary>
+            <div class="aq-category-filter-options">
+              <label>
+                <input type="checkbox" name="sale" value="1" <?= $saleOnly ? 'checked' : '' ?>>
+                <span>İndirimli Ürünler</span>
+              </label>
+            </div>
+          </details>
+
+          <div class="aq-category-filter-actions">
+            <button type="submit" class="btn btn-primary">Uygula</button>
+            <a href="<?= e($catBase . ($sort !== 'new' ? '?sort=' . urlencode($sort) : '')) ?>" class="btn btn-secondary">Temizle</a>
+          </div>
+        </form>
+      </aside>
+
+      <div class="aq-category-main">
+        <!-- Sonuç sayısı -->
+        <div class="aq-category-results-head">
+          <p><?= (int)$totalCount ?> ürün bulundu</p>
+          <?php if ($sort !== 'new'): ?><span><?= e($sortLabels[$sort] ?? '') ?></span><?php endif; ?>
+        </div>
+
+        <!-- Ürün kartları -->
+        <div class="aq-product-grid aq-category-products" id="cat-grid">
+          <?php $favIds = fav_ids(); if ($products): foreach ($products as $p): ?>
+            <?php $cardBack = url('category', ['slug' => $slug]); include __DIR__ . '/../components/product-card.php'; ?>
+          <?php endforeach; else: ?>
+            <div class="aq-all-categories-empty" style="grid-column:1/-1">
+              <span><i class="bi bi-search"></i></span>
+              <h2>Ürün bulunamadı</h2>
+              <p><?= $hasFilter ? 'Bu filtreyle eşleşen ürün bulunamadı.' : 'Bu kategoride henüz ürün bulunmuyor.' ?></p>
+              <?php if ($hasFilter):
+                $clearQs2 = $sort !== 'new' ? '?sort=' . urlencode($sort) : ''; ?>
+                <a href="<?= e($catBase . $clearQs2) ?>" class="btn btn-secondary" style="margin-top:18px">Filtreleri temizle</a>
               <?php else: ?>
-                <span class="ph"><?= e(mb_substr($p['name'],0,1)) ?></span>
+                <a href="<?= e(url('products')) ?>" class="btn btn-secondary" style="margin-top:18px">Tüm ürünlere bak</a>
               <?php endif; ?>
             </div>
-            <div class="card-body">
-              <span class="cat"><?= e($p['cat_name'] ?? 'Genel') ?></span>
-              <h3><?= e($p['name']) ?></h3>
-              <div class="card-foot">
-                <span class="price"><?= money($p['price']) ?>
-                  <?php if (!empty($p['old_price'])): ?>
-                    <span class="price-old"><?= money($p['old_price']) ?></span>
-                  <?php endif; ?>
-                </span>
-                <span class="icon-btn" aria-hidden="true"><?= ic('cart', '', 17) ?></span>
-              </div>
-            </div>
-          </a>
-        </div>
-      <?php endforeach; else: ?>
-        <p class="muted" style="grid-column:1/-1;text-align:center;padding:80px 20px">
-          <?= $hasFilter ? 'Bu filtreyle eşleşen ürün bulunamadı.' : 'Bu kategoride henüz ürün bulunmuyor.' ?>
-          <br>
-          <?php if ($hasFilter):
-            $clearQs2 = $sort !== 'new' ? '?sort=' . urlencode($sort) : ''; ?>
-            <a href="<?= e($catBase . $clearQs2) ?>" style="color:var(--gold);margin-top:12px;display:inline-block">Filtreleri temizle →</a>
-          <?php else: ?>
-            <a href="<?= e(url('products')) ?>" style="color:var(--gold);margin-top:12px;display:inline-block">Tüm ürünlere bak →</a>
           <?php endif; ?>
-        </p>
-      <?php endif; ?>
-    </div>
+        </div>
 
-    <!-- Daha Fazla Yükle -->
-    <?php if ($hasMore): ?>
-    <div class="loadmore-wrap" style="text-align:center;margin-top:40px"
-         data-ajax-url="<?= e(rtrim(SITE_URL,'/')) ?>/kategoriler/<?= e($slug) ?>"
-         data-button-id="cat-loadmore"
-         data-grid-selector="#cat-grid"
-         data-base-query="<?= e($baseQuery) ?>">
-      <button id="cat-loadmore" class="btn btn-secondary"
-              data-offset="<?= (int)$nextOffset ?>"
-              data-total="<?= (int)$totalCount ?>">
-        Daha Fazla Yükle
-        <span class="muted" style="font-size:13px">
-          (<?= (int)count($products) ?> / <?= (int)$totalCount ?>)
-        </span>
-      </button>
+        <!-- Daha Fazla Yükle -->
+        <?php if ($hasMore): ?>
+        <div class="loadmore-wrap" style="text-align:center;margin-top:40px"
+             data-ajax-url="<?= e(rtrim(SITE_URL,'/')) ?>/kategoriler/<?= e($slug) ?>"
+             data-button-id="cat-loadmore"
+             data-grid-selector="#cat-grid"
+             data-base-query="<?= e($baseQuery) ?>">
+          <button id="cat-loadmore" class="btn btn-secondary"
+                  data-offset="<?= (int)$nextOffset ?>"
+                  data-total="<?= (int)$totalCount ?>">
+            Daha Fazla Yükle
+            <span class="muted" style="font-size:13px">
+              (<?= (int)count($products) ?> / <?= (int)$totalCount ?>)
+            </span>
+          </button>
+        </div>
+        <?php endif; ?>
+      </div>
     </div>
-    <?php endif; ?>
 
   </div>
 </section>

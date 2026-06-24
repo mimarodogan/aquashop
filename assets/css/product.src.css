@@ -1,3 +1,34 @@
+/* ===== Aqua uyumluluk katmanı: eski gold/olive tema -> aqua (ürün/kategori/sepet/ödeme) =====
+   Eski tema değişkenleri (--gold, --ink, --cream...) artık tanımsız; aqua paletine bağlanır.
+   Yapısal sınıflar (.container/.panel) sadece ürün detayda (.page-product) düzeltilir. */
+:root{
+  --ink:#111827; --champagne:#26313d; --gold:#0798bd; --gold-border:#e6edf3;
+  --cream:#f6f9fb; --olive:#fff; --olive-2:#f4f8fa; --muted-text:#738091; --leaf:#007d78;
+  --on-dark:#fff; --field-border:#e3e9ef; --radius:16px; --radius-sm:12px; --radius-lg:22px;
+  --shadow-xs:0 5px 14px rgba(17,24,39,.028); --shadow-sm:0 10px 26px rgba(17,24,39,.045);
+  --shadow-lg:0 18px 52px rgba(17,24,39,.075); --t:220ms ease;
+}
+.page-product .container{width:min(100% - 40px,1200px);margin-inline:auto}
+.page-product .panel{background:#fff;border:1px solid var(--aq-border,#e9eef3);border-radius:22px;padding:28px;box-shadow:0 6px 18px rgba(17,24,39,.04);margin:0}
+.page-product .prose h2,.page-product .prose h3,.page-product .prose h4{font-family:'Inter',sans-serif}
+@media(max-width:768px){
+  .page-product .container{width:min(100% - 24px,1200px)}
+  .page-product .panel{padding:20px;border-radius:16px}
+}
+/* Aqua buton bileşeni — .btn admin.css'te kaldığı için public ürün detayda yeniden tanımlanır */
+.page-product .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;border:1px solid transparent;background:var(--aq-section-soft,#f4f8fa);color:var(--aq-dark,#111827);font-family:'Inter',sans-serif;font-size:14px;font-weight:700;letter-spacing:.01em;line-height:1;cursor:pointer;text-decoration:none;transition:all 220ms ease}
+.page-product .btn:hover{transform:translateY(-1px)}
+.page-product .btn-primary{background:var(--aq-blue,#0798bd);border-color:var(--aq-blue,#0798bd);color:#fff}
+.page-product .btn-primary:hover{background:var(--aq-blue-dark,#056f8d);border-color:var(--aq-blue-dark,#056f8d)}
+.page-product .btn-secondary{background:#fff;border-color:var(--aq-border,#e9eef3);color:var(--aq-dark,#111827)}
+.page-product .btn-secondary:hover{border-color:var(--aq-blue,#0798bd);color:var(--aq-blue,#0798bd)}
+.page-product .btn-sm{min-height:40px;padding:0 16px;font-size:13px}
+.page-product .btn-lg{min-height:54px;padding:0 28px;font-size:15px}
+.page-product .fav-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;background:#fff;border:1px solid var(--aq-border,#e9eef3);color:var(--aq-dark,#111827);cursor:pointer;box-shadow:0 4px 12px rgba(17,24,39,.08);transition:all 220ms ease;position:relative}
+.page-product .fav-btn:hover{color:var(--aq-blue,#0798bd);border-color:var(--aq-blue,#0798bd)}
+.page-product .fav-btn.active{background:var(--aq-blue,#0798bd);border-color:var(--aq-blue,#0798bd);color:#fff}
+.page-product .fav-btn .fav-count{position:absolute;top:-6px;right:-6px;background:var(--aq-blue,#0798bd);color:#fff;font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px}
+
 /* Zengin metin açıklama (admin Quill'den gelen HTML) */
 .prose h2{font-size:24px;margin:20px 0 10px;color:var(--ink);font-family:'Playfair Display',serif;font-weight:500}
 .prose h3{font-size:19px;margin:18px 0 8px;color:var(--ink);font-family:'Playfair Display',serif;font-weight:500}
