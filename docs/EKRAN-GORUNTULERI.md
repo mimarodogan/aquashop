@@ -12,7 +12,7 @@ kayan carousel yapısına geçti; tüm ürün ve blog kartları tek tip **260px*
 ## Ürün Detay
 ![Ürün Detay](screenshots/urun-detay.png)
 
-Canlı `aquashop.com.tr` ürün detay tasarımıyla birebir: galeri + satın-alma kutusu
+Canlı tasarımla birebir: galeri + satın-alma kutusu
 (Stokta Var rozeti, fiyat/indirim, Kalan Stok, avantaj satırları), adet kontrol,
 **Sepete Ekle** + **Hemen Satın Al**, açıklama kartı, SSS akordeon, benzer ürünler carousel.
 
