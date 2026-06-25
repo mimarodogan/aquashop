@@ -1,4 +1,4 @@
-# 📘 AQUASHOP — Yönetim Paneli Kullanım Kılavuzu
+# 📘 DEMO STORE — Yönetim Paneli Kullanım Kılavuzu
 
 > Bu kılavuz, sitenize eklenen tüm yeni özelliklerin **ne işe yaradığını**, **nasıl ayarlanacağını** ve **müşterinin nasıl gördüğünü** açıklar. Teknik bilgi gerektirmez.
 
@@ -222,7 +222,7 @@ Hepsi tarih aralığı seçilebilir + CSV dışa aktarım yapılabilir.
 
 **Nasıl ayarlanır:**
 1. **NetGSM** veya **İletiMerkezi**'den hesap açın
-2. Onaylı gönderen başlığınız hazır olmalı (örn: "AQUASHOP")
+2. Onaylı gönderen başlığınız hazır olmalı (örn: "DEMO STORE")
 3. **Ayarlar → SMS Bildirimleri:**
    - Sağlayıcı seç (NetGSM / İletiMerkezi)
    - API kullanıcı adı / şifre

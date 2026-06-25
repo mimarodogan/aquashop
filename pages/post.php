@@ -12,12 +12,7 @@ $st->execute(array($slug));
 $post = $st->fetch();
 
 if (!$post) {
-    http_response_code(404);
-    $title = 'Yazı bulunamadı';
-    include __DIR__ . '/../includes/header.php';
-    echo '<section class="aq-container" style="padding:120px 0"><h1>Yazı bulunamadı</h1></section>';
-    include __DIR__ . '/../includes/footer.php';
-    exit;
+    aq_render_error(404); // temaya uygun 404 + exit
 }
 $title = $post['title'];
 
@@ -81,7 +76,7 @@ if ($postFaqs) {
 include __DIR__ . '/../includes/header.php';
 
 $__pubTs   = strtotime($post['published_at'] ?? $post['created_at']);
-$__siteN   = trim((string)setting('site_name', 'AquaShop'));
+$__siteN   = trim((string)setting('site_name', '')) ?: SITE_NAME_FALLBACK;
 ?>
 <section class="aq-all-categories-page aq-blog-detail-page">
   <div class="aq-container">
@@ -293,10 +288,18 @@ $__siteN   = trim((string)setting('site_name', 'AquaShop'));
       <span>Mağazadan</span>
       <h2>Beğenebileceğiniz Ürünler</h2>
     </div>
-    <div class="aq-product-grid aq-grid-4">
-      <?php $favIds = fav_ids(); $cardBack = url('blog_post', ['slug'=>$post['slug']]); foreach ($randomProducts as $p): ?>
-        <?php include __DIR__ . '/../components/product-card.php'; ?>
-      <?php endforeach; ?>
+    <div class="aq-carousel-wrap" data-carousel data-visible-desktop="5" data-visible-tablet="3" data-visible-mobile="2">
+      <div class="aq-carousel-controls">
+        <button type="button" class="aq-carousel-arrow aq-products-prev" data-dir="-1" aria-label="Geri" disabled><i class="bi bi-chevron-left"></i></button>
+        <button type="button" class="aq-carousel-arrow aq-products-next" data-dir="1" aria-label="İleri"><i class="bi bi-chevron-right"></i></button>
+      </div>
+      <div class="aq-products-viewport">
+        <div class="aq-products-track">
+          <?php $favIds = fav_ids(); $cardBack = url('blog_post', ['slug'=>$post['slug']]); foreach ($randomProducts as $p): ?>
+            <?php include __DIR__ . '/../components/product-card.php'; ?>
+          <?php endforeach; ?>
+        </div>
+      </div>
     </div>
   </div>
 </section>

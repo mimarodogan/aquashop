@@ -41,31 +41,66 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && csrf_check(isset($_POST['csrf']) ? $_
 }
 
 include __DIR__ . '/../includes/header.php';
+$authSiteName = trim((string)setting('site_name','')) ?: SITE_NAME_FALLBACK;
+$authTagline = trim((string)setting('site_tagline',''));
 ?>
 <link rel="stylesheet" href="<?= SITE_URL ?>/assets/css/auth.css">
 
-<div class="auth-wrap">
-  <div class="auth-card">
-    <div class="auth-tabs">
-      <a href="<?= url('login') ?>" class="active">Giriş Yap</a>
-      <a href="<?= url('register') ?>">Üye Ol</a>
-    </div>
-    <div class="auth-body">
-      <?php if ($err) toast_now('error', $err); ?>
-      <form method="post" autocomplete="on">
-        <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-        <div class="field"><input type="email" name="email" placeholder="E-posta" aria-label="E-posta adresi" required></div>
-        <div class="field input-icon">
-          <input type="password" name="password" id="pw" placeholder="Şifre" aria-label="Şifre" required>
-          <button type="button" onclick="var i=document.getElementById('pw');i.type=i.type==='password'?'text':'password'" aria-label="Şifreyi göster/gizle">
-            <?= ic('eye', '', 18) ?>
-          </button>
+<section class="aq-auth-page aq-auth-page-clean">
+  <div class="aq-container">
+    <div class="aq-auth-clean-wrap">
+      <div class="aq-auth-card aq-auth-card-clean">
+        <div class="aq-auth-brand-mini">
+          <a href="<?= url('home') ?>" class="aq-auth-logo-mini" aria-label="<?= e($authSiteName) ?> Ana Sayfa"><?= e($authSiteName) ?></a>
+          <?php if ($authTagline !== ''): ?><span><?= e($authTagline) ?></span><?php endif; ?>
         </div>
-        <div style="text-align:right;margin:6px 0 6px;font-size:13px"><a href="<?= url('forgot-password') ?>" style="color:var(--leaf);text-decoration:underline">Şifremi unuttum</a></div>
-        <button type="submit" class="auth-submit">Giriş Yap</button>
-      </form>
+
+        <div class="aq-auth-card-head aq-auth-card-head-center">
+          <span>Hesabınıza erişin</span>
+          <h1>Giriş Yap</h1>
+          <p>Siparişlerinizi takip etmek ve favorilerinize ulaşmak için giriş yapın.</p>
+        </div>
+
+        <?php if ($err) toast_now('error', $err); ?>
+        <form method="post" autocomplete="on" class="aq-auth-form">
+        <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
+          <label class="aq-auth-field">
+            <span>E-posta Adresi</span>
+            <div class="aq-auth-input">
+              <i class="bi bi-envelope" aria-hidden="true"></i>
+              <input type="email" name="email" placeholder="ornek@eposta.com" aria-label="E-posta adresi" required>
+            </div>
+          </label>
+
+          <label class="aq-auth-field">
+            <span>Şifre</span>
+            <div class="aq-auth-input">
+              <i class="bi bi-lock" aria-hidden="true"></i>
+              <input type="password" name="password" id="pw" placeholder="Şifreniz" aria-label="Şifre" required>
+              <button class="aq-auth-password-toggle" type="button" onclick="var i=document.getElementById('pw');i.type=i.type==='password'?'text':'password'" aria-label="Şifreyi göster/gizle">
+                <i class="bi bi-eye" aria-hidden="true"></i>
+              </button>
+            </div>
+          </label>
+
+          <div class="aq-auth-options">
+            <label class="aq-auth-check">
+              <input type="checkbox" name="remember" value="1">
+              <span>Beni hatırla</span>
+            </label>
+            <a href="<?= url('forgot-password') ?>">Şifremi unuttum</a>
+          </div>
+
+          <button type="submit" class="aq-auth-submit">
+            <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i>
+            Giriş Yap
+          </button>
+
+          <p class="aq-auth-switch">Hesabınız yok mu? <a href="<?= url('register') ?>">Üye Ol</a></p>
+        </form>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>

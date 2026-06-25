@@ -1,5 +1,5 @@
 -- ═══════════════════════════════════════════════════════════════════
--- AquaShop — TEK DOSYALIK KURULUM  (otomatik üretildi: build-install.sh)
+-- DemoStore — TEK DOSYALIK KURULUM  (otomatik üretildi: build-install.sh)
 --
 -- Boş bir veritabanına tek seferde çalıştırın (phpMyAdmin > SQL sekmesi).
 -- İdempotent: tekrar çalıştırmak güvenlidir (mevcut tablo/kolonları atlar).
@@ -732,23 +732,42 @@ ON DUPLICATE KEY UPDATE title = VALUES(title);
 
 -- 3) Ürün Q&A
 
+-- MySQL/MariaDB uyumlu idempotent kolon/index yardimcilari
+DROP PROCEDURE IF EXISTS _add_column;
+DROP PROCEDURE IF EXISTS _add_index;
+DELIMITER //
+CREATE PROCEDURE _add_column(IN p_table VARCHAR(64), IN p_column VARCHAR(64), IN p_definition TEXT)
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = DATABASE() AND table_name = p_table AND column_name = p_column
+  ) THEN
+    SET @ddl = CONCAT('ALTER TABLE `', REPLACE(p_table, '`', '``'), '` ADD COLUMN `', REPLACE(p_column, '`', '``'), '` ', p_definition);
+    PREPARE stmt FROM @ddl;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+  END IF;
+END//
+CREATE PROCEDURE _add_index(IN p_table VARCHAR(64), IN p_index VARCHAR(64), IN p_columns TEXT)
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.statistics
+    WHERE table_schema = DATABASE() AND table_name = p_table AND index_name = p_index
+  ) THEN
+    SET @ddl = CONCAT('ALTER TABLE `', REPLACE(p_table, '`', '``'), '` ADD INDEX `', REPLACE(p_index, '`', '``'), '` (', p_columns, ')');
+    PREPARE stmt FROM @ddl;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+  END IF;
+END//
+DELIMITER ;
+
 -- 4) orders → hediye paketi alanları (idempotent ALTER)
-SET @col_gw1 := (SELECT COUNT(*) FROM information_schema.columns
-                 WHERE table_schema = DATABASE() AND table_name = 'orders'
-                   AND column_name = 'gift_wrap_price');
-SET @sql_gw1 := IF(@col_gw1 = 0,
-    'ALTER TABLE orders ADD COLUMN IF NOT EXISTS gift_wrap_price DECIMAL(10,2) NOT NULL DEFAULT 0, ADD COLUMN IF NOT EXISTS gift_wrap_note VARCHAR(255) NULL',
-    'SELECT "orders.gift_wrap_* already exists"');
-PREPARE st FROM @sql_gw1; EXECUTE st; DEALLOCATE PREPARE st;
+CALL _add_column('orders', 'gift_wrap_price', 'DECIMAL(10,2) NOT NULL DEFAULT 0');
+CALL _add_column('orders', 'gift_wrap_note', 'VARCHAR(255) NULL');
 
 -- 5) product_reviews → media JSON alanı (foto/video yorum)
-SET @col_med := (SELECT COUNT(*) FROM information_schema.columns
-                 WHERE table_schema = DATABASE() AND table_name = 'product_reviews'
-                   AND column_name = 'media');
-SET @sql_med := IF(@col_med = 0,
-    "ALTER TABLE product_reviews ADD COLUMN IF NOT EXISTS media JSON NULL AFTER body",
-    'SELECT "product_reviews.media already exists"');
-PREPARE st FROM @sql_med; EXECUTE st; DEALLOCATE PREPARE st;
+CALL _add_column('product_reviews', 'media', 'JSON NULL AFTER `body`');
 -- ─────────────────────────────────────────────────────────────────────
 -- 103 — Çalışma anında (kod içinde) eklenen kolonları şemaya taşı
 --
@@ -758,22 +777,21 @@ PREPARE st FROM @sql_med; EXECUTE st; DEALLOCATE PREPARE st;
 -- ─────────────────────────────────────────────────────────────────────
 
 -- Stok rezervasyonu/düşümü: order_items satırına stok ne zaman uygulandı
-ALTER TABLE order_items ADD COLUMN IF NOT EXISTS stock_applied_at DATETIME DEFAULT NULL;
+CALL _add_column('order_items', 'stock_applied_at', 'DATETIME DEFAULT NULL');
 
 -- Blog yazısı → yazar ilişkisi
-ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS blog_author_id INT NULL DEFAULT NULL;
+CALL _add_column('blog_posts', 'blog_author_id', 'INT NULL DEFAULT NULL');
 -- iyzico ödeme entegrasyonu için şema güncellemeleri
 -- phpMyAdmin → SQL sekmesinde tek seferde çalıştırılır.
 
 -- 1) orders tablosuna ödeme kolonları
-ALTER TABLE orders
-  ADD COLUMN IF NOT EXISTS payment_status ENUM('pending','paid','failed','refunded','partial_refund') NOT NULL DEFAULT 'pending',
-  ADD COLUMN IF NOT EXISTS paid_at DATETIME NULL DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS iyzico_token VARCHAR(255) DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS iyzico_payment_id VARCHAR(64) DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS iyzico_conversation_id VARCHAR(64) DEFAULT NULL,
-  ADD INDEX IF NOT EXISTS idx_orders_token (iyzico_token),
-  ADD INDEX IF NOT EXISTS idx_orders_payment_id (iyzico_payment_id);
+CALL _add_column('orders', 'payment_status', "ENUM('pending','paid','failed','refunded','partial_refund') NOT NULL DEFAULT 'pending'");
+CALL _add_column('orders', 'paid_at', 'DATETIME NULL DEFAULT NULL');
+CALL _add_column('orders', 'iyzico_token', 'VARCHAR(255) DEFAULT NULL');
+CALL _add_column('orders', 'iyzico_payment_id', 'VARCHAR(64) DEFAULT NULL');
+CALL _add_column('orders', 'iyzico_conversation_id', 'VARCHAR(64) DEFAULT NULL');
+CALL _add_index('orders', 'idx_orders_token', '`iyzico_token`');
+CALL _add_index('orders', 'idx_orders_payment_id', '`iyzico_payment_id`');
 
 -- 2) Ödeme işlem kaydı (her tetikleme + callback ham yanıtı)
 
@@ -792,11 +810,10 @@ ALTER TABLE orders
 -- last_reminder_at: en son hangi zamanda hatırlatıldı (idempotent dedup)
 -- ─────────────────────────────────────────────────────────────────────
 
-ALTER TABLE abandoned_carts
-  ADD COLUMN IF NOT EXISTS reminder_step    TINYINT UNSIGNED NOT NULL DEFAULT 0,
-  ADD COLUMN IF NOT EXISTS last_reminder_at DATETIME NULL,
-  ADD COLUMN IF NOT EXISTS coupon_code      VARCHAR(64) NULL,
-  ADD INDEX idx_step_update (reminder_step, updated_at);
+CALL _add_column('abandoned_carts', 'reminder_step', 'TINYINT UNSIGNED NOT NULL DEFAULT 0');
+CALL _add_column('abandoned_carts', 'last_reminder_at', 'DATETIME NULL');
+CALL _add_column('abandoned_carts', 'coupon_code', 'VARCHAR(64) NULL');
+CALL _add_index('abandoned_carts', 'idx_step_update', '`reminder_step`, `updated_at`');
 
 -- Mevcut kayıtlardan notified_at dolu olanları step=1 olarak işaretle (geriye uyum)
 UPDATE abandoned_carts
@@ -832,8 +849,8 @@ ON DUPLICATE KEY UPDATE title=VALUES(title);
 -- Blog yazısı görsel indirme kuyruğu (wp_blog_import_queue)
 -- wp_import_queue'nun blog eşdeğeri; kapak görseli indirir, blog_posts.cover_image günceller.
 -- Marka alanı
-ALTER TABLE products ADD COLUMN IF NOT EXISTS brand VARCHAR(120) DEFAULT NULL;
-CREATE INDEX idx_products_brand ON products(brand);
+CALL _add_column('products', 'brand', 'VARCHAR(120) DEFAULT NULL');
+CALL _add_index('products', 'idx_products_brand', '`brand`');
 
 -- Topbar mesajı (varsa güncelle, yoksa ekle)
 INSERT INTO settings (setting_key, setting_value) VALUES
@@ -842,21 +859,18 @@ INSERT INTO settings (setting_key, setting_value) VALUES
 ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value);
 
 -- Eğer yoksa product_images tablosu (galeri için) — schema'da zaten var, idempotent
-ALTER TABLE categories
-  ADD COLUMN IF NOT EXISTS image VARCHAR(255) DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS sort_order INT NOT NULL DEFAULT 0;
+CALL _add_column('categories', 'image', 'VARCHAR(255) DEFAULT NULL');
+CALL _add_column('categories', 'sort_order', 'INT NOT NULL DEFAULT 0');
 -- Kategoriler tablosuna SEO + içerik alanları ekle
 -- Çalıştırma: phpMyAdmin veya MySQL terminali üzerinden bir kez çalıştır.
 
-ALTER TABLE categories
-  ADD COLUMN IF NOT EXISTS sort_order INT NOT NULL DEFAULT 0,
-  ADD COLUMN IF NOT EXISTS image VARCHAR(255) DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS description TEXT DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS meta_title VARCHAR(255) DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS meta_description TEXT DEFAULT NULL;
+CALL _add_column('categories', 'sort_order', 'INT NOT NULL DEFAULT 0');
+CALL _add_column('categories', 'image', 'VARCHAR(255) DEFAULT NULL');
+CALL _add_column('categories', 'description', 'TEXT DEFAULT NULL');
+CALL _add_column('categories', 'meta_title', 'VARCHAR(255) DEFAULT NULL');
+CALL _add_column('categories', 'meta_description', 'TEXT DEFAULT NULL');
 -- Favorilere fiyat takibi kolonu ekle
-ALTER TABLE favorites
-  ADD COLUMN IF NOT EXISTS price_at_fav DECIMAL(10,2) DEFAULT NULL;
+CALL _add_column('favorites', 'price_at_fav', 'DECIMAL(10,2) DEFAULT NULL');
 -- =====================================================================
 -- Login Throttle — Persistent Brute-Force Koruması (K-5)
 -- IP ve e-posta başına ayrı sayaç; 15 dk içinde 5 başarısız deneme limiti.
@@ -875,16 +889,16 @@ ALTER TABLE favorites
 -- NOT: birthday yerine mevcut users.birth_date kullanılır (zaten migrate_users_v2.sql ile eklenmiş).
 -- Bu migration sadece eksik olan loyalty_tier ve birthday_coupon_year alanlarını ekler.
 SET @col_tier := (SELECT COUNT(*) FROM information_schema.columns WHERE table_schema = DATABASE() AND table_name = 'users' AND column_name = 'loyalty_tier');
-SET @sql_tier := IF(@col_tier = 0, "ALTER TABLE users ADD COLUMN IF NOT EXISTS loyalty_tier ENUM('new','loyal','vip') NOT NULL DEFAULT 'new', ADD INDEX idx_tier (loyalty_tier)", 'SELECT "users.loyalty_tier already exists"');
+SET @sql_tier := IF(@col_tier = 0, "ALTER TABLE users ADD COLUMN loyalty_tier ENUM('new','loyal','vip') NOT NULL DEFAULT 'new', ADD INDEX idx_tier (loyalty_tier)", 'SELECT "users.loyalty_tier already exists"');
 PREPARE st FROM @sql_tier; EXECUTE st; DEALLOCATE PREPARE st;
 
 SET @col_bday_sent := (SELECT COUNT(*) FROM information_schema.columns WHERE table_schema = DATABASE() AND table_name = 'users' AND column_name = 'birthday_coupon_year');
-SET @sql_bsent := IF(@col_bday_sent = 0, 'ALTER TABLE users ADD COLUMN IF NOT EXISTS birthday_coupon_year SMALLINT UNSIGNED NULL', 'SELECT "users.birthday_coupon_year already exists"');
+SET @sql_bsent := IF(@col_bday_sent = 0, 'ALTER TABLE users ADD COLUMN birthday_coupon_year SMALLINT UNSIGNED NULL', 'SELECT "users.birthday_coupon_year already exists"');
 PREPARE st FROM @sql_bsent; EXECUTE st; DEALLOCATE PREPARE st;
 
 -- 4) Orders tablosuna puan alanları (idempotent)
 SET @col_pe := (SELECT COUNT(*) FROM information_schema.columns WHERE table_schema = DATABASE() AND table_name = 'orders' AND column_name = 'loyalty_points_earned');
-SET @sql_pe := IF(@col_pe = 0, 'ALTER TABLE orders ADD COLUMN IF NOT EXISTS loyalty_points_earned INT NOT NULL DEFAULT 0, ADD COLUMN IF NOT EXISTS loyalty_points_used INT NOT NULL DEFAULT 0, ADD COLUMN IF NOT EXISTS loyalty_points_value DECIMAL(10,2) NOT NULL DEFAULT 0', 'SELECT "orders.loyalty_points_* already exists"');
+SET @sql_pe := IF(@col_pe = 0, 'ALTER TABLE orders ADD COLUMN loyalty_points_earned INT NOT NULL DEFAULT 0, ADD COLUMN loyalty_points_used INT NOT NULL DEFAULT 0, ADD COLUMN loyalty_points_value DECIMAL(10,2) NOT NULL DEFAULT 0', 'SELECT "orders.loyalty_points_* already exists"');
 PREPARE st FROM @sql_pe; EXECUTE st; DEALLOCATE PREPARE st;
 -- Mail şablonları tablosu
 
@@ -927,10 +941,9 @@ INSERT IGNORE INTO mail_templates (`key`, subject, body_html) VALUES
 <p>{{siparis_ozeti}}</p>
 <p>Siparişinizi hesabınızdan takip edebilirsiniz.</p>');
 
-ALTER TABLE orders
-  ADD COLUMN IF NOT EXISTS cancellation_reason TEXT DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS cancelled_at DATETIME DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS cancelled_by INT DEFAULT NULL;
+CALL _add_column('orders', 'cancellation_reason', 'TEXT DEFAULT NULL');
+CALL _add_column('orders', 'cancelled_at', 'DATETIME DEFAULT NULL');
+CALL _add_column('orders', 'cancelled_by', 'INT DEFAULT NULL');
 -- ─────────────────────────────────────────────────────────────────────
 -- Sayfa görüntülenmeleri (server-side basit sayım)
 -- GA4'e ek/yedek olarak — admin dashboard'da dönüşüm oranı hesaplamak için.
@@ -948,7 +961,7 @@ INSERT INTO pages (slug,title,content) VALUES
   ('kvkk','Kişisel Verilerin Korunması',
    '<h2>Kişisel Verilerin Korunması Hakkında Aydınlatma Metni</h2><p>6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında veri sorumlusu sıfatıyla işlediğimiz kişisel verilerinize ilişkin bilgilendirmedir. Yönetim panelinden düzenleyebilirsiniz.</p><h3>1. Toplanan Veriler</h3><p>Ad-soyad, e-posta, telefon, adres, doğum tarihi gibi bilgiler.</p><h3>2. İşleme Amaçları</h3><p>Sipariş yönetimi, müşteri ilişkileri, pazarlama (onay verdiyseniz).</p><h3>3. Haklarınız</h3><p>KVKK md.11 kapsamındaki haklarınızı kullanmak için bize başvurabilirsiniz.</p>')
 ON DUPLICATE KEY UPDATE title=VALUES(title);
-ALTER TABLE pages ADD COLUMN IF NOT EXISTS cover_image VARCHAR(255) DEFAULT NULL;
+CALL _add_column('pages', 'cover_image', 'VARCHAR(255) DEFAULT NULL');
 
 INSERT INTO pages (slug,title,content) VALUES
 ('hakkimizda','Hakkımızda',
@@ -957,23 +970,20 @@ ON DUPLICATE KEY UPDATE title=VALUES(title);
 -- POS (Mağaza Satışı) migrasyonu
 -- Siparişlere kaynak (web/pos) ve kasiyer bilgisi ekler
 
-ALTER TABLE orders
-  ADD COLUMN IF NOT EXISTS source ENUM('web','pos') NOT NULL DEFAULT 'web',
-  ADD COLUMN IF NOT EXISTS pos_cashier_id INT NULL;
+CALL _add_column('orders', 'source', "ENUM('web','pos') NOT NULL DEFAULT 'web'");
+CALL _add_column('orders', 'pos_cashier_id', 'INT NULL');
 
 -- POS satışlarını hızlı sorgulamak için index
-ALTER TABLE orders ADD INDEX IF NOT EXISTS idx_source (source);
+CALL _add_index('orders', 'idx_source', '`source`');
 -- Fiyatsız ürün desteği — "İletişime Geçin" modu
-ALTER TABLE products
-  ADD COLUMN IF NOT EXISTS price_on_request TINYINT(1) NOT NULL DEFAULT 0
-;
+CALL _add_column('products', 'price_on_request', 'TINYINT(1) NOT NULL DEFAULT 0');
 -- Çoka-çok ürün-kategori ilişki tablosu
 
 -- Mevcut products.category_id verilerini yeni tabloya kopyala
 INSERT IGNORE INTO product_categories (product_id, category_id)
 SELECT id, category_id FROM products WHERE category_id IS NOT NULL;
-ALTER TABLE products ADD COLUMN IF NOT EXISTS sku VARCHAR(60) DEFAULT NULL;
-CREATE INDEX idx_products_sku ON products(sku);
+CALL _add_column('products', 'sku', 'VARCHAR(60) DEFAULT NULL');
+CALL _add_index('products', 'idx_products_sku', '`sku`');
 
 INSERT INTO seo_settings (page_slug, page_label, meta_title, meta_description, meta_keywords) VALUES
   ('home',     'Anasayfa',     NULL, 'Yurt içi premium e-ticaret platformu — özenle seçilmiş ürünler ve hızlı teslimat.', 'premium, e-ticaret, yurt içi'),
@@ -991,8 +1001,7 @@ INSERT INTO seo_settings (page_slug, page_label, meta_title, meta_description, m
   ('favorites','Favoriler',    'Favorilerim', NULL, NULL)
 ON DUPLICATE KEY UPDATE page_label=VALUES(page_label);
 -- SEO sayfa-bazlı robots etiketi desteği
-ALTER TABLE seo_settings
-  ADD COLUMN IF NOT EXISTS meta_robots VARCHAR(120) DEFAULT NULL;
+CALL _add_column('seo_settings', 'meta_robots', 'VARCHAR(120) DEFAULT NULL');
 
 -- settings tablosuna varsayılan SEO anahtarları (yoksa ekler)
 INSERT IGNORE INTO settings (setting_key, setting_value) VALUES
@@ -1009,43 +1018,37 @@ INSERT IGNORE INTO settings (setting_key, setting_value) VALUES
 -- SMS gönderim log tablosu
 -- Tüm gönderimler (başarı + hata) buraya yazılır — denetim, faturalandırma, hata izleme.
 -- ─────────────────────────────────────────────────────────────────────
-ALTER TABLE orders
-  ADD COLUMN IF NOT EXISTS tracking_carrier VARCHAR(40) DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS tracking_number  VARCHAR(80) DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS shipped_at DATETIME DEFAULT NULL;
+CALL _add_column('orders', 'tracking_carrier', 'VARCHAR(40) DEFAULT NULL');
+CALL _add_column('orders', 'tracking_number', 'VARCHAR(80) DEFAULT NULL');
+CALL _add_column('orders', 'shipped_at', 'DATETIME DEFAULT NULL');
 -- Ürünler için yumuşak silme (soft delete) sütunu
 -- Çöp kutusu sistemi: deleted_at doluysa çöpte, NULL ise aktif
-ALTER TABLE products
-  ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL;
+CALL _add_column('products', 'deleted_at', 'DATETIME NULL DEFAULT NULL');
 
 -- Hızlı filtre için index
-ALTER TABLE products
-  ADD INDEX IF NOT EXISTS idx_deleted_at (deleted_at);
+CALL _add_index('products', 'idx_deleted_at', '`deleted_at`');
 -- users tablosuna ek alanlar (mevcut DB üzerinde tek seferlik çalıştırın)
-ALTER TABLE users
-  ADD COLUMN IF NOT EXISTS first_name VARCHAR(80) DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS last_name  VARCHAR(80) DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS birth_date DATE        DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS email_consent TINYINT(1) NOT NULL DEFAULT 0,
-  ADD COLUMN IF NOT EXISTS sms_consent   TINYINT(1) NOT NULL DEFAULT 0;
+CALL _add_column('users', 'first_name', 'VARCHAR(80) DEFAULT NULL');
+CALL _add_column('users', 'last_name', 'VARCHAR(80) DEFAULT NULL');
+CALL _add_column('users', 'birth_date', 'DATE DEFAULT NULL');
+CALL _add_column('users', 'email_consent', 'TINYINT(1) NOT NULL DEFAULT 0');
+CALL _add_column('users', 'sms_consent', 'TINYINT(1) NOT NULL DEFAULT 0');
 -- Şifre sıfırlama için users tablosuna kolonlar
-ALTER TABLE users
-  ADD COLUMN IF NOT EXISTS password_reset_token VARCHAR(64) DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS password_reset_expires DATETIME DEFAULT NULL,
-  ADD INDEX IF NOT EXISTS idx_users_reset (password_reset_token);
+CALL _add_column('users', 'password_reset_token', 'VARCHAR(64) DEFAULT NULL');
+CALL _add_column('users', 'password_reset_expires', 'DATETIME DEFAULT NULL');
+CALL _add_index('users', 'idx_users_reset', '`password_reset_token`');
 -- Phase 2: Şirket faturası, çoklu adres, restock notify, kupon, yorum, iade
 -- Tek seferde phpMyAdmin SQL sekmesinde çalıştır.
 
 -- 1) orders tablosuna fatura tipi ve şirket alanları
-ALTER TABLE orders
-  ADD COLUMN IF NOT EXISTS invoice_type ENUM('individual','company') NOT NULL DEFAULT 'individual',
-  ADD COLUMN IF NOT EXISTS invoice_tax_no VARCHAR(20) DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS invoice_tax_office VARCHAR(120) DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS invoice_company VARCHAR(190) DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS invoice_eposta_zorunlu VARCHAR(190) DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS shipping_amount DECIMAL(10,2) DEFAULT 0,
-  ADD COLUMN IF NOT EXISTS subtotal DECIMAL(10,2) DEFAULT 0,
-  ADD COLUMN IF NOT EXISTS vat_amount DECIMAL(10,2) DEFAULT 0;
+CALL _add_column('orders', 'invoice_type', "ENUM('individual','company') NOT NULL DEFAULT 'individual'");
+CALL _add_column('orders', 'invoice_tax_no', 'VARCHAR(20) DEFAULT NULL');
+CALL _add_column('orders', 'invoice_tax_office', 'VARCHAR(120) DEFAULT NULL');
+CALL _add_column('orders', 'invoice_company', 'VARCHAR(190) DEFAULT NULL');
+CALL _add_column('orders', 'invoice_eposta_zorunlu', 'VARCHAR(190) DEFAULT NULL');
+CALL _add_column('orders', 'shipping_amount', 'DECIMAL(10,2) DEFAULT 0');
+CALL _add_column('orders', 'subtotal', 'DECIMAL(10,2) DEFAULT 0');
+CALL _add_column('orders', 'vat_amount', 'DECIMAL(10,2) DEFAULT 0');
 
 -- 2) Çoklu adres
 
@@ -1055,9 +1058,8 @@ ALTER TABLE orders
 
 
 -- 5) orders'a kupon kayıtları
-ALTER TABLE orders
-  ADD COLUMN IF NOT EXISTS coupon_code VARCHAR(40) DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS discount_amount DECIMAL(10,2) DEFAULT 0;
+CALL _add_column('orders', 'coupon_code', 'VARCHAR(40) DEFAULT NULL');
+CALL _add_column('orders', 'discount_amount', 'DECIMAL(10,2) DEFAULT 0');
 
 -- 6) Ürün yorumları + 5 yıldız
 
@@ -1069,7 +1071,7 @@ INSERT INTO pages (slug, title, content, is_published) VALUES (
   'cerez-politikasi',
   'Çerez Politikası',
   '<h2>Çerez Politikası</h2>
-<p>Bu Çerez Politikası, <strong>aquashop.com.tr</strong> web sitesinde kullanılan çerezler (cookies) hakkında sizi bilgilendirmek amacıyla hazırlanmıştır.</p>
+<p>Bu Çerez Politikası, <strong>ornek-site.test</strong> web sitesinde kullanılan çerezler (cookies) hakkında sizi bilgilendirmek amacıyla hazırlanmıştır.</p>
 
 <h3>Çerez Nedir?</h3>
 <p>Çerezler, web siteleri tarafından tarayıcınıza yerleştirilen küçük metin dosyalarıdır. Sitemizi her ziyaret ettiğinizde web sunucusu tarafından tarayıcınıza gönderilir ve tarayıcınız tarafından saklanır. Sonraki ziyaretlerde bu çerezler sunucumuza geri gönderilerek kimliğinizin tanınmasına ve tercihlerinizin hatırlanmasına yardımcı olur.</p>
@@ -1122,14 +1124,12 @@ ON DUPLICATE KEY UPDATE title=VALUES(title);
 
 
 -- order_items'a varyasyon referansı
-ALTER TABLE order_items
-  ADD COLUMN IF NOT EXISTS variation_id INT DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS variation_label VARCHAR(120) DEFAULT NULL,
-  ADD INDEX IF NOT EXISTS idx_variation (variation_id);
+CALL _add_column('order_items', 'variation_id', 'INT DEFAULT NULL');
+CALL _add_column('order_items', 'variation_label', 'VARCHAR(120) DEFAULT NULL');
+CALL _add_index('order_items', 'idx_variation', '`variation_id`');
 
 -- products tablosuna varyasyonlu olduğunu işaretleyen flag
-ALTER TABLE products
-  ADD COLUMN IF NOT EXISTS has_variations TINYINT(1) NOT NULL DEFAULT 0;
+CALL _add_column('products', 'has_variations', 'TINYINT(1) NOT NULL DEFAULT 0');
 -- ─────────────────────────────────────────────────────────────────────
 -- 100 — Kritik Performans İndexleri
 --
@@ -1244,5 +1244,24 @@ UPDATE products
 SET is_active = 0
 WHERE deleted_at IS NOT NULL
   AND is_active = 1;
+
+-- ─────────────────────────────────────────────────────────────────────
+-- Varsayılan yönetici hesabı
+-- E-posta: admin@example.com
+-- Şifre: admin123
+-- Canlıya almadan önce admin panelinden mutlaka değiştirin.
+-- ─────────────────────────────────────────────────────────────────────
+INSERT INTO users (name, first_name, last_name, email, password, role)
+VALUES (
+  'Yönetici',
+  'Site',
+  'Yöneticisi',
+  'admin@example.com',
+  '$2y$12$4RK8pT9Yhxdk/8DIc0QnsefgEzmeTWAPVn5ZLR/jrv8wNtaSgcRVm',
+  'admin'
+)
+ON DUPLICATE KEY UPDATE
+  role = 'admin',
+  password = VALUES(password);
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -1,6 +1,6 @@
-/* AquaShop Ürün Detay — canlı (aquashop.com.tr) urun-detay.css tasarımıyla birebir. */
+/* Tema Ürün Detay — canlı (ornek-site.test) urun-detay.css tasarımıyla birebir. */
 /* =========================================================
-   AquaShop Ürün Detay Sayfası
+   Tema Ürün Detay Sayfası
    - Galeri
    - Sepete ekle / hemen satın al / WhatsApp
    - Açıklama
@@ -808,7 +808,7 @@
 }
 
 /* =========================================================
-   AquaShop Ürün Detay - Kalan Stok + Müşteri Yorumları
+   Tema Ürün Detay - Kalan Stok + Müşteri Yorumları
 ========================================================= */
 
 .aq-stock-info-box {
@@ -1249,7 +1249,7 @@
 }
 
 /* =========================================================
-   AquaShop Ürün Detay - Açıklama + SSS Yan Yana
+   Tema Ürün Detay - Açıklama + SSS Yan Yana
    - Teknik Özellikler kartı kaldırıldı
    - Açıklama ve SSS eşit genişlikte yan yana
 ========================================================= */
@@ -1326,7 +1326,7 @@
     }
 }
 /* =========================================================
-   AquaShop Ürün Detay - Kalan Stok Fiyat Altı
+   Tema Ürün Detay - Kalan Stok Fiyat Altı
    - Kalan stok alanı fiyat kutusunun altına taşındı
 ========================================================= */
 
@@ -1339,7 +1339,7 @@
 }
 
 /* =========================================================
-   AquaShop Ürün Detay Açıklama / SSS Dinamik Yerleşim
+   Tema Ürün Detay Açıklama / SSS Dinamik Yerleşim
    - SSS varsa iki kolon düzen korunur
    - SSS yoksa açıklama tam genişlik olur
    - Mevcut tasarımı bozmadan final düzeltme
@@ -1381,7 +1381,7 @@
 }
 
 /* =========================================================
-   AquaShop Ürün Detay Görseli Tam Görünsün
+   Tema Ürün Detay Görseli Tam Görünsün
 ========================================================= */
 
 .aq-product-gallery-main {
@@ -1406,7 +1406,7 @@
     background: #ffffff;
 }
 /* =========================================================
-   AquaShop Ürün Detay - Satın Alan Müşteri Yorumu
+   Tema Ürün Detay - Satın Alan Müşteri Yorumu
 ========================================================= */
 
 .aq-review-gate {
@@ -1524,7 +1524,7 @@
 }
 
 /* =========================================================
-   AquaShop Ürün Detay - Onaylı Müşteri Yorum Formu Düzeni
+   Tema Ürün Detay - Onaylı Müşteri Yorum Formu Düzeni
 ========================================================= */
 
 .aq-review-form {
@@ -1815,7 +1815,7 @@
 }
 
 /* =========================================================
-   AquaShop Ürün Detay - Görsel + MP4 Video Galerisi
+   Tema Ürün Detay - Görsel + MP4 Video Galerisi
 ========================================================= */
 
 .aq-product-gallery-main .aq-product-main-video {
@@ -1950,7 +1950,7 @@
 }
 
 /* =========================================================
-   AquaShop Ürün Detay - YouTube Galeri Desteği
+   Tema Ürün Detay - YouTube Galeri Desteği
 ========================================================= */
 
 .aq-product-main-youtube {

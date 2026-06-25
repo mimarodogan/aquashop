@@ -39,3 +39,6 @@ Thumbs.db
 *.tmp
 *.bak
 *.cache
+*.zip
+/scratch/
+/mockup/

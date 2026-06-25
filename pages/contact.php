@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && csrf_check($_POST['csrf'] ?? null)) {
 //  1) Tam <iframe ... src="..."> HTML (klasik Google Maps "Harita yerleştir" çıktısı)
 //  2) Doğrudan embed URL'i (https://www.google.com/maps/embed?pb=...)
 //  3) Plus Code (örn. "6X95+9P Nilüfer, Bursa") — WAF tetiklemez
-//  4) Düz adres metni (örn. "Ataevler Mh., Nilüfer, Bursa")
+//  4) Düz adres metni (örn. "Adres bilgisi")
 $mapEmbed = trim((string)setting('contact_map_embed',''));
 $mapSrc = '';
 if ($mapEmbed !== '') {
@@ -62,133 +62,185 @@ $socials = array_filter([
     'tiktok'    => trim((string)setting('social_tiktok','')),
 ]);
 
+$phone = trim((string)setting('contact_phone','+90 555 000 00 00'));
+$phoneHref = preg_replace('/\D+/', '', $phone);
+$email = trim((string)setting('contact_email','info@example.com'));
+$address = trim((string)setting('contact_address','İstanbul, Türkiye'));
+$contactSiteName = trim((string)setting('site_name','')) ?: SITE_NAME_FALLBACK;
+$hoursText = trim(implode(' ', array_filter([
+    setting('hours_weekday','Pazartesi - Cuma · 09:00 - 18:00'),
+    setting('hours_saturday','Cumartesi · 10:00 - 16:00'),
+    setting('hours_sunday','Pazar · Kapalı'),
+])));
+$waEnabled = setting('whatsapp_enabled','0') === '1';
+$waNumber = preg_replace('/\D+/', '', (string)setting('whatsapp_number',''));
+$waMsg = trim((string)setting('whatsapp_message','Merhaba, bilgi almak istiyorum.'));
+$waHref = ($waEnabled && $waNumber !== '') ? ('https://wa.me/' . $waNumber . ($waMsg !== '' ? '?text=' . rawurlencode($waMsg) : '')) : '';
+
 include __DIR__ . '/../includes/header.php';
 ?>
-<section class="page-header">
-  <div class="container">
-    <span class="kicker">Bize Ulaşın</span>
-    <h1 style="margin-top:10px">İletişim</h1>
-    <div class="breadcrumb"><a href="<?= url('home') ?>">Anasayfa</a><span>/</span>İletişim</div>
+<section class="aq-contact-hero">
+  <div class="aq-container">
+    <nav class="aq-breadcrumb" aria-label="Sayfa yolu">
+      <a href="<?= url('home') ?>">Ana Sayfa</a>
+      <span>İletişim</span>
+    </nav>
+    <span class="aq-contact-kicker">İletişim</span>
+    <h1>Size yardımcı olmak için buradayız</h1>
+    <p>Ürün seçimi, sipariş süreci, kargo durumu veya akvaryum bakım ürünleri hakkında bizimle iletişime geçebilirsiniz.</p>
+    <?php if ($waHref): ?>
+      <a class="aq-contact-hero-whatsapp" href="<?= e($waHref) ?>" target="_blank" rel="noopener"><i class="bi bi-whatsapp"></i> WhatsApp</a>
+    <?php endif; ?>
   </div>
 </section>
 
-<section class="contact-section">
-  <div class="container contact-grid">
+<section class="aq-contact-page">
+  <div class="aq-container">
+    <div class="aq-contact-info-grid">
+      <article class="aq-contact-info-card">
+        <span><i class="bi bi-geo-alt"></i></span>
+        <div>
+          <strong>Adres</strong>
+          <p><?= nl2br(e($address)) ?></p>
+        </div>
+      </article>
+      <article class="aq-contact-info-card">
+        <span><i class="bi bi-telephone"></i></span>
+        <div>
+          <strong>Telefon</strong>
+          <p><a href="tel:<?= e($phoneHref) ?>"><?= e($phone) ?></a></p>
+        </div>
+      </article>
+      <article class="aq-contact-info-card">
+        <span><i class="bi bi-envelope"></i></span>
+        <div>
+          <strong>E-posta</strong>
+          <p><a href="mailto:<?= e($email) ?>"><?= e($email) ?></a></p>
+        </div>
+      </article>
+      <article class="aq-contact-info-card">
+        <span><i class="bi bi-clock"></i></span>
+        <div>
+          <strong>Çalışma Saatleri</strong>
+          <p><?= e($hoursText) ?></p>
+        </div>
+      </article>
+    </div>
 
-    <aside class="contact-info">
-      <div class="panel">
-        <span class="kicker">İletişim</span>
-        <h3 style="margin:8px 0 18px">Bilgilerimiz</h3>
-        <ul class="info-list">
-          <li>
-            <span class="info-ico" aria-hidden="true">
-              <?= ic('phone', '', 20) ?>
-            </span>
-            <div>
-              <small>Telefon</small>
-              <a href="tel:<?= e(preg_replace('/\s+/','',setting('contact_phone',''))) ?>"><?= e(setting('contact_phone','+90 555 000 00 00')) ?></a>
-            </div>
-          </li>
-          <li>
-            <span class="info-ico" aria-hidden="true">
-              <?= ic('mail', '', 20) ?>
-            </span>
-            <div>
-              <small>E-posta</small>
-              <a href="mailto:<?= e(setting('contact_email','')) ?>"><?= e(setting('contact_email','info@example.com')) ?></a>
-            </div>
-          </li>
-          <li>
-            <span class="info-ico" aria-hidden="true">
-              <?= ic('map-pin', '', 20) ?>
-            </span>
-            <div>
-              <small>Adres</small>
-              <p><?= nl2br(e(setting('contact_address','İstanbul, Türkiye'))) ?></p>
-            </div>
-          </li>
-        </ul>
+    <div class="aq-contact-layout">
+      <section class="aq-contact-form-card">
+        <span class="aq-contact-kicker">Bize Yazın</span>
+        <h2>İletişim Formu</h2>
+        <p>Formu doldurun, ekibimiz en kısa sürede sizinle iletişime geçsin.</p>
+
+        <?php if ($sent): ?>
+          <div class="alert alert-ok" role="status">Mesajınız iletildi. En kısa sürede dönüş yapacağız.</div>
+        <?php endif; ?>
+        <?php if ($err): ?>
+          <div class="alert alert-err" role="alert"><?= e($err) ?></div>
+        <?php endif; ?>
+
+        <form method="post" class="aq-contact-form" novalidate>
+          <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
+          <div class="aq-contact-form-grid">
+            <label>Ad Soyad
+              <input name="name" required placeholder="Adınızı ve soyadınızı yazın" value="<?= e($_POST['name'] ?? '') ?>">
+            </label>
+            <label>E-posta
+              <input name="email" type="email" required placeholder="ornek@mail.com" value="<?= e($_POST['email'] ?? '') ?>">
+            </label>
+            <label>Telefon
+              <input name="phone" type="tel" placeholder="05xx xxx xx xx" value="<?= e($_POST['phone'] ?? '') ?>">
+            </label>
+            <label>Konu
+              <?php $selectedSubject = $_POST['subject'] ?? ''; ?>
+              <select name="subject">
+                <option value="">Konu seçiniz</option>
+                <?php foreach (['Ürün Danışmanlığı','Sipariş Durumu','Kargo ve Teslimat','İade ve Değişim','Diğer'] as $subjectOption): ?>
+                  <option value="<?= e($subjectOption) ?>" <?= $selectedSubject === $subjectOption ? 'selected' : '' ?>><?= e($subjectOption) ?></option>
+                <?php endforeach; ?>
+              </select>
+            </label>
+          </div>
+          <label>Mesajınız
+            <textarea name="message" rows="6" required placeholder="Mesajınızı yazın..."><?= e($_POST['message'] ?? '') ?></textarea>
+          </label>
+          <label class="aq-contact-consent">
+            <input type="checkbox" name="kvkk" value="1" required <?= !empty($_POST['kvkk']) ? 'checked' : '' ?>>
+            <span>Kişisel verilerimin iletişim talebimin yanıtlanması amacıyla işlenmesini kabul ediyorum.</span>
+          </label>
+          <button class="aq-contact-submit" type="submit">Mesajı Gönder</button>
+        </form>
+      </section>
+
+      <aside class="aq-contact-support-card">
+        <span><i class="bi bi-headset"></i></span>
+        <h3>Hızlı Destek</h3>
+        <p>Ürün seçimi veya siparişinizle ilgili hızlı destek almak için WhatsApp üzerinden bize yazabilirsiniz.</p>
+        <?php if ($waHref): ?>
+          <a href="<?= e($waHref) ?>" target="_blank" rel="noopener"><i class="bi bi-whatsapp"></i> WhatsApp’dan Yazın</a>
+        <?php else: ?>
+          <a href="tel:<?= e($phoneHref) ?>"><i class="bi bi-telephone"></i> Hemen Arayın</a>
+        <?php endif; ?>
+        <div class="aq-contact-perks">
+          <div><i class="bi bi-shield-check"></i><strong>Güvenli Alışveriş</strong><small>SSL korumalı güvenli ödeme altyapısı.</small></div>
+          <div><i class="bi bi-truck"></i><strong>Hızlı Teslimat</strong><small>Stokta olan ürünlerde hızlı kargo süreci.</small></div>
+          <div><i class="bi bi-arrow-repeat"></i><strong>Kolay İade</strong><small>Memnuniyet odaklı kolay iade ve değişim.</small></div>
+        </div>
       </div>
+    </div>
 
-      <div class="panel">
-        <span class="kicker">Çalışma Saatleri</span>
-        <h3 style="margin:8px 0 14px">Açığız</h3>
-        <ul class="hours-list">
-          <li><?= ic('clock', '', 16) ?><span><?= e(setting('hours_weekday','Pazartesi – Cuma · 09:00 – 18:00')) ?></span></li>
-          <li><?= ic('clock', '', 16) ?><span><?= e(setting('hours_saturday','Cumartesi · 10:00 – 16:00')) ?></span></li>
-          <li><?= ic('clock', '', 16) ?><span><?= e(setting('hours_sunday','Pazar · Kapalı')) ?></span></li>
-        </ul>
-      </div>
-
-      <?php if ($socials): ?>
-      <div class="panel">
-        <span class="kicker">Sosyal Medya</span>
-        <h3 style="margin:8px 0 14px">Takip Edin</h3>
-        <div class="social-row">
+    <?php if ($socials): ?>
+      <div class="aq-contact-socials" aria-label="Sosyal medya bağlantıları">
+        <strong>Bizi takip edin</strong>
+        <div>
           <?php
           $socialIconMap = ['twitter' => 'twitter-x'];
           foreach ($socials as $name => $url):
             $iconName = $socialIconMap[$name] ?? $name;
           ?>
-            <a href="<?= e($url) ?>" target="_blank" rel="noopener" class="social-btn" aria-label="<?= e(ucfirst($name)) ?>">
-              <?= ic($iconName, '', 20) ?>
-            </a>
+            <a href="<?= e($url) ?>" target="_blank" rel="noopener" aria-label="<?= e(ucfirst($name)) ?>"><i class="bi bi-<?= e($iconName) ?>"></i></a>
           <?php endforeach; ?>
         </div>
       </div>
-      <?php endif; ?>
-    </aside>
-
-    <form method="post" class="panel contact-form" novalidate>
-      <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-      <span class="kicker">Mesaj Gönder</span>
-      <h3 style="margin:8px 0 22px">Bize Yazın</h3>
-
-      <?php if ($sent): ?>
-        <div class="alert alert-ok" role="status">Mesajınız iletildi. En kısa sürede dönüş yapacağız.</div>
-      <?php endif; ?>
-      <?php if ($err): ?>
-        <div class="alert alert-err" role="alert"><?= e($err) ?></div>
-      <?php endif; ?>
-
-      <div class="row-2">
-        <div class="field"><label>Ad Soyad <span aria-hidden="true" class="req">*</span></label><input name="name" required value="<?= e($_POST['name'] ?? '') ?>"></div>
-        <div class="field"><label>E-posta <span aria-hidden="true" class="req">*</span></label><input name="email" type="email" required value="<?= e($_POST['email'] ?? '') ?>"></div>
-      </div>
-      <div class="row-2" style="margin-top:14px">
-        <div class="field"><label>Telefon</label><input name="phone" type="tel" value="<?= e($_POST['phone'] ?? '') ?>"></div>
-        <div class="field"><label>Konu</label><input name="subject" value="<?= e($_POST['subject'] ?? '') ?>"></div>
-      </div>
-      <div class="field" style="margin-top:14px"><label>Mesajınız <span aria-hidden="true" class="req">*</span></label><textarea name="message" rows="5" required><?= e($_POST['message'] ?? '') ?></textarea></div>
-
-      <fieldset class="pref-field" style="margin-top:18px;border:0;padding:0">
-        <legend>Size nasıl dönüş yapalım? <span aria-hidden="true" class="req">*</span></legend>
-        <div class="pref-options">
-          <label class="pref-option"><input type="radio" name="contact_pref" value="email" <?= (($_POST['contact_pref']??'email')==='email')?'checked':'' ?>> <span>E-Posta</span></label>
-          <label class="pref-option"><input type="radio" name="contact_pref" value="sms"   <?= (($_POST['contact_pref']??'')==='sms')?'checked':'' ?>> <span>SMS</span></label>
-          <label class="pref-option"><input type="radio" name="contact_pref" value="phone" <?= (($_POST['contact_pref']??'')==='phone')?'checked':'' ?>> <span>Telefon Araması</span></label>
-        </div>
-      </fieldset>
-
-      <label class="kvkk-row">
-        <input type="checkbox" name="kvkk" value="1" required>
-        <span><a href="<?= url('page', ['slug'=>'kvkk']) ?>" target="_blank" rel="noopener">KVKK Aydınlatma Metni</a>'ni okudum ve onaylıyorum. <span aria-hidden="true" class="req">*</span></span>
-      </label>
-
-      <button class="btn btn-primary btn-block btn-lg" style="margin-top:22px">Gönder</button>
-    </form>
-
+    <?php endif; ?>
   </div>
 </section>
 
 <?php if ($mapSrc): ?>
-<section class="map-section" aria-label="İşletme konumu">
-  <div class="container">
-    <div class="map-wrap">
+<section class="aq-contact-map-section" aria-label="İşletme konumu">
+  <div class="aq-container">
+    <div class="aq-contact-map-card">
+      <div>
+        <span class="aq-contact-kicker">Konum Bilgisi</span>
+        <h2><?= e($contactSiteName) ?></h2>
+        <p><?= nl2br(e($address)) ?></p>
+        <a href="https://www.google.com/maps/search/?api=1&query=<?= rawurlencode($address) ?>" target="_blank" rel="noopener">Haritada Aç</a>
+      </div>
       <iframe src="<?= e($mapSrc) ?>" width="100%" height="420" style="border:0;display:block" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="İşletme konumu haritası"></iframe>
     </div>
   </div>
 </section>
 <?php endif; ?>
+
+<section class="aq-contact-faq">
+  <div class="aq-container">
+    <h2>Sık Sorulan İletişim Soruları</h2>
+    <div class="aq-contact-faq-grid">
+      <details open>
+        <summary>Kargo süreci hakkında nasıl bilgi alabilirim?</summary>
+        <p>Sipariş numaranızla birlikte bize form, telefon veya WhatsApp üzerinden ulaşabilirsiniz.</p>
+      </details>
+      <details>
+        <summary>Ürün seçimi için destek veriyor musunuz?</summary>
+        <p>Evet, akvaryum hacminize ve ihtiyacınıza göre doğru ürün seçimi konusunda yardımcı oluyoruz.</p>
+      </details>
+      <details>
+        <summary>İade ve değişim talepleri nasıl yapılır?</summary>
+        <p>İade ve değişim talepleriniz için iletişim formunu doldurabilir veya müşteri hizmetlerimize ulaşabilirsiniz.</p>
+      </details>
+    </div>
+  </div>
+</section>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>

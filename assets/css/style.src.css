@@ -2473,7 +2473,7 @@ body.aq-cart-open .aq-cart-drawer {
 }
 
 /* =========================================================
-   AquaShop İnce Ayar Paketi
+   Tema İnce Ayar Paketi
    - Zarif ürün kartları
    - Temiz renk geçişleri
    - Tam ortalı ikonlar
@@ -2887,7 +2887,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop V3 - Premium Ürün Kartları ve 5'li Carousel
+   Tema V3 - Premium Ürün Kartları ve 5'li Carousel
    Mevcut yapıyı bozmadan en alta eklenen güncelleme
 ========================================================= */
 .aq-carousel-wrap {
@@ -3136,7 +3136,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop V4 - 5 Ürün Görünüm Düzeltmesi
+   Tema V4 - 5 Ürün Görünüm Düzeltmesi
    Mevcut yapıyı bozmadan en alta eklenecek
    - Bugünün Öne Çıkanları
    - En Çok Sevilen Ürünler
@@ -3437,7 +3437,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop V5 - Tam Hizalı Carousel + Font + Footer İletişim
+   Tema V5 - Tam Hizalı Carousel + Font + Footer İletişim
    Mevcut yapıyı bozmadan en alta eklenecek
 ========================================================= */
 
@@ -3817,7 +3817,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop V5 - Kesin Carousel Ölçü Düzeltmesi + Font + Footer
+   Tema V5 - Kesin Carousel Ölçü Düzeltmesi + Font + Footer
    Mevcut yapıyı bozmadan en alta eklenir.
 ========================================================= */
 
@@ -4227,7 +4227,7 @@ body {
 
 
 /* =========================================================
-   AquaShop V6 - Sorunsuz Hizalama Paketi
+   Tema V6 - Sorunsuz Hizalama Paketi
    - Ürün carousel tam oturur, yarım kart göstermez
    - Kategori carousel tam oturur, kaymış görünmez
    - Blog 4 kart
@@ -4784,7 +4784,7 @@ body {
 
 
 /* =========================================================
-   AquaShop V7 - Son İnce Ayar
+   Tema V7 - Son İnce Ayar
    - Ürün carousel arka beyaz kutu kaldırıldı
    - Kart aralıkları daraltıldı, daha fazla ürün hissi verildi
    - Hover yukarı kalkma kaldırıldı, üst border kaybolmaz
@@ -5146,7 +5146,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop V8 - Kesin Hizalı Ürün/Kategori Slider Düzeltmesi
+   Tema V8 - Kesin Hizalı Ürün/Kategori Slider Düzeltmesi
    - Ürün kartları yarım kalmaz
    - Kategori araları daralır
    - Hover border kaybolmaz
@@ -5447,7 +5447,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop Footer Son Toparlama
+   Tema Footer Son Toparlama
    - İletişim bilgileri bant şeklinde alta alındı
    - Sağ taraftaki boşluk dengelendi
    - Diğer alanlara dokunmaz
@@ -5597,7 +5597,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop Hero Slider Tam Genişlik Düzenlemesi
+   Tema Hero Slider Tam Genişlik Düzenlemesi
    - Sağdaki küçük bannerlar gizlendi
    - Ana slider boydan boya yapıldı
    - Diğer alanlara dokunmaz
@@ -5647,7 +5647,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop Mobil Üst Bilgi Satırı Gizleme
+   Tema Mobil Üst Bilgi Satırı Gizleme
    - Masaüstünde görünür
    - Mobil/tablette gizlenir
    - Diğer alanlara dokunmaz
@@ -5660,7 +5660,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop Mobil Header Boşluk Düzeltmesi
+   Tema Mobil Header Boşluk Düzeltmesi
    - Üst mini satır gizlenince header üst bara yapışmasın
 ========================================================= */
 
@@ -5689,7 +5689,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop Mobil Ürün Carousel 2'li Görünüm
+   Tema Mobil Ürün Carousel 2'li Görünüm
    - Mobilde kayan ürünler yan yana 2 kart olur
    - Kart içi görsel/yazı dengesi korunur
 ========================================================= */
@@ -5795,7 +5795,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop Hero Slider Temiz Görsel Modu
+   Tema Hero Slider Temiz Görsel Modu
    - Yazı ve buton yok
    - Sağ banner yok
    - Tam geniş dikdörtgen görsel
@@ -5973,7 +5973,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop Kategori Alanı Başlıksız Slider
+   Tema Kategori Alanı Başlıksız Slider
    - Sadece kategori başlığı/açıklaması kaldırıldı
    - Diğer ürün başlıklarına dokunmaz
 ========================================================= */
@@ -6058,7 +6058,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop Kategori Slider Kesin Hizalama + Touch
+   Tema Kategori Slider Kesin Hizalama + Touch
    - Yarım kategori görünmez
    - Oklar sağ/sol ortalı kalır
    - Mobilde parmakla kaydırma desteklenir
@@ -6235,7 +6235,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop Mobil Kategori + Blog Son Düzeltme
+   Tema Mobil Kategori + Blog Son Düzeltme
    - Mobilde kategori yarım kalmaz
    - Mobilde blog 2'li görünür
    - Masaüstü blog 4'lü kalır
@@ -6380,7 +6380,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop Ürün Bölümü Başlık Ortalama
+   Tema Ürün Bölümü Başlık Ortalama
    - En Çok Satanlar / Yeni Ürünler başlıkları ortalanır
    - Tümünü Gör butonu slider altında ortalanır
    - Diğer alanları bozmaz
@@ -6460,7 +6460,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop Başlık Ortalama + Alt Buton Düzeni
+   Tema Başlık Ortalama + Alt Buton Düzeni
    - En Çok Satanlar / Yeni Ürünler / Blog başlıkları ortalı
    - Tümünü Gör butonları altta ortalı
    - Mevcut slider ve kart yapısını bozmaz
@@ -6548,7 +6548,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop Son Sağlam Ek Paket
+   Tema Son Sağlam Ek Paket
    - Kategori mobilde yarım kalmaz
    - Tüm kategori tooltipleri çalışır
    - Google yorumları ve Instagram kaydırma alanları
@@ -7047,7 +7047,7 @@ body {
     }
 }
 /* =========================================================
-   AquaShop - Google Yorumları + Instagram Son Görünüm
+   Tema - Google Yorumları + Instagram Son Görünüm
    - Google yorum kartlarının arkasındaki gri/gölge hissi kaldırıldı
    - Instagram kartlarında yazı başlığı kaldırıldı
    - Instagram görselleri normalde blur/karartmalı
@@ -7182,7 +7182,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop Header Sticky Kesin Düzeltme
+   Tema Header Sticky Kesin Düzeltme
    - Masaüstü ve mobilde header üstte sabit kalır
    - Duyuru barı normal akar
    - Header scroll olunca üstte kalır
@@ -7268,7 +7268,7 @@ body,
 }
 
 /* =========================================================
-   AquaShop Header Sticky Final Güvenli Çözüm
+   Tema Header Sticky Final Güvenli Çözüm
    - Fixed kullanılmaz, sayfa akışı bozulmaz
    - Masaüstü ve mobilde üst alan sabit kalır
    - Slider, ürün kartları, kategori, footer ve JS yapısına dokunmaz
@@ -7370,7 +7370,7 @@ body {
 }
 
 /* =========================================================
-   AquaShop Header Fixed Final Çalışan Çözüm
+   Tema Header Fixed Final Çalışan Çözüm
    - Header aşağı kaydırmada ekranda sabit kalır
    - Sayfa içeriği header altında ezilmez
    - Masaüstü ve mobil uyumlu
@@ -7474,7 +7474,7 @@ body.aq-fixed-header-ready {
 }
 
 /* =========================================================
-   AquaShop Header Scroll Sonrası Sabitlenme
+   Tema Header Scroll Sonrası Sabitlenme
    - Sayfa ilk açıldığında header normal yerinde kalır
    - Aşağı kaydırınca header üstte sabitlenir
    - Slider ilk açılışta header arkasında kalmaz
@@ -7599,7 +7599,7 @@ body.aq-header-is-fixed .aq-top-announcement {
 }
 
 /* =========================================================
-   AquaShop Header + Siyah Duyuru Barı Scroll Takip Final
+   Tema Header + Siyah Duyuru Barı Scroll Takip Final
    - İlk açılışta normal akışta durur
    - Scroll sonrası siyah bar + header beraber sabitlenir
    - Slider ilk girişte arkada kalmaz
@@ -7740,7 +7740,7 @@ body.aq-header-is-fixed {
 }
 
 /* =========================================================
-   AquaShop Header + Siyah Bar Anında Sabit Final
+   Tema Header + Siyah Bar Anında Sabit Final
    - Scroll beklemez, mobilde gecikme/patlama olmaz
    - Slider/header arkasında kalmaz
    - Sayfa açılışında doğal görünüm korunur
@@ -7855,7 +7855,7 @@ body.aq-header-is-fixed .aq-header {
 }
 
 /* =========================================================
-   AquaShop Hesabım Dropdown
+   Tema Hesabım Dropdown
    - Giriş yoksa Üye Ol / Giriş Yap
    - Giriş varsa hesap menüsü
 ========================================================= */
@@ -8053,7 +8053,7 @@ body.aq-header-is-fixed .aq-header {
 }
 
 /* =========================================================
-   AquaShop Hesabım Dropdown Fix
+   Tema Hesabım Dropdown Fix
    - Hover ile kapanma/açılma iptal
    - Sadece JS is-open classı ile açılır
    - Admin/kasiyer frontend müşteri gibi görünmez
@@ -8095,7 +8095,7 @@ body.aq-header-is-fixed .aq-header {
 }
 
 /* =========================================================
-   AquaShop Hesabım Dropdown Renk Düzeltmesi
+   Tema Hesabım Dropdown Renk Düzeltmesi
    - Turuncu tonlar kaldırıldı
    - Site rengine uygun turkuaz/mavi tonlar kullanıldı
 ========================================================= */
@@ -8131,7 +8131,7 @@ body.aq-header-is-fixed .aq-header {
 }
 
 /* =========================================================
-   AquaShop Header Kategori Menü Final
+   Tema Header Kategori Menü Final
    - Tüm Kategoriler artık sayfaya gider
    - Açılır mega menü kaldırıldı
    - Kategoriler genişliğe göre görünür
@@ -8356,7 +8356,7 @@ body.aq-header-is-fixed .aq-header {
 }
 
 /* =========================================================
-   AquaShop Devamı Menü - Scrollsuz Çok Sıralı Görünüm
+   Tema Devamı Menü - Scrollsuz Çok Sıralı Görünüm
    - Scroll kaldırıldı
    - Az kategori varsa tek sıra gibi durur
    - Çok kategori varsa 2 / 3 sıra halinde genişler
@@ -8446,7 +8446,7 @@ body.aq-header-is-fixed .aq-header {
 }
 
 /* =========================================================
-   AquaShop Devamı Menü - Üst Menü Gibi Düz Link Görünümü
+   Tema Devamı Menü - Üst Menü Gibi Düz Link Görünümü
    - Buton/kart hissi kaldırıldı
    - Hover/aktif durumda renk değişir
    - Alt çizgi gelir
@@ -8533,7 +8533,7 @@ body.aq-header-is-fixed .aq-header {
 }
 
 /* =========================================================
-   AquaShop Mobil Menü Final
+   Tema Mobil Menü Final
    - Hesap / giriş alanı
    - Ana kategori + alt kategori accordion
    - Scroll var ama scrollbar görünmez
@@ -8876,7 +8876,7 @@ body.aq-header-is-fixed .aq-header {
 }
 
 /* =========================================================
-   AquaShop Mobil Menü Profesyonel Final
+   Tema Mobil Menü Profesyonel Final
    - Arama üstte
    - Hesap alanı sade kart
    - Tüm Kategoriler kaldırıldı
@@ -9254,7 +9254,7 @@ body.aq-header-is-fixed .aq-header {
 }
 
 /* =========================================================
-   AquaShop Mobil Menü - Accordion Boşluk ve Oksuz Link Düzeltme
+   Tema Mobil Menü - Accordion Boşluk ve Oksuz Link Düzeltme
 ========================================================= */
 
 .aq-mobile-category-item {
@@ -9323,7 +9323,7 @@ body.aq-header-is-fixed .aq-header {
 }
 
 /* =========================================================
-   AquaShop Mobil Menü - Yazı Link / Ok Ayrı Alan Final
+   Tema Mobil Menü - Yazı Link / Ok Ayrı Alan Final
    - Yazıya tıklayınca kategoriye gider
    - Sadece oka tıklayınca alt kategori açılır
    - Hover yapışıklığı giderildi
@@ -9458,7 +9458,7 @@ body.aq-header-is-fixed .aq-header {
 }
 
 /* =========================================================
-   AquaShop SweetAlert Toast Tasarımı
+   Tema SweetAlert Toast Tasarımı
 ========================================================= */
 
 .aq-swal-toast {
@@ -9666,7 +9666,7 @@ body.aq-header-is-fixed .aq-header {
 }
 
 /* =========================================================
-   AquaShop Sepet Drawer Final Tasarım
+   Tema Sepet Drawer Final Tasarım
 ========================================================= */
 
 .aq-header-action.aq-cart-open {
@@ -10079,7 +10079,7 @@ body.aq-cart-open .aq-cart-drawer {
 }
 
 /* =========================================================
-   AquaShop Tüm Kategoriler Sayfası
+   Tema Tüm Kategoriler Sayfası
 ========================================================= */
 
 .aq-all-categories-page {
@@ -10321,7 +10321,7 @@ body.aq-cart-open .aq-cart-drawer {
 }
 
 /* =========================================================
-   AquaShop Kategori Detay Sayfası
+   Tema Kategori Detay Sayfası
 ========================================================= */
 
 .aq-category-page-hero {
@@ -10647,6 +10647,299 @@ body.aq-cart-open .aq-cart-drawer {
     }
 }
 
+/* =========================================================
+   Tema Sepet Sayfası
+========================================================= */
+
+.aq-cart-page {
+    padding: 28px 0 72px;
+    background: #ffffff;
+}
+
+.aq-cart-page .aq-breadcrumb {
+    margin-bottom: 14px;
+}
+
+.aq-cart-page-head {
+    min-height: 116px;
+    padding: 22px;
+    margin-bottom: 28px;
+    border: 1px solid #d9edf4;
+    border-radius: 18px;
+    background:
+        radial-gradient(circle at 8% 6%, rgba(7, 152, 189, .12), transparent 26%),
+        linear-gradient(135deg, #e7f9fd 0%, #f7fbff 48%, #ffffff 100%);
+}
+
+.aq-cart-page-head span {
+    color: #0798bd;
+    font-size: 12px;
+    font-weight: 850;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+}
+
+.aq-cart-page-head h1 {
+    margin: 9px 0 8px;
+    color: #111827;
+    font-family: inherit;
+    font-size: clamp(30px, 3.6vw, 44px);
+    font-weight: 850;
+    letter-spacing: -0.045em;
+    line-height: 1;
+}
+
+.aq-cart-page-head p {
+    margin: 0;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.aq-cart-page-empty {
+    max-width: 640px;
+    min-height: 430px;
+    margin: 0 auto;
+    border-style: dashed;
+    border-color: #cfe1ed;
+    border-radius: 20px;
+}
+
+.aq-cart-page-empty .aq-cart-checkout {
+    width: min(360px, 100%);
+    margin-top: 12px;
+    text-decoration: none;
+}
+
+.cart-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(340px, .8fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.aq-cart-table-panel,
+.aq-cart-summary-panel {
+    border: 1px solid #dbe7f0 !important;
+    border-radius: 18px !important;
+    background: #ffffff !important;
+    box-shadow: 0 14px 32px rgba(15, 23, 42, .045) !important;
+    overflow: hidden;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cart-table th,
+.cart-table td {
+    text-align: left;
+    padding: 16px;
+    border-bottom: 1px solid #e5edf4;
+    vertical-align: middle;
+}
+
+.cart-table th {
+    background: #f8fbfd;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 850;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+
+.cart-table .cart-name {
+    color: #111827;
+    font-weight: 850;
+}
+
+.cart-table .cart-variant {
+    display: block;
+    margin-top: 4px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.cart-table .cart-cell-total {
+    color: #0798bd;
+    font-weight: 850;
+    white-space: nowrap;
+}
+
+.cart-table .qty-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.cart-table .qty-input {
+    width: 72px;
+    min-height: 42px;
+    padding: 0 10px;
+    border: 1px solid #dbe7f0;
+    border-radius: 12px;
+    background: #f8fbfd;
+    color: #111827;
+    font: inherit;
+}
+
+.cart-table .row-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cart-table .row-actions form {
+    margin: 0;
+}
+
+.cart-footer-row {
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.cart-footer-row form {
+    margin: 0;
+}
+
+.aq-cart-summary-panel {
+    padding: 22px !important;
+    position: sticky;
+    top: 190px;
+}
+
+.aq-cart-summary-panel h3 {
+    margin: 0 0 18px !important;
+    color: #111827;
+    font-family: inherit;
+    font-size: 22px !important;
+    font-weight: 850;
+    letter-spacing: -0.02em;
+}
+
+.aq-cart-summary-panel .btn-primary,
+.aq-cart-summary-panel .btn-secondary,
+.cart-footer-row .btn {
+    border-radius: 14px;
+}
+
+.aq-cart-summary-panel .btn-primary {
+    min-height: 52px;
+    background: linear-gradient(135deg, #0798bd 0%, #04a9cf 100%);
+    border-color: #0798bd;
+    box-shadow: 0 14px 30px rgba(7, 152, 189, .22);
+}
+
+.aq-cart-crosssell {
+    margin: 28px 0 0;
+    padding: 24px;
+    border: 1px solid #dbe7f0;
+    border-radius: 18px;
+    background: #ffffff;
+}
+
+.aq-cart-crosssell h3 {
+    margin: 0 0 18px;
+    color: #111827;
+    font-family: inherit;
+    font-size: 22px;
+    font-weight: 850;
+    text-align: left;
+}
+
+@media (max-width: 991.98px) {
+    .cart-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .aq-cart-summary-panel {
+        position: static;
+    }
+}
+
+@media (max-width: 720px) {
+    .aq-cart-page {
+        padding-top: 22px;
+    }
+
+    .aq-cart-page-head {
+        padding: 20px;
+        border-radius: 16px;
+    }
+
+    .cart-table,
+    .cart-table tbody {
+        display: block;
+    }
+
+    .cart-table thead {
+        display: none;
+    }
+
+    .cart-table tr {
+        display: block;
+        margin: 14px;
+        padding: 14px;
+        border: 1px solid #e5edf4;
+        border-radius: 16px;
+        background: #ffffff;
+    }
+
+    .cart-table td {
+        display: block;
+        border: 0;
+        padding: 7px 0;
+        font-size: 14px;
+    }
+
+    .cart-table td.cart-cell-product {
+        padding-bottom: 12px;
+        margin-bottom: 8px;
+        border-bottom: 1px solid #e5edf4;
+    }
+
+    .cart-table td.cart-cell-price::before {
+        content: "Birim Fiyat: ";
+        color: #64748b;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .cart-table td.cart-cell-total::before {
+        content: "Ara Toplam: ";
+        color: #64748b;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .cart-table .qty-form {
+        align-items: stretch;
+    }
+
+    .cart-table .qty-form .btn,
+    .cart-table .qty-input {
+        min-height: 44px;
+    }
+
+    .cart-table .row-actions {
+        flex-direction: row;
+    }
+
+    .cart-footer-row {
+        flex-direction: column;
+    }
+
+    .cart-footer-row .btn,
+    .cart-footer-row form,
+    .cart-footer-row form .btn {
+        width: 100%;
+    }
+}
+
 @media (max-width: 1199.98px) {
     .aq-all-categories-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -10720,7 +11013,7 @@ body.aq-cart-open .aq-cart-drawer {
 }
 
 /* =========================================================
-   AquaShop Ürün Kartı Etiketleri Final
+   Tema Ürün Kartı Etiketleri Final
    - Sadece yeni ve indirimli ürünlerde görünür
 ========================================================= */
 
@@ -10735,7 +11028,7 @@ body.aq-cart-open .aq-cart-drawer {
 }
 
 /* =========================================================
-   AquaShop Ürün Kartı Panel Etiketleri
+   Tema Ürün Kartı Panel Etiketleri
    - Sadece panelden seçili Yeni / Çok Satan durumları görünür
 ========================================================= */
 
@@ -10750,7 +11043,7 @@ body.aq-cart-open .aq-cart-drawer {
 }
 
 /* =========================================================
-   AquaShop Ürün Kartı Çoklu Etiket Final
+   Tema Ürün Kartı Çoklu Etiket Final
    - Yeni ve Çok Satan aynı anda yan yana görünür
    - İndirim etiketi kullanılmaz
 ========================================================= */
@@ -10823,7 +11116,7 @@ body.aq-cart-open .aq-cart-drawer {
 
 
 /* =========================================================
-   AquaShop Header Hesabım Menü Final Düzeltme
+   Tema Header Hesabım Menü Final Düzeltme
    - Mevcut renkleri bozmaz
    - Hesabım / Favorilerim / Sepetim aynı hizada kalır
    - Hesabım dropdown kategori menüsünün altında kalmaz
@@ -10968,7 +11261,7 @@ body.aq-cart-open .aq-cart-drawer {
 }
 
 /* =========================================================
-   AquaShop Header Hesabım Dropdown Taşma Düzeltmesi
+   Tema Header Hesabım Dropdown Taşma Düzeltmesi
 ========================================================= */
 
 .aq-account-menu {
@@ -11018,7 +11311,7 @@ body.aq-cart-open .aq-cart-drawer {
 
 
 /* =========================================================
-   AquaShop SweetAlert Toast
+   Tema SweetAlert Toast
 ========================================================= */
 
 .aq-toast-popup {
@@ -11044,7 +11337,7 @@ body.aq-cart-open .aq-cart-drawer {
 }
 
 /* =========================================================
-   AquaShop Ürün Görselleri Tam Görünsün
+   Tema Ürün Görselleri Tam Görünsün
    - Ürün resimleri üstten/alttan kesilmesin
    - Kart, kategori, carousel ve favori liste görselleri tam sığsın
 ========================================================= */
@@ -11091,7 +11384,7 @@ body.aq-cart-open .aq-cart-drawer {
 }
 
 /* =========================================================
-   AquaShop Blog Liste ve Detay Sayfaları
+   Tema Blog Liste ve Detay Sayfaları
 ========================================================= */
 
 .aq-blog-list-page,
@@ -11343,7 +11636,7 @@ body.aq-cart-open .aq-cart-drawer {
 }
 
 /* =========================================================
-   AquaShop Global Breadcrumb Final
+   Tema Global Breadcrumb Final
    - Kategori sayfasındaki düzgün breadcrumb görünümü tüm sayfalarda kullanılır
    - Blog / Hesabım / Sepet / Ürün detay sayfalarında aynı çizgide durur
 ========================================================= */
@@ -11424,7 +11717,7 @@ body.aq-cart-open .aq-cart-drawer {
 }
 
 /* =========================================================
-   AquaShop Blog Detay Temiz Görünüm
+   Tema Blog Detay Temiz Görünüm
    - Mevcut blog kart tasarımını bozmaz
    - Kategori sayfalarına dokunmaz
 ========================================================= */
@@ -11525,7 +11818,7 @@ body.aq-cart-open .aq-cart-drawer {
 
 
 /* =========================================================
-   AquaShop Blog Liste Sayfası
+   Tema Blog Liste Sayfası
    - Kategori index üst yapısını kullanır
    - Sadece blog sayfası küçük ekleri
 ========================================================= */
@@ -11548,7 +11841,7 @@ body.aq-cart-open .aq-cart-drawer {
 }
 
 /* =========================================================
-   AquaShop Blog Sayfaları
+   Tema Blog Sayfaları
    - Kategori index üst yapısını kullanır
    - Sadece blog liste/detay içerik alanlarını düzenler
 ========================================================= */
@@ -11687,7 +11980,7 @@ body.aq-cart-open .aq-cart-drawer {
     }
 }
 /* =========================================================
-   AquaShop Blog Liste Sayfası Final
+   Tema Blog Liste Sayfası Final
    - Kategori sayfasındaki breadcrumb yapısını kullanır
    - Blog üst alanı ve kartları premium görünüme taşır
    - Diğer sayfalara karışmaz
@@ -12057,7 +12350,7 @@ body.aq-cart-open .aq-cart-drawer {
     }
 }
 /* =========================================================
-   AquaShop Blog Detay Sayfası Final
+   Tema Blog Detay Sayfası Final
    - Kategori index üst yapısını kullanır
    - Detay içeriği kontrollü ve premium görünür
    - Diğer sayfalara karışmaz
@@ -12452,7 +12745,7 @@ body.aq-cart-open .aq-cart-drawer {
     }
 }
 /* =========================================================
-   AquaShop Instagram Alanı - Dikey Kart Görünümü
+   Tema Instagram Alanı - Dikey Kart Görünümü
    Mevcut carousel yapısını bozmadan Instagram postlarını
    dikey/premium görünümde gösterir.
 ========================================================= */
@@ -12547,7 +12840,7 @@ body.aq-cart-open .aq-cart-drawer {
 }
 
 /* =========================================================
-   AquaShop Instagram Alanı - Reels Tam Görünüm 9:16
+   Tema Instagram Alanı - Reels Tam Görünüm 9:16
    Görsel kırpılmaz, tamamı dikey Reels kartında görünür.
 ========================================================= */
 
@@ -12636,7 +12929,7 @@ body.aq-cart-open .aq-cart-drawer {
     }
 }
 /* =========================================================
-   AquaShop Instagram Alanı - Final Reels Dikey Tam Görünüm
+   Tema Instagram Alanı - Final Reels Dikey Tam Görünüm
    9:16 dikey kart + görsel kırpılmadan tam görünür.
 ========================================================= */
 
@@ -12764,7 +13057,7 @@ body.aq-cart-open .aq-cart-drawer {
 }
 
 /* =========================================================
-   AquaShop Instagram Feed Net Görünüm Düzeltmesi
+   Tema Instagram Feed Net Görünüm Düzeltmesi
    - Instagram postları her zaman net görünür
    - Hover beklemeden blur / opacity / flu görünüm kaldırılır
    - Mevcut carousel ve kart yapısı bozulmaz
@@ -12803,7 +13096,7 @@ body.aq-cart-open .aq-cart-drawer {
     opacity: 1 !important;
 }
 /* =========================================================
-   AquaShop Hero Slider 1280x512 Sabit Oran Final
+   Tema Hero Slider 1280x512 Sabit Oran Final
    - Ana slider oranı: 1280 / 512
    - 2560x1024, 1920x768, 1600x640 gibi aynı oranda küçülür
    - Masaüstü / tablet / mobil aynı oranı korur
@@ -12986,7 +13279,7 @@ body.aq-cart-open .aq-cart-drawer {
     }
 }
 /* =========================================================
-   AquaShop Header Canlı Arama
+   Tema Header Canlı Arama
    - İlk 5 ürün önerisi
    - Görsel + ürün adı + kategori/marka + fiyat
    - Header, hesap dropdown ve sepet yapısını bozmaz
@@ -13055,6 +13348,10 @@ body.aq-cart-open .aq-cart-drawer {
     background: #f8fafc;
     border: 1px solid #edf3f7;
     overflow: hidden;
+    display: grid;
+    place-items: center;
+    color: #0798bd;
+    font-size: 19px;
 }
 
 .aq-search-suggestion-image img {
@@ -13181,5 +13478,772 @@ body.aq-cart-open .aq-cart-drawer {
 
     .aq-search-suggestion-price strong {
         font-size: 12.5px;
+    }
+}
+
+/* Contact page refresh */
+.aq-header-main-inner {
+    grid-template-columns: 252px minmax(280px, 1fr) auto;
+}
+
+.aq-logo {
+    width: 252px;
+}
+
+.aq-logo small {
+    max-width: 252px;
+    overflow: visible;
+}
+
+.aq-search {
+    max-width: 752px;
+    width: 100%;
+}
+
+.aq-contact-hero {
+    padding: 30px 0 24px;
+    background: #ffffff;
+}
+
+.aq-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+    color: #7b8794;
+    font-size: 12.5px;
+    font-weight: 650;
+}
+
+.aq-breadcrumb a {
+    color: #64748b;
+    text-decoration: none;
+}
+
+.aq-breadcrumb a:hover {
+    color: var(--aq-blue);
+}
+
+.aq-breadcrumb span:not(:first-child)::before {
+    content: "/";
+    margin-right: 10px;
+    color: #c3ccd6;
+}
+
+.aq-contact-kicker {
+    display: inline-flex;
+    margin-bottom: 11px;
+    color: var(--aq-blue);
+    font-size: 11px;
+    font-weight: 850;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.aq-contact-hero h1,
+.aq-contact-form-card h2,
+.aq-contact-map-card h2,
+.aq-contact-faq h2 {
+    margin: 0;
+    color: #111827;
+    font-weight: 850;
+    letter-spacing: -.035em;
+}
+
+.aq-contact-hero h1 {
+    max-width: 690px;
+    font-size: clamp(32px, 3vw, 43px);
+    line-height: 1.1;
+}
+
+.aq-contact-hero p {
+    max-width: 690px;
+    margin: 16px 0 0;
+    color: #667085;
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+.aq-contact-hero-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    color: #0798bd;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.aq-contact-page {
+    padding: 28px 0 50px;
+    background: #ffffff;
+}
+
+.aq-contact-info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.aq-contact-info-card {
+    min-height: 112px;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 12px;
+    padding: 17px;
+    border: 1px solid #e5edf3;
+    border-radius: 22px;
+    background: #ffffff;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, .04);
+}
+
+.aq-contact-info-card > span {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: #ecfbff;
+    color: #0798bd;
+    font-size: 19px;
+}
+
+.aq-contact-info-card strong {
+    display: block;
+    margin-bottom: 8px;
+    color: #111827;
+    font-size: 14px;
+    font-weight: 850;
+}
+
+.aq-contact-info-card p {
+    margin: 0;
+    color: #667085;
+    font-size: 12.5px;
+    line-height: 1.55;
+}
+
+.aq-contact-info-card a {
+    color: #056f8d;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.aq-contact-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.aq-contact-form-card,
+.aq-contact-support-card {
+    border: 1px solid #e5edf3;
+    border-radius: 24px;
+    background: #ffffff;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, .043);
+}
+
+.aq-contact-form-card {
+    padding: 26px;
+}
+
+.aq-contact-form-card h2,
+.aq-contact-map-card h2,
+.aq-contact-faq h2 {
+    font-size: 26px;
+}
+
+.aq-contact-form-card > p {
+    margin: 10px 0 22px;
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.aq-contact-form {
+    display: grid;
+    gap: 16px;
+}
+
+.aq-contact-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.aq-contact-form label {
+    display: grid;
+    gap: 8px;
+    color: #1f2937;
+    font-size: 12.5px;
+    font-weight: 800;
+}
+
+.aq-contact-form input,
+.aq-contact-form select,
+.aq-contact-form textarea {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid #dce8ef;
+    border-radius: 14px;
+    background: #f8fafc;
+    color: #111827;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    outline: none;
+    padding: 0 15px;
+    transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.aq-contact-form textarea {
+    min-height: 132px;
+    padding-top: 13px;
+    resize: vertical;
+}
+
+.aq-contact-form input:focus,
+.aq-contact-form select:focus,
+.aq-contact-form textarea:focus {
+    border-color: rgba(7, 152, 189, .45);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(7, 152, 189, .09);
+}
+
+.aq-contact-consent {
+    grid-template-columns: 18px minmax(0, 1fr) !important;
+    align-items: start;
+    gap: 10px !important;
+    color: #667085 !important;
+    font-size: 12.3px !important;
+    font-weight: 650 !important;
+    line-height: 1.55;
+}
+
+.aq-contact-consent input {
+    width: 18px;
+    min-height: 18px;
+    height: 18px;
+    margin-top: 2px;
+    accent-color: #0798bd;
+}
+
+.aq-contact-submit,
+.aq-contact-support-card a,
+.aq-contact-map-card a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
+    border: 0;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #0798bd 0%, #07abc9 100%);
+    color: #ffffff;
+    font-weight: 850;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 12px 26px rgba(7, 152, 189, .18);
+}
+
+.aq-contact-submit {
+    width: 100%;
+    margin-top: 2px;
+}
+
+.aq-contact-support-card {
+    align-self: start;
+    padding: 24px;
+}
+
+.aq-contact-support-card > span {
+    width: 54px;
+    height: 54px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    background: #ecfbff;
+    color: #0798bd;
+    font-size: 24px;
+}
+
+.aq-contact-support-card h3 {
+    margin: 18px 0 10px;
+    color: #111827;
+    font-size: 22px;
+    font-weight: 850;
+}
+
+.aq-contact-support-card p {
+    margin: 0 0 18px;
+    color: #667085;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.aq-contact-support-card a {
+    width: 100%;
+}
+
+.aq-contact-perks {
+    display: grid;
+    gap: 14px;
+    margin-top: 22px;
+}
+
+.aq-contact-perks div {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 10px;
+    align-items: center;
+}
+
+.aq-contact-perks i {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    background: #f1f8fb;
+    color: #0798bd;
+    grid-row: 1 / span 2;
+}
+
+.aq-contact-perks strong {
+    display: block;
+    grid-column: 2;
+    color: #111827;
+    font-size: 13px;
+    font-weight: 850;
+}
+
+.aq-contact-perks small {
+    display: block;
+    grid-column: 2;
+    margin-top: 3px;
+    color: #7b8794;
+    font-size: 11.5px;
+    line-height: 1.45;
+}
+
+.aq-contact-socials {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 22px;
+    padding: 16px 18px;
+    border: 1px solid #e5edf3;
+    border-radius: 20px;
+    background: #f8fbfc;
+}
+
+.aq-contact-socials strong {
+    color: #111827;
+    font-size: 13px;
+    font-weight: 850;
+}
+
+.aq-contact-socials div {
+    display: flex;
+    gap: 9px;
+}
+
+.aq-contact-socials a {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid #e5edf3;
+    color: #0798bd;
+    text-decoration: none;
+}
+
+.aq-contact-map-section {
+    padding: 50px 0;
+    background: #f8fbfc;
+}
+
+.aq-contact-map-card {
+    display: grid;
+    grid-template-columns: 360px minmax(0, 1fr);
+    gap: 18px;
+    align-items: stretch;
+}
+
+.aq-contact-map-card > div {
+    padding: 28px;
+    border: 1px solid #e5edf3;
+    border-radius: 24px;
+    background: #ffffff;
+}
+
+.aq-contact-map-card p {
+    margin: 14px 0 22px;
+    color: #667085;
+    line-height: 1.7;
+}
+
+.aq-contact-map-card iframe {
+    min-height: 420px;
+    border-radius: 24px;
+    border: 1px solid #e5edf3 !important;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, .05);
+}
+
+.aq-contact-map-card a {
+    padding: 0 18px;
+}
+
+.aq-contact-faq {
+    padding: 50px 0 64px;
+    background: #ffffff;
+}
+
+.aq-contact-faq h2 {
+    margin-bottom: 22px;
+    text-align: center;
+}
+
+.aq-contact-faq-grid {
+    display: grid;
+    gap: 12px;
+    max-width: 920px;
+    margin: 0 auto;
+}
+
+.aq-contact-faq details {
+    border: 1px solid #e5edf3;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, .035);
+    overflow: hidden;
+}
+
+.aq-contact-faq summary {
+    cursor: pointer;
+    padding: 18px 20px;
+    color: #111827;
+    font-size: 14px;
+    font-weight: 850;
+    list-style: none;
+}
+
+.aq-contact-faq summary::-webkit-details-marker {
+    display: none;
+}
+
+.aq-contact-faq p {
+    margin: 0;
+    padding: 0 20px 18px;
+    color: #667085;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+@media (max-width: 1240px) {
+    .aq-header-main-inner {
+        grid-template-columns: 242px minmax(260px, 1fr) auto;
+    }
+
+    .aq-logo,
+    .aq-logo small {
+        width: 242px;
+        max-width: 242px;
+    }
+
+    .aq-search {
+        max-width: 680px;
+    }
+}
+
+@media (max-width: 991px) {
+    .aq-header-main-inner {
+        grid-template-columns: auto 1fr auto;
+    }
+
+    .aq-logo,
+    .aq-logo small {
+        width: auto;
+        max-width: 220px;
+    }
+
+    .aq-search {
+        max-width: none;
+    }
+
+    .aq-contact-info-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .aq-contact-layout,
+    .aq-contact-map-card {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .aq-logo,
+    .aq-logo small {
+        width: 165px;
+        max-width: 165px;
+    }
+
+    .aq-logo small {
+        font-size: 6.2px;
+        letter-spacing: .35px;
+        line-height: 1.15;
+        white-space: normal;
+    }
+}
+
+/* Legacy public pages still using older class names */
+.container {
+    width: min(1374px, calc(100% - 44px));
+    margin-inline: auto;
+}
+
+.page-header {
+    padding: 30px 0 24px;
+    background: #ffffff;
+    border-bottom: 1px solid #edf3f7;
+}
+
+.page-header .kicker,
+.panel .kicker {
+    display: inline-flex;
+    color: #0798bd;
+    font-size: 11px;
+    font-weight: 850;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.page-header h1 {
+    margin: 10px 0 0 !important;
+    color: #111827;
+    font-size: clamp(30px, 3vw, 42px);
+    line-height: 1.1;
+    font-weight: 850;
+    letter-spacing: -.035em;
+}
+
+.page-header .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 16px;
+    color: #7b8794;
+    font-size: 12.5px;
+    font-weight: 650;
+}
+
+.page-header .breadcrumb a {
+    color: #64748b;
+    text-decoration: none;
+}
+
+.page-header .breadcrumb a:hover {
+    color: #0798bd;
+}
+
+.panel {
+    padding: 24px;
+    border: 1px solid #e5edf3;
+    border-radius: 22px;
+    background: #ffffff;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, .043);
+}
+
+.panel + .panel,
+.page-header + section .panel {
+    margin-top: 18px;
+}
+
+.panel h2,
+.panel h3 {
+    color: #111827;
+    font-weight: 850;
+    letter-spacing: -.02em;
+}
+
+.panel p,
+.panel li {
+    color: #667085;
+    line-height: 1.7;
+}
+
+.panel a {
+    color: #056f8d;
+    font-weight: 750;
+}
+
+.row-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.field {
+    display: grid;
+    gap: 8px;
+}
+
+.field label,
+.pref-field legend {
+    color: #1f2937;
+    font-size: 12.5px;
+    font-weight: 800;
+}
+
+.field input,
+.field select,
+.field textarea,
+.panel input:not([type="checkbox"]):not([type="radio"]),
+.panel select,
+.panel textarea {
+    width: 100%;
+    min-height: 46px;
+    border: 1px solid #dce8ef;
+    border-radius: 14px;
+    background: #f8fafc;
+    color: #111827;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    outline: none;
+    padding: 0 14px;
+}
+
+.field textarea,
+.panel textarea {
+    min-height: 120px;
+    padding-top: 12px;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus,
+.panel input:not([type="checkbox"]):not([type="radio"]):focus,
+.panel select:focus,
+.panel textarea:focus {
+    border-color: rgba(7, 152, 189, .45);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(7, 152, 189, .09);
+}
+
+@media (max-width: 640px) {
+    .container {
+        width: min(100% - 24px, 1374px);
+    }
+
+    .row-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .panel {
+        padding: 20px;
+        border-radius: 18px;
+    }
+}
+
+@media (max-width: 640px) {
+    .aq-contact-hero {
+        padding-top: 24px;
+    }
+
+    .aq-contact-hero h1 {
+        font-size: 30px;
+    }
+
+    .aq-contact-info-grid,
+    .aq-contact-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .aq-contact-form-card,
+    .aq-contact-support-card,
+    .aq-contact-map-card > div {
+        border-radius: 18px;
+        padding: 20px;
+    }
+
+    .aq-contact-socials {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+
+/* ============================================================
+   Tek tip kart boyutu — tüm ürün & blog grid'leri "Seçkin
+   Koleksiyon" referans kartına (sabit ~260px) hizalanır.
+   Kategori/liste/benzer ürünler/favoriler/Son Yazılar dahil.
+   ============================================================ */
+.aq-product-grid.aq-grid-5,
+.aq-product-grid.aq-grid-4,
+.aq-product-grid.aq-category-products,
+.aq-blog-grid {
+    grid-template-columns: repeat(auto-fit, 260px) !important;
+    justify-content: center !important;
+    gap: 18px !important;
+}
+.aq-product-grid.aq-grid-5 .aq-product-card,
+.aq-product-grid.aq-grid-4 .aq-product-card,
+.aq-product-grid.aq-category-products .aq-product-card {
+    width: 100% !important;
+    max-width: 260px !important;
+    min-width: 0 !important;
+}
+@media (max-width: 560px) {
+    .aq-product-grid.aq-grid-5,
+    .aq-product-grid.aq-grid-4,
+    .aq-product-grid.aq-category-products,
+    .aq-blog-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 12px !important;
+    }
+}
+
+
+/* ============================================================
+   Footer link sütunları — mobilde accordion (yer tasarrufu).
+   Masaüstünde sütunlar her zaman açık (accordion devre dışı).
+   ============================================================ */
+@media (max-width: 767px) {
+    .aq-footer-col > h3 {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        margin-bottom: 0;
+        padding: 13px 0;
+        border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+        user-select: none;
+    }
+    .aq-footer-col > h3::after {
+        content: "";
+        width: 8px;
+        height: 8px;
+        margin-left: 12px;
+        flex: 0 0 auto;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: rotate(45deg);
+        transition: transform 0.22s ease;
+        opacity: 0.55;
+    }
+    .aq-footer-col.is-open > h3::after {
+        transform: rotate(-135deg);
+    }
+    .aq-footer-col > a {
+        display: none;
+    }
+    .aq-footer-col.is-open > a {
+        display: block;
+        padding: 7px 0;
     }
 }

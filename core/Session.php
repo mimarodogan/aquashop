@@ -20,7 +20,7 @@ if (session_status() === PHP_SESSION_NONE) {
     ]);
 
     // Tahmin edilebilir PHPSESSID yerine özel ad
-    session_name('AQUASHOP_SID');
+    session_name('STORE_SID');
     session_start();
 
     // Session fixation koruması: ilk istekte ID yenile

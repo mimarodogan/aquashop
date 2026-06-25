@@ -36,12 +36,7 @@ $st->execute([$slug]);
 $p = $st->fetch();
 
 if (!$p) {
-    http_response_code(404);
-    $title = 'Bulunamadı';
-    include __DIR__ . '/../../includes/header.php';
-    echo '<section class="container" style="padding:120px 0"><h1>Ürün bulunamadı</h1></section>';
-    include __DIR__ . '/../../includes/footer.php';
-    exit;
+    aq_render_error(404); // temaya uygun 404 + exit
 }
 
 $title = $p['name'];

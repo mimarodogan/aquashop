@@ -58,41 +58,56 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && csrf_check($_POST['csrf'] ?? null)) {
 }
 
 include __DIR__ . '/../includes/header.php';
+$authSiteName = trim((string)setting('site_name','')) ?: SITE_NAME_FALLBACK;
+$authTagline = trim((string)setting('site_tagline',''));
 ?>
-<section class="page-header">
-  <div class="container">
-    <span class="kicker">Hesap</span>
-    <h1 style="margin-top:10px">Şifremi Unuttum</h1>
-    <div class="breadcrumb"><a href="<?= url('home') ?>">Anasayfa</a><span>/</span><a href="<?= url('login') ?>">Giriş</a><span>/</span>Şifremi Unuttum</div>
+<link rel="stylesheet" href="<?= SITE_URL ?>/assets/css/auth.css">
+
+<section class="aq-auth-page aq-auth-page-clean">
+  <div class="aq-container">
+    <div class="aq-auth-clean-wrap">
+      <div class="aq-auth-card aq-auth-card-clean aq-auth-card-compact">
+        <div class="aq-auth-brand-mini">
+          <a href="<?= url('home') ?>" class="aq-auth-logo-mini" aria-label="<?= e($authSiteName) ?> Ana Sayfa"><?= e($authSiteName) ?></a>
+          <?php if ($authTagline !== ''): ?><span><?= e($authTagline) ?></span><?php endif; ?>
+        </div>
+
+        <div class="aq-auth-card-head aq-auth-card-head-center">
+          <span>Hesap güvenliği</span>
+          <h1>Şifremi Unuttum</h1>
+          <p>Hesabınıza ait e-posta adresini girin; yeni şifre bağlantısını gönderelim.</p>
+        </div>
+
+        <?php if ($sent): ?>
+          <div class="aq-auth-state aq-auth-state-ok" role="status">
+            <i class="bi bi-envelope-check" aria-hidden="true"></i>
+            <strong>Bağlantı gönderildi</strong>
+            <p>Eğer bu e-posta sistemimizde kayıtlıysa, şifre sıfırlama bağlantısı az önce gönderildi.</p>
+          </div>
+          <a href="<?= url('login') ?>" class="aq-auth-submit aq-auth-submit-link">
+            <i class="bi bi-arrow-left" aria-hidden="true"></i>
+            Giriş sayfasına dön
+          </a>
+        <?php else: ?>
+          <?php if ($err): ?><div class="aq-auth-state aq-auth-state-error" role="alert"><?= e($err) ?></div><?php endif; ?>
+          <form method="post" novalidate class="aq-auth-form">
+            <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
+            <label class="aq-auth-field">
+              <span>E-posta Adresi</span>
+              <div class="aq-auth-input">
+                <i class="bi bi-envelope" aria-hidden="true"></i>
+                <input id="fp-email" name="email" type="email" required autofocus value="<?= e($_POST['email'] ?? '') ?>" placeholder="ornek@eposta.com">
+              </div>
+            </label>
+            <button class="aq-auth-submit">
+              <i class="bi bi-send" aria-hidden="true"></i>
+              Sıfırlama Bağlantısı Gönder
+            </button>
+            <p class="aq-auth-switch"><a href="<?= url('login') ?>">Giriş sayfasına dön</a></p>
+          </form>
+        <?php endif; ?>
+      </div>
+    </div>
   </div>
 </section>
-
-<section><div class="container" style="max-width:480px">
-  <div class="panel">
-    <?php if ($sent): ?>
-      <div class="alert alert-ok" role="status">
-        Eğer bu e-posta sistemimizde kayıtlıysa, şifre sıfırlama bağlantısı az önce gönderildi.
-        Birkaç dakika içinde gelmezse spam/önemsiz klasörünü kontrol edin.
-      </div>
-      <div style="margin-top:18px;text-align:center">
-        <a href="<?= url('login') ?>" class="link-arrow">Giriş sayfasına dön →</a>
-      </div>
-    <?php else: ?>
-      <h3 style="margin-bottom:8px">Şifrenizi Sıfırlayın</h3>
-      <p class="muted" style="margin-bottom:22px">Hesabınıza ait e-posta adresini girin; size yeni şifre oluşturma bağlantısı gönderelim.</p>
-      <?php if ($err): ?><div class="alert alert-err" role="alert"><?= e($err) ?></div><?php endif; ?>
-      <form method="post" novalidate style="display:grid;gap:16px">
-        <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-        <div class="field">
-          <label for="fp-email">E-posta</label>
-          <input id="fp-email" name="email" type="email" required autofocus value="<?= e($_POST['email'] ?? '') ?>" placeholder="ornek@eposta.com">
-        </div>
-        <button class="btn btn-primary btn-block btn-lg">Sıfırlama Bağlantısı Gönder</button>
-        <div style="text-align:center;margin-top:8px">
-          <a href="<?= url('login') ?>" style="color:var(--muted-text);font-size:13px;text-decoration:underline">Giriş sayfasına dön</a>
-        </div>
-      </form>
-    <?php endif; ?>
-  </div>
-</div></section>
 <?php include __DIR__ . '/../includes/footer.php'; ?>

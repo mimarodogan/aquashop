@@ -63,46 +63,6 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && csrf_check($_POST['csrf'] ?? null)) {
 
 include __DIR__ . '/../includes/header.php';
 ?>
-<style>
-/* ── Sepet sayfası inline stilleri ── */
-.cart-layout{display:grid;grid-template-columns:1.6fr 1fr;gap:48px;align-items:start}
-.cart-table{width:100%;border-collapse:collapse}
-.cart-table th,.cart-table td{text-align:left;padding:14px 14px;border-bottom:1px solid var(--gold-border);vertical-align:middle}
-.cart-table th{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-text);font-weight:600;background:var(--cream)}
-.cart-table .cart-name{color:var(--ink);font-weight:600}
-.cart-table .cart-variant{display:block;font-size:13px;color:var(--muted-text);margin-top:3px}
-.cart-table .cart-cell-total{color:var(--gold);font-weight:700;white-space:nowrap}
-.cart-table .qty-form{display:flex;gap:8px;align-items:center}
-.cart-table .qty-input{width:70px;padding:8px;min-height:40px;background:var(--olive-2);border:1px solid var(--gold-border);color:var(--ink);border-radius:var(--radius);font-family:inherit}
-.cart-table .row-actions{display:flex;flex-direction:column;gap:6px}
-.cart-table .row-actions form{margin:0}
-.cart-table .row-actions .btn{width:100%;white-space:nowrap}
-.cart-footer-row{padding:18px 24px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.cart-footer-row form{margin:0}
-@media(max-width:900px){.cart-layout{grid-template-columns:1fr;gap:24px}}
-@media(max-width:480px){.crosssell-grid{grid-template-columns:1fr 1fr}.crosssell-item{padding:8px}.crosssell-item .name{font-size:12px;min-height:32px}}
-@media(max-width:720px){
-  .cart-table,.cart-table tbody{display:block}
-  .cart-table thead{display:none}
-  .cart-table tr{display:block;border:1px solid var(--gold-border);border-radius:var(--radius);padding:14px;margin:0 14px 12px;background:var(--olive-2);box-shadow:var(--shadow-xs)}
-  .cart-table td{display:block;border:none;padding:6px 0;font-size:14px}
-  .cart-table td.cart-cell-product{padding-bottom:10px;margin-bottom:8px;border-bottom:1px solid var(--gold-border)}
-  .cart-table td.cart-cell-price::before{content:'Birim Fiyat: ';color:var(--muted-text);font-size:12px;font-weight:500}
-  .cart-table td.cart-cell-total{text-align:left;padding-top:8px;font-size:16px}
-  .cart-table td.cart-cell-total::before{content:'Ara Toplam: ';color:var(--muted-text);font-size:12px;font-weight:500}
-  .cart-table td.cart-cell-qty{padding:10px 0;border-top:1px solid var(--gold-border);margin-top:6px}
-  .cart-table td.cart-cell-qty::before{content:'Adet: ';display:block;color:var(--muted-text);font-size:12px;font-weight:500;margin-bottom:6px}
-  .cart-table .qty-form .btn{flex:1;min-height:44px}
-  .cart-table .qty-input{width:88px !important;min-height:44px;font-size:16px !important}
-  .cart-table td.cart-cell-actions{padding-top:12px;border-top:1px solid var(--gold-border);margin-top:6px}
-  .cart-table .row-actions{flex-direction:row;gap:8px}
-  .cart-table .row-actions .btn{font-size:11px;min-height:40px}
-  .cart-footer-row{flex-direction:column;padding:14px 16px}
-  .cart-footer-row .btn,.cart-footer-row form,.cart-footer-row form .btn{width:100%}
-  .cart-summary{padding:20px !important}
-  .cart-summary h3{font-size:18px !important}
-}
-</style>
 <?php
 
 // GA4 add_to_cart — product-detail'den buraya redirect olduysa (idempotent flag)
@@ -164,21 +124,30 @@ if ($items) {
 }
 ?>
 
-<section class="page-header">
-  <div class="container">
-    <span class="kicker">Alışveriş</span>
-    <h1 style="margin-top:10px">Sepetim</h1>
-    <div class="breadcrumb"><a href="<?= url('home') ?>">Anasayfa</a><span>/</span>Sepet</div>
-  </div>
-</section>
+<section class="aq-cart-page">
+  <div class="aq-container">
+    <nav class="aq-breadcrumb" aria-label="Konum">
+      <a href="<?= e(url('home')) ?>">Anasayfa</a>
+      <i class="bi bi-chevron-right" aria-hidden="true"></i>
+      <span aria-current="page">Sepet</span>
+    </nav>
 
-<section>
-  <div class="container">
+    <div class="aq-cart-page-head">
+      <span>Alışveriş sepetiniz</span>
+      <h1>Sepetim</h1>
+      <p>Ürünlerinizi kontrol edin, kuponunuzu uygulayın ve ödeme adımına güvenle ilerleyin.</p>
+    </div>
+
     <?php if (!$items): ?>
-      <div class="panel center" style="padding:80px"><h3>Sepetiniz boş</h3><p class="muted" style="margin:14px 0 24px">Alışverişe başlamak için ürünlere göz atın.</p><a class="btn btn-primary" href="<?= url('products') ?>">Ürünleri Keşfet</a></div>
+      <div class="aq-cart-empty aq-cart-page-empty">
+        <span class="aq-cart-empty-icon"><i class="bi bi-cart3"></i></span>
+        <h3>Sepetiniz şu an boş</h3>
+        <p>Beğendiğiniz ürünleri sepete ekleyerek alışverişe başlayabilirsiniz.</p>
+        <a class="aq-cart-checkout" href="<?= url('products') ?>">Ürünleri Keşfet</a>
+      </div>
     <?php else: ?>
     <div class="cart-layout">
-      <div class="panel" style="padding:0">
+      <div class="panel aq-cart-table-panel" style="padding:0">
         <table class="cart-table">
           <thead><tr><th>Ürün</th><th>Fiyat</th><th>Adet</th><th>Ara Toplam</th><th></th></tr></thead>
           <tbody>
@@ -233,7 +202,7 @@ if ($items) {
       </div>
 
       <?php require_once __DIR__ . '/../includes/pricing.php'; $pr = cart_pricing(); ?>
-      <aside class="panel cart-summary">
+      <aside class="panel cart-summary aq-cart-summary-panel">
         <h3 style="margin-bottom:18px">Sipariş Özeti</h3>
         <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--gold-border)"><span>Ara Toplam</span><span><?= money($pr['items_total']) ?></span></div>
         <?php if ($pr['discount'] > 0): ?>
@@ -327,8 +296,8 @@ if ($items) {
     $crossSellItems = cross_sell_for_cart($items, 3);
     if ($crossSellItems):
     ?>
-    <div class="crosssell" role="complementary" aria-label="Sıkça birlikte alınanlar">
-      <h3>✨ Bunlarla harika gider</h3>
+    <div class="crosssell aq-cart-crosssell" role="complementary" aria-label="Sıkça birlikte alınanlar">
+      <h3>Bunlarla harika gider</h3>
       <div class="crosssell-grid">
         <?php foreach ($crossSellItems as $cs): ?>
           <div class="crosssell-item">

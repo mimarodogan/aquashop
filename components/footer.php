@@ -1,6 +1,6 @@
 </main>
 <?php
-$__footerSiteName = setting('site_name') ?? SITE_NAME_FALLBACK;
+$__footerSiteName = trim((string)(setting('site_name') ?? '')) ?: SITE_NAME_FALLBACK;
 $__footerTagline  = trim((string)setting('footer_tagline', '')) ?: trim((string)setting('site_tagline', ''));
 $__footerAbout    = trim((string)setting('footer_about', '')) ?: $__footerTagline;
 $__fAddr          = trim((string)setting('contact_address',''));
@@ -160,7 +160,7 @@ if ($__waEnabled && $__waNumber !== '') {
     </div>
 
     <div class="aq-footer-bottom">
-      <span>© <?= date('Y') ?> <?= e($__footerSiteName) ?>. Tüm hakları saklıdır.</span>
+      <span>© <?= date('Y') ?> <?= e($__footerSiteName) ?>. Tüm hakları saklıdır. · Tasarım &amp; Geliştirme: <a href="https://odogan.com.tr" target="_blank" rel="noopener">Mimar Osman Doğan</a></span>
       <div>
         <a href="<?= url('page', ['slug'=>'cerez-politikasi']) ?>">Çerez Politikası</a>
         <a href="<?= url('page', ['slug'=>'iade-degisim']) ?>">İade &amp; Değişim</a>
@@ -201,6 +201,15 @@ elseif ($waEnabled && $waNumber !== ''):
   <span class="wa-label">WhatsApp</span>
 </a>
 <?php endif; ?>
+
+<?php /* Footer link sütunları — mobilde başlığa tıklayınca açılır/kapanır (CSS yalnız mobilde gizler) */ ?>
+<script>
+(function(){
+  document.querySelectorAll('.aq-footer-col > h3').forEach(function(h){
+    h.addEventListener('click', function(){ h.parentElement.classList.toggle('is-open'); });
+  });
+})();
+</script>
 
 <?php /* KVKK çerez onay banner'ı — kullanıcı henüz onaylamadıysa görünür */ ?>
 <?php include __DIR__ . '/cookie-banner.php'; ?>

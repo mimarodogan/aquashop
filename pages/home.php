@@ -75,7 +75,7 @@ foreach ($banners as $__pb) {
 unset($__pb);
 
 include __DIR__ . '/../includes/header.php';
-$siteName = setting('site_name', 'AquaShop');
+$siteName = trim((string)setting('site_name', '')) ?: SITE_NAME_FALLBACK;
 $siteTagline = trim((string)setting('site_tagline', ''));
 ?>
 
@@ -84,7 +84,7 @@ $siteTagline = trim((string)setting('site_tagline', ''));
 // Görünmez H1: SEO ve a11y için zorunlu (W3C + WAVE bunu istiyor), görsel etkisi yok.
 $heroHeadline = trim((string)setting('home_hero_title', ''));
 $heroSubline  = trim((string)setting('home_hero_sub',   ''));
-$siteNameH1   = trim((string)setting('site_name','AquaShop'));
+$siteNameH1   = trim((string)setting('site_name','')) ?: SITE_NAME_FALLBACK;
 $siteTagH1    = trim((string)setting('site_tagline','')) ?: trim((string)setting('meta_description',''));
 ?>
 <h1 id="home-h1" class="sr-only"><?= e($siteNameH1) ?><?= $siteTagH1 ? ' · ' . e($siteTagH1) : '' ?></h1>
@@ -95,7 +95,7 @@ $siteTagH1    = trim((string)setting('site_tagline','')) ?: trim((string)setting
 // İlk slide <picture> ile mobil variant'ı servis eder (LCP candidate).
 // Diğer slide'lar position:absolute + opacity:0 ile arkada bekler, JS ile dönüş.
 // Sıfır CLS: rotator container'ın aspect-ratio'su CSS'te sabit (critical+home.css inline).
-$heroFallbackAlt = trim((string)setting('site_name','AquaShop'));
+$heroFallbackAlt = trim((string)setting('site_name','')) ?: SITE_NAME_FALLBACK;
 $bannerCount = count($banners);
 
 // İlk banner için mobile variant kontrol
@@ -249,10 +249,18 @@ if ($__promos): ?>
         <h2><?= e(setting('home_most_faved_title','En Çok Favoriye Eklenenler')) ?></h2>
       </div>
     </div>
-    <div class="aq-product-grid aq-grid-5">
-      <?php $favIds = fav_ids(); $cardBack = 'index.php'; foreach ($mostFavedProducts as $mf): $p = $mf; ?>
-        <?php include __DIR__ . '/../components/product-card.php'; ?>
-      <?php endforeach; ?>
+    <div class="aq-carousel-wrap" data-carousel data-visible-desktop="5" data-visible-tablet="3" data-visible-mobile="2">
+      <div class="aq-carousel-controls">
+        <button type="button" class="aq-carousel-arrow aq-products-prev" data-dir="-1" aria-label="Geri" disabled><i class="bi bi-chevron-left"></i></button>
+        <button type="button" class="aq-carousel-arrow aq-products-next" data-dir="1" aria-label="İleri"><i class="bi bi-chevron-right"></i></button>
+      </div>
+      <div class="aq-products-viewport">
+        <div class="aq-products-track">
+          <?php $favIds = fav_ids(); $cardBack = 'index.php'; foreach ($mostFavedProducts as $mf): $p = $mf; ?>
+            <?php include __DIR__ . '/../components/product-card.php'; ?>
+          <?php endforeach; ?>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -268,24 +276,32 @@ if ($__promos): ?>
       </div>
       <a class="aq-view-all" href="<?= url('blog') ?>">Tüm Yazılar <i class="bi bi-arrow-right"></i></a>
     </div>
-    <div class="aq-blog-grid">
-      <?php foreach ($blogPosts as $bp): ?>
-        <article class="aq-blog-card">
-          <a class="aq-blog-image" href="<?= e(url('blog_post', ['slug'=>$bp['slug']])) ?>">
-            <?php if (!empty($bp['cover_image'])): ?>
-              <img loading="lazy" decoding="async" width="600" height="400" src="<?= e($bp['cover_image']) ?>" alt="<?= e($bp['title']) ?>">
-            <?php else: ?>
-              <span class="aq-ph"><?= e(mb_substr($bp['title'],0,1)) ?></span>
-            <?php endif; ?>
-          </a>
-          <div class="aq-blog-content">
-            <span><?= e($bp['cat_name'] ?? 'Yazı') ?> · <?= e(date('d.m.Y', strtotime($bp['published_at'] ?? $bp['created_at']))) ?></span>
-            <h3><a href="<?= e(url('blog_post', ['slug'=>$bp['slug']])) ?>"><?= e($bp['title']) ?></a></h3>
-            <?php if (!empty($bp['excerpt'])): ?><p><?= e(mb_substr(strip_tags($bp['excerpt']),0,140)) ?><?= mb_strlen(strip_tags($bp['excerpt']))>140?'…':'' ?></p><?php endif; ?>
-            <a class="aq-blog-link" href="<?= e(url('blog_post', ['slug'=>$bp['slug']])) ?>">Devamını Oku <i class="bi bi-arrow-right"></i></a>
-          </div>
-        </article>
-      <?php endforeach; ?>
+    <div class="aq-carousel-wrap aq-blog-carousel" data-carousel data-visible-desktop="4" data-visible-tablet="2" data-visible-mobile="1">
+      <div class="aq-carousel-controls">
+        <button type="button" class="aq-carousel-arrow aq-products-prev" data-dir="-1" aria-label="Geri" disabled><i class="bi bi-chevron-left"></i></button>
+        <button type="button" class="aq-carousel-arrow aq-products-next" data-dir="1" aria-label="İleri"><i class="bi bi-chevron-right"></i></button>
+      </div>
+      <div class="aq-products-viewport">
+        <div class="aq-products-track">
+          <?php foreach ($blogPosts as $bp): ?>
+            <article class="aq-blog-card">
+              <a class="aq-blog-image" href="<?= e(url('blog_post', ['slug'=>$bp['slug']])) ?>">
+                <?php if (!empty($bp['cover_image'])): ?>
+                  <img loading="lazy" decoding="async" width="600" height="400" src="<?= e($bp['cover_image']) ?>" alt="<?= e($bp['title']) ?>">
+                <?php else: ?>
+                  <span class="aq-ph"><?= e(mb_substr($bp['title'],0,1)) ?></span>
+                <?php endif; ?>
+              </a>
+              <div class="aq-blog-content">
+                <span><?= e($bp['cat_name'] ?? 'Yazı') ?> · <?= e(date('d.m.Y', strtotime($bp['published_at'] ?? $bp['created_at']))) ?></span>
+                <h3><a href="<?= e(url('blog_post', ['slug'=>$bp['slug']])) ?>"><?= e($bp['title']) ?></a></h3>
+                <?php if (!empty($bp['excerpt'])): ?><p><?= e(mb_substr(strip_tags($bp['excerpt']),0,140)) ?><?= mb_strlen(strip_tags($bp['excerpt']))>140?'…':'' ?></p><?php endif; ?>
+                <a class="aq-blog-link" href="<?= e(url('blog_post', ['slug'=>$bp['slug']])) ?>">Devamını Oku <i class="bi bi-arrow-right"></i></a>
+              </div>
+            </article>
+          <?php endforeach; ?>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -300,10 +316,18 @@ if ($__promos): ?>
         <h2><?= e(setting('home_secondary_title','Beğenebileceğiniz Ürünler')) ?></h2>
       </div>
     </div>
-    <div class="aq-product-grid aq-grid-5">
-      <?php $favIds = fav_ids(); $cardBack = 'index.php'; foreach ($secondaryProducts as $sp): $p = $sp; ?>
-        <?php include __DIR__ . '/../components/product-card.php'; ?>
-      <?php endforeach; ?>
+    <div class="aq-carousel-wrap" data-carousel data-visible-desktop="5" data-visible-tablet="3" data-visible-mobile="2">
+      <div class="aq-carousel-controls">
+        <button type="button" class="aq-carousel-arrow aq-products-prev" data-dir="-1" aria-label="Geri" disabled><i class="bi bi-chevron-left"></i></button>
+        <button type="button" class="aq-carousel-arrow aq-products-next" data-dir="1" aria-label="İleri"><i class="bi bi-chevron-right"></i></button>
+      </div>
+      <div class="aq-products-viewport">
+        <div class="aq-products-track">
+          <?php $favIds = fav_ids(); $cardBack = 'index.php'; foreach ($secondaryProducts as $sp): $p = $sp; ?>
+            <?php include __DIR__ . '/../components/product-card.php'; ?>
+          <?php endforeach; ?>
+        </div>
+      </div>
     </div>
   </div>
 </section>

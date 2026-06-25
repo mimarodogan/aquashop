@@ -8,7 +8,7 @@
         selector: 'textarea#content',
         height: 560,
         menubar: 'edit view insert format table',
-        plugins: 'advlist autolink lists link image media table code preview wordcount autoresize searchreplace anchor codesample emoticons paste',
+        plugins: 'advlist autolink lists link image media table code preview wordcount autoresize searchreplace anchor codesample emoticons',
         toolbar: 'undo redo | blocks fontsize | bold italic underline forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image youtube media table | blockquote hr codesample emoticons | removeformat | code preview fullscreen',
         toolbar_mode: 'sliding',
         content_style: "body{font-family:Inter,Arial,sans-serif;font-size:15px;line-height:1.7;background:#fff;color:#111}h1,h2,h3,h4{font-family:'Playfair Display',Georgia,serif}img,iframe{max-width:100%}",

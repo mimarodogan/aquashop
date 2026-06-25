@@ -12,7 +12,7 @@ require_once __DIR__ . '/functions.php';
 
 if (!function_exists('legal_templates')) {
 function legal_templates(): array {
-    $name   = (string)setting('site_name','AquaShop');
+    $name   = trim((string)setting('site_name','')) ?: (defined('SITE_NAME_FALLBACK') ? SITE_NAME_FALLBACK : 'Mağaza');
     $legal  = (string)setting('company_legal_name', $name);
     $taxOff = (string)setting('company_tax_office','—');
     $taxNo  = (string)setting('company_tax_no','—');

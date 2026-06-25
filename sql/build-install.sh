@@ -67,7 +67,7 @@ AWK
 
 {
   echo "-- ═══════════════════════════════════════════════════════════════════"
-  echo "-- AquaShop — TEK DOSYALIK KURULUM  (otomatik üretildi: build-install.sh)"
+  echo "-- DemoStore — TEK DOSYALIK KURULUM  (otomatik üretildi: build-install.sh)"
   echo "--"
   echo "-- Boş bir veritabanına tek seferde çalıştırın (phpMyAdmin > SQL sekmesi)."
   echo "-- İdempotent: tekrar çalıştırmak güvenlidir (mevcut tablo/kolonları atlar)."

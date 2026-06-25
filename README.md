@@ -1,77 +1,70 @@
-# AquaShop — E-Ticaret Platformu
+# E-Ticaret Platformu
 
-PHP/MySQL ile geliştirilmiş, çok-domain destekli e-ticaret uygulaması. Akvaryum/evcil hayvan ürünleri mağazası olarak yapılandırılmıştır; ürün kategorisi ayarlardan değiştirilebilir.
-
-## Özellikler
-
-- 🛒 Ürün kataloğu, varyasyonlar, sepet, çok adımlı ödeme
-- 💳 iyzico ödeme entegrasyonu (3D Secure, taksit) + havale/EFT
-- 👤 Üyelik, sipariş geçmişi, çoklu adres, favoriler
-- 🏆 Sadakat puanı programı (kazan/harca/seviye)
-- 📊 GA4 / GTM / Meta Pixel / CAPI / Clarity (KVKK consent-gated)
-- 📧 Terk sepet, fiyat düştü, stok bildirimi e-posta akışları
-- 🤖 AI Danışman (Claude tabanlı, canlı ürün arama)
-- 🔧 Kapsamlı admin paneli (sipariş, ürün, içerik, rapor, ayar)
-- 🔍 SEO: dinamik sitemap, breadcrumb/JSON-LD, sosyal paylaşım
-
-## Teknoloji
-
-- **Backend:** PHP (PDO, prepared statements), MySQL/MariaDB
-- **Frontend:** Sunucu taraflı render + vanilla JS, modüler CSS
-- **Bağımlılık:** iyzipay-php SDK (`vendor/`)
+PHP/MySQL ile gelistirilmis, admin panelinden site adi, slogan, iletisim bilgileri, urunler, siparisler, icerikler, SEO ve entegrasyonlar yonetilebilen e-ticaret sistemi.
 
 ## Kurulum
 
+Adim adim kurulum icin [KURULUM.md](KURULUM.md) dosyasini takip edin.
+
+Kisa ozet:
+
 ```bash
-# 1) Depoyu klonla
-git clone https://github.com/mimarodogan/aquashop.git
-cd aquashop
-
-# 2) Ortam dosyasını hazırla
 cp .env.example .env
-#    .env içine gerçek DB bilgilerini yaz
-
-# 3) Veritabanı yapılandırması  —  YALNIZCA SIFIRDAN KURULUMDA
-#    ⚠️ Çalışan bir sunucuda config/db.php ZATEN VARSA bu komutu ÇALIŞTIRMAYIN;
-#       gerçek kimlik bilgilerinin üzerine örnek (your_db_user) değerleri yazar.
 cp config/db.example.php config/db.php
-#    (db.php .env'i otomatik okur; gerçek DB bilgileri .env'dedir)
-
-# 4) Veritabanını oluştur ve şemayı içe aktar
-#    Tek dosya yeterli: sql/install.sql  (tüm tablolar + kolonlar + indexler + tohum veri)
-#    phpMyAdmin > veritabanını seç > SQL sekmesi > install.sql içeriğini yapıştır > Git
 ```
 
-> **Not:** `sql/install.sql` tüm migration'ların birleştirilmiş halidir (idempotent, MariaDB).
-> Tek başına boş bir veritabanını kurar. `sql/` içindeki ayrı `migrate_*.sql` dosyaları
-> ve admin migration çalıştırıcısı, mevcut kurulumlara artımlı güncelleme için durur.
-> `install.sql` yeniden üretmek için: `cd sql && bash build-install.sh`
+Ardindan `sql/install.sql` dosyasini bos veritabanina ice aktarin.
 
-Sunucuda `.env` dosyasına `chmod 644` verin. Apache + `mod_rewrite` gereklidir (`.htaccess` SEO dostu URL'leri ve güvenlik kurallarını yönetir).
+Varsayilan admin girisi:
 
-## Güvenlik Notları
-
-- `config/db.php` ve `.env` **repo dışındadır** (`.gitignore`).
-- Tüm sırlar (iyzico, SMTP, AI anahtarları) veritabanındaki `settings` tablosundan, admin panelinden yönetilir — kodda gömülü değildir.
-- Veritabanı sorguları parametreli (prepared statements); kullanıcı içeriği çıktıda escape edilir.
-- `uploads/` içinde PHP çalıştırma engellidir; yüklenen görseller GD ile yeniden kodlanır.
-
-## Yapı
-
+```text
+E-posta: admin@example.com
+Sifre: admin123
 ```
-admin_panel/   Yönetim paneli
-ajax/          AJAX uç noktaları
-api/           LLM/agent JSON API
-assets/        CSS / JS / görseller
-components/    Tekrar kullanılan parçalar (header, footer, kartlar)
-core/          Çekirdek (router, db, auth, helpers)
-cron/          Zamanlanmış görevler
-includes/      Yardımcılar (mailer, pricing, stock)
-models/        Veri erişim katmanı
-pages/         Sayfa şablonları
-sql/           Şema ve migration'lar
+
+Canliya almadan once varsayilan sifreyi degistirin.
+
+## Ana Moduller
+
+- Urun, kategori, varyasyon ve stok yonetimi
+- Sepet, odeme, siparis ve iade akisleri
+- Uye girisi, kayit, sifremi unuttum ve hesap sayfalari
+- Kupon, sadakat puani, bulten ve terk sepet akisleri
+- Blog, CMS sayfalari, SEO ve sitemap
+- SMTP, iyzico, analitik ve pazarlama entegrasyonlari
+- Admin panelinden site kimligi, logo, slogan ve iletisim bilgileri
+
+## Yerel Calistirma
+
+```bash
+php -S localhost:8000 router.php
 ```
+
+Sonra `http://localhost:8000` adresini acin.
+
+## Dizinler
+
+```text
+admin_panel/   Yonetim paneli
+ajax/          AJAX uclari
+api/           JSON API uclari
+assets/        CSS, JS ve gorseller
+components/    Ortak arayuz parcalari
+core/          Cekirdek bootstrap, router, helper ve DB katmani
+cron/          Zamanlanmis gorevler
+includes/      Yardimci servisler
+models/        Veri erisim katmani
+pages/         Sayfa sablonlari
+sql/           Kurulum SQL'i ve migration dosyalari
+```
+
+## Notlar
+
+- Gercek veritabani sifreleri `.env` icinde tutulur.
+- `.env` ve `config/db.php` canli ortama ozel dosyalardir.
+- Canliya almadan once `APP_ENV=production` olmalidir.
+- Yukleme sonrasi admin panelindeki `Ayarlar > Kimlik` bolumu mutlaka doldurulmalidir.
 
 ## Lisans
 
-Özel/ticari proje.
+Ozel/ticari proje.

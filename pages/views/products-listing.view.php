@@ -20,16 +20,23 @@ if (!empty($products)) {
 }
 ?>
 
-<section class="page-header">
-  <div class="container">
-    <span class="kicker">Mağaza</span>
-    <h1 style="margin-top:10px"><?= count($catMulti)===1 ? e(ucwords(str_replace('-',' ',$catMulti[0]))) : 'Tüm Ürünler' ?></h1>
-    <div class="breadcrumb"><a href="<?= url('home') ?>">Anasayfa</a><span>/</span>Ürünler</div>
+<?php $__listTitle = count($catMulti)===1 ? ucwords(str_replace('-',' ',$catMulti[0])) : 'Tüm Ürünler'; ?>
+<section class="aq-category-page-hero aq-category-page-hero-simple">
+  <div class="aq-container">
+    <nav class="aq-breadcrumb" aria-label="Konum">
+      <a href="<?= e(url('home')) ?>">Anasayfa</a>
+      <i class="bi bi-chevron-right" aria-hidden="true"></i>
+      <span aria-current="page">Ürünler</span>
+    </nav>
+    <div class="aq-category-hero-card">
+      <h1><?= e($__listTitle) ?></h1>
+      <p>Tüm ürünlerimizi keşfedin; filtreleyerek size en uygun olanı kolayca bulun.</p>
+    </div>
   </div>
 </section>
 
-<section>
-  <div class="container">
+<section class="aq-category-page">
+  <div class="aq-container">
 
     <!-- Aktif filtre çipleri -->
     <?php if ($activeCount > 0): ?>
@@ -59,62 +66,113 @@ if (!empty($products)) {
     </div>
     <?php endif; ?>
 
-    <!-- Üst toolbar: Sıralama + Filtrele -->
-    <div class="shop-toolbar">
-      <button type="button" class="shop-tool" id="btn-sort" aria-haspopup="dialog" aria-expanded="false">
-        <?= ic('sort', '', 18) ?>
-        <span><?= e($sortLabels[$sort] ?? 'Önerilen Sıralama') ?></span>
-      </button>
+    <!-- Üst toolbar (mobil): Filtrele + Sıralama -->
+    <div class="shop-toolbar aq-category-toolbar">
       <button type="button" class="shop-tool" id="btn-filter" aria-haspopup="dialog" aria-expanded="false">
         <?= ic('filter', '', 18) ?>
         <span>Filtrele<?php if ($activeCount>0): ?> <span class="ft-badge">(<?= $activeCount ?>)</span><?php endif; ?></span>
       </button>
+      <button type="button" class="shop-tool" id="btn-sort" aria-haspopup="dialog" aria-expanded="false">
+        <?= ic('sort', '', 18) ?>
+        <span><?= e($sortLabels[$sort] ?? 'Önerilen Sıralama') ?></span>
+      </button>
     </div>
 
-    <p class="muted" style="margin:18px 0"><?= (int)$totalCount ?> ürün bulundu</p>
-
-    <div class="grid grid-3">
-      <?php $favIds = fav_ids(); if ($products): foreach ($products as $p): ?>
-        <div class="card" style="position:relative">
-          <form method="post" action="<?= SITE_URL ?>/favorite-toggle.php" class="fav-form">
-            <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-            <input type="hidden" name="id"   value="<?= (int)$p['id'] ?>">
-            <input type="hidden" name="back" value="<?= e($_SERVER['REQUEST_URI'] ?? url('products')) ?>">
-            <button class="fav-btn <?= in_array((int)$p['id'],$favIds)?'active':'' ?>" type="submit" aria-label="Favori"><?= ic('heart', '', 18) ?></button>
-          </form>
-          <a href="<?= e(url('product', ['slug'=>$p['slug']])) ?>" style="display:flex;flex-direction:column;flex:1">
-            <div class="card-img">
-              <?php if (!empty($p['old_price'])): ?><span class="badge">İndirim</span><?php endif; ?>
-              <?php if (!empty($p['image'])): ?>
-                <img loading="lazy" decoding="async" width="600" height="660" src="<?= e($p['image']) ?>" alt="<?= e($p['name']) ?>" style="width:100%;height:100%;object-fit:cover">
-              <?php else: ?>
-                <span class="ph"><?= e(mb_substr($p['name'],0,1)) ?></span>
-              <?php endif; ?>
-            </div>
-            <div class="card-body">
-              <span class="cat"><?= e($p['cat_name'] ?? 'Genel') ?></span>
-              <h3><?= e($p['name']) ?></h3>
-              <div class="card-foot">
-                <?php if (!empty($p['price_on_request']) && (float)($p['price'] ?? 0) <= 0): ?>
-                  <span class="price" style="font-size:12px;letter-spacing:.08em;color:var(--muted-text)">İletişime Geçin</span>
-                <?php else: ?>
-                  <span class="price"><?= money($p['price']) ?><?php if (!empty($p['old_price'])): ?><span class="price-old"><?= money($p['old_price']) ?></span><?php endif; ?></span>
-                <?php endif; ?>
-                <span class="icon-btn" aria-hidden="true"><?= ic('cart', '', 17) ?></span>
-              </div>
-            </div>
-          </a>
+    <div class="aq-category-layout">
+      <!-- Masaüstü filtre sidebar (kategori sayfasıyla aynı tasarım) -->
+      <aside class="aq-category-filter-panel" aria-label="Filtreleme">
+        <div class="aq-category-filter-head">
+          <h2>Filtreleme</h2>
+          <p>Sonuçları daraltın</p>
         </div>
-      <?php endforeach; else: ?>
-        <p class="muted" style="grid-column:1/-1;text-align:center;padding:60px 20px">Sonuç bulunamadı. <a href="<?= url('products') ?>" style="color:var(--gold)">Filtreleri temizle</a>.</p>
-      <?php endif; ?>
+        <form method="get" action="<?= url('products') ?>" class="aq-category-filter-form">
+          <input type="hidden" name="sort" value="<?= e($sort) ?>">
+
+          <details class="aq-category-filter-group" <?= $q!=='' ? 'open' : '' ?>>
+            <summary>Ara <i class="bi bi-chevron-up" aria-hidden="true"></i></summary>
+            <div class="aq-category-filter-options">
+              <input type="text" name="q" value="<?= e($q) ?>" placeholder="Ürün adı veya stok kodu…" style="width:100%;padding:10px 12px;border:1px solid var(--aq-border,#e9eef3);border-radius:10px;font-size:13px;background:#fff;color:var(--aq-dark,#111827)">
+            </div>
+          </details>
+
+          <?php if ($categories): ?>
+          <details class="aq-category-filter-group" open>
+            <summary>Kategori <i class="bi bi-chevron-up" aria-hidden="true"></i></summary>
+            <div class="aq-category-filter-options">
+              <?php
+              $byPid = array(); foreach ($categories as $c) { $pid = $c['parent_id'] ?? 0; $byPid[$pid][] = $c; }
+              $renderCats = function($pid,$depth) use (&$renderCats,$byPid,$catMulti) {
+                if (empty($byPid[$pid])) return;
+                foreach ($byPid[$pid] as $c) {
+                  $checked = in_array($c['slug'],$catMulti,true);
+                  echo '<label'.($depth>0?' style="padding-left:'.($depth*14).'px"':'').'><input type="checkbox" name="cats[]" value="'.e($c['slug']).'" '.($checked?'checked':'').'><span>'.e($c['name']).'</span><em>'.(int)($c['cnt'] ?? 0).'</em></label>';
+                  $renderCats($c['id'],$depth+1);
+                }
+              };
+              $renderCats(0,0);
+              ?>
+            </div>
+          </details>
+          <?php endif; ?>
+
+          <?php if (!empty($brands)): ?>
+          <details class="aq-category-filter-group" <?= count($brandMulti)?'open':'' ?>>
+            <summary>Marka <i class="bi bi-chevron-up" aria-hidden="true"></i></summary>
+            <div class="aq-category-filter-options">
+              <?php foreach ($brands as $b): $checked=in_array($b['brand'],$brandMulti,true); ?>
+                <label><input type="checkbox" name="brands[]" value="<?= e($b['brand']) ?>" <?= $checked?'checked':'' ?>><span><?= e($b['brand']) ?></span><em><?= (int)$b['cnt'] ?></em></label>
+              <?php endforeach; ?>
+            </div>
+          </details>
+          <?php endif; ?>
+
+          <details class="aq-category-filter-group" <?= ($priceMin!==null||$priceMax!==null)?'open':'' ?>>
+            <summary>Fiyat <i class="bi bi-chevron-up" aria-hidden="true"></i></summary>
+            <div class="aq-category-price-row">
+              <input type="number" name="pmin" placeholder="Min" value="<?= $priceMin!==null?(int)$priceMin:'' ?>" min="0" inputmode="numeric">
+              <input type="number" name="pmax" placeholder="Maks" value="<?= $priceMax!==null?(int)$priceMax:'' ?>" min="0" inputmode="numeric">
+            </div>
+          </details>
+
+          <details class="aq-category-filter-group" <?= ($inStock||$onSale)?'open':'' ?>>
+            <summary>Durum <i class="bi bi-chevron-up" aria-hidden="true"></i></summary>
+            <div class="aq-category-filter-options">
+              <label><input type="checkbox" name="stock" value="1" <?= $inStock?'checked':'' ?>><span>Sadece stoktakiler</span></label>
+              <label><input type="checkbox" name="sale" value="1" <?= $onSale?'checked':'' ?>><span>İndirimli ürünler</span></label>
+            </div>
+          </details>
+
+          <div class="aq-category-filter-actions">
+            <button type="submit" class="btn btn-primary">Uygula</button>
+            <a href="<?= url('products') ?>" class="btn btn-secondary">Temizle</a>
+          </div>
+        </form>
+      </aside>
+
+      <div class="aq-category-main">
+        <div class="aq-category-results-head">
+          <p><?= (int)$totalCount ?> ürün bulundu</p>
+          <?php if (($sortLabels[$sort] ?? '') !== '' && $sort!=='new'): ?><span><?= e($sortLabels[$sort]) ?></span><?php endif; ?>
+        </div>
+
+        <div class="aq-product-grid aq-category-products" id="prod-grid">
+      <?php
+        $favIds = fav_ids();
+        $cardBack = $_SERVER['REQUEST_URI'] ?? url('products');
+        if ($products):
+          foreach ($products as $p):
+            include __DIR__ . '/../../components/product-card.php';
+          endforeach;
+        else: ?>
+          <p class="muted" style="grid-column:1/-1;text-align:center;padding:60px 20px">Sonuç bulunamadı. <a href="<?= url('products') ?>" style="color:var(--aq-blue)">Filtreleri temizle</a>.</p>
+        <?php endif; ?>
     </div>
 
     <?php if ($totalCount > 0): ?>
       <div class="loadmore-wrap" style="text-align:center;margin-top:40px"
            data-ajax-url="<?= e(rtrim(SITE_URL,'/').'/products.php') ?>"
            data-button-id="loadmore-btn"
-           data-grid-selector="section .container .grid.grid-3"
+           data-grid-selector="#prod-grid"
            data-base-query="<?= e(http_build_query(array_diff_key($_GET, ['offset'=>'','ajax'=>'']))) ?>"
            data-next-offset="<?= (int)$nextOffset ?>"
            data-total="<?= (int)$totalCount ?>">
@@ -164,6 +222,8 @@ if (!empty($products)) {
       <?php endif; ?>
 
     <?php endif; ?>
+      </div><!-- /aq-category-main -->
+    </div><!-- /aq-category-layout -->
 
   </div>
 </section>

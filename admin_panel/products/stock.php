@@ -3,12 +3,14 @@
  * Toplu Stok Yönetimi — CSV dışa/içe aktarma + satır içi düzenleme
  */
 require_once __DIR__ . '/../../core/bootstrap.php';
+require_once __DIR__ . '/../../includes/schema_guard.php';
 $AP   = rtrim(SITE_URL, '/') . '/admin_panel';
 $page = 'products_stock';
 
 // ── Yetki ─────────────────────────────────────────────────────────────────────
 $u = current_user();
-if (!$u || $u['role'] !== 'admin') { redirect(SITE_URL . '/admin_panel/login.php'); }
+if (!$u || $u['role'] !== 'admin') { redirect(url('login')); }
+admin_ensure_runtime_schema();
 
 // ── CSV EXPORT ─────────────────────────────────────────────────────────────────
 if (isset($_GET['export'])) {

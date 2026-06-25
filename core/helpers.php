@@ -1,7 +1,20 @@
 <?php
 function e($s) { return htmlspecialchars($s === null ? '' : $s, ENT_QUOTES, 'UTF-8'); }
 function money($v) { return number_format((float)$v, 2, ',', '.') . ' ₺'; }
-function redirect($path) { header('Location: ' . $path); exit; }
+function redirect($path) {
+    // Normal durum: header ile 302 yönlendirme.
+    if (!headers_sent()) {
+        header('Location: ' . $path);
+        exit;
+    }
+    // Çıktı zaten başladıysa (ör. admin sayfalarında layout dahil edildikten sonra
+    // POST işlenip redirect çağrılıyor) header() "headers already sent" UYARISI verir;
+    // strict set_error_handler bunu ErrorException'a çevirip "Bir hata oluştu" sayfası
+    // gösterirdi. Bu durumda JS/meta ile güvenli yönlendir.
+    echo '<script>window.location.replace(' . json_encode((string)$path) . ');</script>'
+       . '<noscript><meta http-equiv="refresh" content="0;url=' . htmlspecialchars((string)$path, ENT_QUOTES) . '"></noscript>';
+    exit;
+}
 
 /**
  * Pretty URL üretici. Linkleri tek noktadan yönetir.

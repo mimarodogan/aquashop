@@ -25,11 +25,11 @@ switch ($page) {
     case 'categories_list': $pageStyles[] = 'product.css'; break;
     case 'category':  $pageStyles[] = 'product.css'; break;
     case 'cart':      $pageStyles[] = 'product.css'; break;
-    case 'product':  $pageStyles[] = 'product.css'; $pageStyles[] = 'pages/product-detail.css'; $pageScripts[] = 'pages/product-detail.min.js'; break;
+    case 'product':  $pageStyles[] = 'product.css'; $pageStyles[] = 'pages/product-detail.css'; $pageScripts[] = 'pages/product-detail.min.js'; $pageScripts[] = 'carousel.js'; break;
     case 'checkout': $pageStyles[] = 'product.css'; $pageScripts[] = 'pages/checkout.min.js'; break;
     case 'blog':     $pageStyles[] = 'cms.css'; $pageScripts[] = 'components/loadmore.min.js'; break;
     case 'about':
-    case 'post':     $pageStyles[] = 'cms.css'; break;
+    case 'post':     $pageStyles[] = 'cms.css'; $pageScripts[] = 'carousel.js'; break;
 }
 
 // Versiyon damgası — CSS/JS güncellenince tarayıcı cache'i otomatik temizler
@@ -53,7 +53,7 @@ function asset_min_css($rel) {
 <?php
 // SEO verilerini çek (master_query: tek sorgu, modelden cache'li)
 $seo = seo_get($page);
-$siteName = setting('site_name') ?? SITE_NAME_FALLBACK;
+$siteName = trim((string)(setting('site_name') ?? '')) ?: SITE_NAME_FALLBACK;
 
 // Meta title hesapla — admin {title} placeholder'ı destekler
 $metaTitle = '';
@@ -120,7 +120,7 @@ if ($__canonOffset > 0) {
 $metaAuthor    = trim((string)setting('seo_author', $siteName));
 $metaPublisher = trim((string)setting('seo_publisher', $siteName));
 $metaRobots    = ($seo && !empty($seo['meta_robots'])) ? $seo['meta_robots'] : trim((string)setting('seo_robots', 'index, follow'));
-$twitterHandle = trim((string)setting('seo_twitter_handle', ''));   // örn: @aquashopbursa
+$twitterHandle = trim((string)setting('seo_twitter_handle', ''));
 $defaultOgImg  = trim((string)setting('seo_default_og_image', ''));
 
 // Sayfa-spesifik OG image yoksa önce ürün/post/kategori görseliyle, sonra site defaultuyla doldur
@@ -136,9 +136,10 @@ if (!$ogImg && $page === 'category' && !empty($cat['image'])) {
 if (!$ogImg && $defaultOgImg !== '') {
     $ogImg = $defaultOgImg;
 }
-// Son çare: site logosu (sosyal paylaşımda mutlaka bir görsel çıksın)
+// Son çare: yönetim panelinde tanımlı favicon/logo görseli.
 if (!$ogImg) {
-    $ogImg = 'https://aquashop.com.tr/uploads/aquashop.jpeg';
+    $fallbackLogo = trim((string)setting('favicon_path', ''));
+    if ($fallbackLogo !== '') $ogImg = $fallbackLogo;
 }
 ?>
 <!DOCTYPE html>
@@ -357,7 +358,7 @@ $__tg = trim((string)setting('site_tagline',''));
 <?php if (setting('topbar_enabled','1')==='1' && ($__topMsg !== '' || $__topPhone !== '')):
   $__topSlides = array_values(array_filter(array_map('trim', preg_split('/\s*[•|]\s*/u', $__topMsg))));
   if ($__topPhone !== '') $__topSlides[] = $__topPhone;
-  while (count($__topSlides) < 3) $__topSlides[] = $__topSlides[0] ?? 'AquaShop\'a Hoşgeldiniz!';
+  while (count($__topSlides) < 3) $__topSlides[] = $__topSlides[0] ?? ($siteName . '\'a Hoş geldiniz!');
 ?>
 <div class="aq-top-announcement" role="region" aria-label="Duyurular">
   <div class="aq-announcement-slider" aria-live="off">
@@ -401,7 +402,7 @@ $__tg = trim((string)setting('site_tagline',''));
           <span><?= e($siteName) ?></span>
           <?php if ($__tg !== ''): ?><small><?= e($__tg) ?></small><?php endif; ?>
         </a>
-        <form class="aq-search" action="<?= url('products') ?>" method="get" role="search">
+        <form class="aq-search aq-search-live" action="<?= url('products') ?>" method="get" role="search">
           <button type="submit" aria-label="Ara"><i class="bi bi-search"></i></button>
           <input type="search" name="q"
                  placeholder="Ürün, kategori veya marka ara"

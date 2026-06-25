@@ -144,19 +144,19 @@ require_once __DIR__ . '/../core/header.php';
       <div class="row-2">
         <div class="field">
           <label>Instagram</label>
-          <input name="instagram" value="<?= e($editing['instagram'] ?? '') ?>" placeholder="aquashopbursa">
+          <input name="instagram" value="<?= e($editing['instagram'] ?? '') ?>" placeholder="kullaniciadi">
           <small class="muted">@ olmadan</small>
         </div>
         <div class="field">
           <label>Twitter / X</label>
-          <input name="twitter" value="<?= e($editing['twitter'] ?? '') ?>" placeholder="aquashopbursa">
+          <input name="twitter" value="<?= e($editing['twitter'] ?? '') ?>" placeholder="kullaniciadi">
           <small class="muted">@ olmadan</small>
         </div>
       </div>
 
       <div class="field">
         <label>Web Sitesi</label>
-        <input name="website" type="url" value="<?= e($editing['website'] ?? '') ?>" placeholder="https://aquashop.com.tr">
+        <input name="website" type="url" value="<?= e($editing['website'] ?? '') ?>" placeholder="https://ornek-site.test">
       </div>
 
       <label style="display:flex;gap:10px;align-items:center">

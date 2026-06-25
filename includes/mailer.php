@@ -153,7 +153,7 @@ function mail_template_get(string $key, array $vars = [], string $default_subjec
     } catch (Exception $e) { /* tablo yoksa varsayılanı kullan */ }
 
     // Genel değişkenler her şablona enjekte edilir
-    $siteName = (string)setting('site_name', 'AquaShop');
+    $siteName = trim((string)setting('site_name', '')) ?: (defined('SITE_NAME_FALLBACK') ? SITE_NAME_FALLBACK : 'Mağaza');
     $defaults = [
         '{{site_adi}}'   => $siteName,
         '{{site_url}}'   => defined('SITE_URL') ? SITE_URL : '',
@@ -168,7 +168,7 @@ function mail_template_get(string $key, array $vars = [], string $default_subjec
 
 if (!function_exists('mail_template')) {
 function mail_template(string $title, string $bodyHtml, ?string $ctaLabel = null, ?string $ctaUrl = null): string {
-    $siteName = e((string)setting('site_name','AquaShop'));
+    $siteName = e(trim((string)setting('site_name','')) ?: (defined('SITE_NAME_FALLBACK') ? SITE_NAME_FALLBACK : 'Mağaza'));
     $cta = '';
     if ($ctaLabel && $ctaUrl) {
         // Bulletproof button (Outlook + Gmail + Apple Mail uyumlu) + altında çıplak URL

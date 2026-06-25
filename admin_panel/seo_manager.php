@@ -213,7 +213,7 @@ require_once __DIR__ . '/core/header.php';
             <small id="mt-count" class="muted">— / 60</small>
           </label>
           <input name="meta_title" id="meta_title_inp" value="<?= e($editing['meta_title']) ?>" maxlength="220"
-                 placeholder="Örn: {title} · AquaShop">
+                 placeholder="Örn: {title} · Tema">
           <div class="seo-char-bar"><div class="seo-char-bar-fill" id="mt-bar" style="width:0"></div></div>
           <p class="seo-field-help">
             <strong>Nerede görünür:</strong> Google arama listesinde mavi tıklanabilir başlık.<br>
@@ -314,7 +314,7 @@ require_once __DIR__ . '/core/header.php';
 <?php if ($editing): ?>
 <script>
 (function(){
-  var site = '<?= e(addslashes(setting('site_name') ?? 'AquaShop')) ?>';
+  var site = '<?= e(addslashes(trim((string)(setting('site_name') ?? '')) ?: SITE_NAME_FALLBACK)) ?>';
 
   function charCounter(inputId, countId, barId, max) {
     var el  = document.getElementById(inputId);

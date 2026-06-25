@@ -1,6 +1,6 @@
 <?php
 /**
- * Ürün detay görünümü — canlı aquashop.com.tr (urun-detay.css) tasarımıyla birebir.
+ * Ürün detay görünümü — canlı ornek-site.test (urun-detay.css) tasarımıyla birebir.
  * core/controllers/product_detail.php tarafından sağlanan değişkenleri kullanır.
  */
 include __DIR__ . "/../../includes/header.php";
@@ -405,17 +405,25 @@ if (!$__catSlug && !empty($p['category_id'])) {
       <span>Mağazadan</span>
       <h2>Benzer Ürünler</h2>
     </div>
-    <div class="aq-product-grid aq-grid-4">
-      <?php
-        $favIds = fav_ids();
-        $cardBack = url('product', ['slug' => $p['slug']]);
-        $__mainP = $p; // product-card $p kullanır — döngü sonrası geri yükle
-        foreach ($related as $r):
-            $p = $r;
-            include __DIR__ . '/../../components/product-card.php';
-        endforeach;
-        $p = $__mainP;
-      ?>
+    <div class="aq-carousel-wrap" data-carousel data-visible-desktop="5" data-visible-tablet="3" data-visible-mobile="2">
+      <div class="aq-carousel-controls">
+        <button type="button" class="aq-carousel-arrow aq-products-prev" data-dir="-1" aria-label="Geri" disabled><i class="bi bi-chevron-left"></i></button>
+        <button type="button" class="aq-carousel-arrow aq-products-next" data-dir="1" aria-label="İleri"><i class="bi bi-chevron-right"></i></button>
+      </div>
+      <div class="aq-products-viewport">
+        <div class="aq-products-track">
+          <?php
+            $favIds = fav_ids();
+            $cardBack = url('product', ['slug' => $p['slug']]);
+            $__mainP = $p; // product-card $p kullanır — döngü sonrası geri yükle
+            foreach ($related as $r):
+                $p = $r;
+                include __DIR__ . '/../../components/product-card.php';
+            endforeach;
+            $p = $__mainP;
+          ?>
+        </div>
+      </div>
     </div>
   </div>
 </section>

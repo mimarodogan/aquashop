@@ -173,7 +173,7 @@ require_once __DIR__ . '/../core/header.php';
       <label style="display:flex;gap:10px;align-items:center"><input type="checkbox" name="home_instagram_enabled" value="1" <?= setting('home_instagram_enabled','0')==='1'?'checked':'' ?>> Instagram bölümünü göster</label>
       <small class="muted" style="margin:-10px 0 0">Görünmesi için "Sosyal Medya → Instagram" adresinin dolu olması gerekir.</small>
       <div class="row-2">
-        <div class="field"><label>Kullanıcı Adı (@)</label><input name="home_instagram_user" value="<?= e(setting('home_instagram_user','')) ?>" placeholder="aquashopbursa"></div>
+        <div class="field"><label>Kullanıcı Adı (@)</label><input name="home_instagram_user" value="<?= e(setting('home_instagram_user','')) ?>" placeholder="kullaniciadi"></div>
         <div class="field"><label>Başlık</label><input name="home_instagram_title" value="<?= e(setting('home_instagram_title','')) ?>" placeholder="Bizi Instagram'da Takip Edin"></div>
       </div>
       <div class="field">

@@ -21,16 +21,7 @@ try {
 } catch (Throwable $e) {}
 
 if (!$cat) {
-    http_response_code(404);
-    $page = '404'; $title = 'Kategori Bulunamadı';
-    include __DIR__ . '/../includes/header.php';
-    echo '<section class="container" style="padding:120px 0;text-align:center">
-            <h1>404</h1>
-            <p class="muted" style="margin:14px 0 24px">Aradığınız kategori bulunamadı.</p>
-            <a class="btn btn-primary" href="' . e(url('products')) . '">Tüm Ürünler</a>
-          </section>';
-    include __DIR__ . '/../includes/footer.php';
-    exit;
+    aq_render_error(404); // temaya uygun 404 + exit
 }
 
 // ── Üst kategori (breadcrumb için) ─────────────────────────────
@@ -174,7 +165,7 @@ $baseQuery = implode('&', $baseQueryParts);
 // ── Sayfa meta ─────────────────────────────────────────────────
 $page      = 'category';
 $title     = !empty($cat['meta_title']) ? $cat['meta_title'] : $cat['name'];
-$siteName  = setting('site_name', 'AquaShop');
+$siteName  = trim((string)setting('site_name', '')) ?: SITE_NAME_FALLBACK;
 
 $sortLabels = [
     'new'        => 'En Yeniler',

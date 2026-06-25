@@ -1,4 +1,4 @@
-/* Ürün detay — canlı (aquashop.com.tr) tasarım etkileşimleri:
+/* Ürün detay — canlı (ornek-site.test) tasarım etkileşimleri:
    galeri thumb değiştirme, adet kontrol, varyasyon seçimi. */
 (function () {
   'use strict';

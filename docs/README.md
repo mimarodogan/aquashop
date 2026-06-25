@@ -3,7 +3,7 @@
 ## Klasör Yapısı
 
 ```
-aquashop/
+genericstore/
 ├── core/                    # Çekirdek altyapı (DB, Session, Auth, helpers, Media)
 │   ├── bootstrap.php        # Tüm sayfalar bu dosyayı yükler
 │   ├── Database.php         # PDO bağlantısı (db())

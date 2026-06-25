@@ -13,12 +13,14 @@
  * Güvenli (idempotent): iki kez çalıştırılsa ikincisinde "Düzeltilecek sipariş yok" der.
  */
 require_once __DIR__ . '/../../core/bootstrap.php';
+require_once APP_ROOT . '/includes/schema_guard.php';
 require_once APP_ROOT . '/includes/stock.php';
 
 $admin = current_user();
 if (!$admin || $admin['role'] !== 'admin') {
     http_response_code(403); exit('Yetkisiz');
 }
+admin_ensure_runtime_schema();
 
 $AP    = rtrim(setting('admin_prefix', '/admin_panel'), '/');
 $run   = ($_POST['run'] ?? '') === '1' && csrf_check($_POST['csrf'] ?? '');
