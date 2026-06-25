@@ -1,6 +1,6 @@
-# AquaShop — E-Ticaret Platformu
+# E-Ticaret Platformu
 
-PHP/MySQL ile geliştirilmiş, çok-domain destekli e-ticaret uygulaması. Akvaryum/evcil hayvan ürünleri mağazası olarak yapılandırılmıştır; ürün kategorisi ayarlardan değiştirilebilir.
+PHP/MySQL ile geliştirilmiş, çok-domain destekli e-ticaret uygulaması. Mağaza adı, sloganı ve tüm marka bilgileri **admin panelinden** yönetilir (kodda gömülü marka yoktur). Demo veride akvaryum/evcil hayvan ürünleri mağazası olarak yapılandırılmıştır; ürün kategorisi ayarlardan değiştirilebilir.
 
 ## Ekran Görüntüleri
 
@@ -42,8 +42,8 @@ Kurulum yapmadan platformun nasıl göründüğünü görün:
 
 ```bash
 # 1) Depoyu klonla
-git clone https://github.com/mimarodogan/aquashop.git
-cd aquashop
+git clone <repo-url>
+cd <proje-klasoru>
 
 # 2) Ortam dosyasını hazırla
 cp .env.example .env
