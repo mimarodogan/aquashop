@@ -107,7 +107,7 @@ include __DIR__ . '/../includes/header.php';
     <form class="aq-blog-filter" method="get">
       <?php if ($catSlug !== ''): ?><input type="hidden" name="cat" value="<?= e($catSlug) ?>"><?php endif; ?>
       <input type="search" name="q" value="<?= e($q) ?>" placeholder="Yazı ara..." aria-label="Yazı ara">
-      <button type="submit"><i class="bi bi-search"></i> Ara</button>
+      <button type="submit"><?= e3d('search', 18) ?> Ara</button>
     </form>
 
     <?php if ($cats): ?>

@@ -74,7 +74,7 @@ if (!$__catSlug && !empty($p['category_id'])) {
             <input type="hidden" name="id"   value="<?= (int)$p['id'] ?>">
             <input type="hidden" name="back" value="<?= e(url('product', ['slug' => $p['slug']])) ?>">
             <button class="aq-detail-fav aq-fav-btn<?= $isFav ? ' is-active' : '' ?>" type="submit" aria-label="<?= $isFav ? 'Favoriden çıkar' : 'Favorilere ekle' ?>">
-              <i class="bi bi-heart<?= $isFav ? '-fill' : '' ?>"></i>
+              <?= e3d('heart', 20) ?>
             </button>
           </form>
           <?php if ($discountPct > 0): ?>
@@ -142,7 +142,7 @@ if (!$__catSlug && !empty($p['category_id'])) {
 
         <?php if (!$priceOnRequest && $inStock): ?>
         <div class="aq-stock-info-box aq-stock-info-under-price">
-          <div><i class="bi bi-box-seam"></i><span>Kalan Stok</span></div>
+          <div><?= e3d('box', 22) ?><span>Kalan Stok</span></div>
           <strong id="aqProductStock"><?= $displayStock ?> adet</strong>
         </div>
         <?php endif; ?>
@@ -180,7 +180,7 @@ if (!$__catSlug && !empty($p['category_id'])) {
         <?php endif; ?>
 
         <?php if ($priceOnRequest): ?>
-          <a href="<?= url('contact') ?>" class="aq-detail-add-cart" style="margin-top:18px;width:100%;text-decoration:none"><i class="bi bi-telephone"></i> İletişime Geçin</a>
+          <a href="<?= url('contact') ?>" class="aq-detail-add-cart" style="margin-top:18px;width:100%;text-decoration:none"><?= e3d('phone', 18) ?> İletişime Geçin</a>
         <?php elseif ($inStock || $hasVar): ?>
           <form method="post" id="aqProductForm">
             <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
@@ -197,8 +197,8 @@ if (!$__catSlug && !empty($p['category_id'])) {
               </div>
             </div>
             <div class="aq-detail-actions">
-              <button class="aq-detail-add-cart" type="submit"<?= $inStock ? '' : ' disabled' ?>><i class="bi bi-cart-plus"></i> <?= $inStock ? 'Sepete Ekle' : 'Stokta Yok' ?></button>
-              <button class="aq-detail-buy-now" type="submit" name="buy_now" value="1"<?= $inStock ? '' : ' disabled' ?>><i class="bi bi-lightning-charge"></i> Hemen Satın Al</button>
+              <button class="aq-detail-add-cart" type="submit"<?= $inStock ? '' : ' disabled' ?>><?= e3d('cart', 20) ?> <?= $inStock ? 'Sepete Ekle' : 'Stokta Yok' ?></button>
+              <button class="aq-detail-buy-now" type="submit" name="buy_now" value="1"<?= $inStock ? '' : ' disabled' ?>><?= e3d('lightning', 20) ?> Hemen Satın Al</button>
             </div>
           </form>
         <?php else: ?>
@@ -210,14 +210,14 @@ if (!$__catSlug && !empty($p['category_id'])) {
                 <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
                 <input type="hidden" name="product_id" value="<?= (int)$p['id'] ?>">
                 <input type="hidden" name="email" value="<?= e($oos_user['email']) ?>">
-                <button class="aq-detail-add-cart" type="submit" style="width:100%"><i class="bi bi-bell"></i> Stok Gelince Haber Ver</button>
+                <button class="aq-detail-add-cart" type="submit" style="width:100%"><?= e3d('bell', 18) ?> Stok Gelince Haber Ver</button>
               </form>
             <?php else: ?>
               <form method="post" action="<?= SITE_URL ?>/restock-notify.php" style="display:flex;gap:8px;flex-wrap:wrap">
                 <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
                 <input type="hidden" name="product_id" value="<?= (int)$p['id'] ?>">
                 <input type="email" name="email" required placeholder="ornek@eposta.com" style="flex:1;min-width:180px;padding:11px 14px;border:1px solid #dfe8ef;border-radius:12px;font-size:14px">
-                <button class="aq-detail-add-cart" type="submit"><i class="bi bi-bell"></i> Haber Ver</button>
+                <button class="aq-detail-add-cart" type="submit"><?= e3d('bell', 18) ?> Haber Ver</button>
               </form>
             <?php endif; ?>
           </div>

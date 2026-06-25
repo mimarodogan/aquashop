@@ -421,7 +421,7 @@ if (!empty($products)) {
             <?php $cardBack = url('category', ['slug' => $slug]); include __DIR__ . '/../components/product-card.php'; ?>
           <?php endforeach; else: ?>
             <div class="aq-all-categories-empty" style="grid-column:1/-1">
-              <span><i class="bi bi-search"></i></span>
+              <span><?= e3d('search', 40) ?></span>
               <h2>Ürün bulunamadı</h2>
               <p><?= $hasFilter ? 'Bu filtreyle eşleşen ürün bulunamadı.' : 'Bu kategoride henüz ürün bulunmuyor.' ?></p>
               <?php if ($hasFilter):

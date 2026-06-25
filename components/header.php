@@ -425,10 +425,10 @@ $__tg = trim((string)setting('site_tagline',''));
                 <span class="aq-account-guest-text">Alışverişe devam etmek için giriş yapabilir veya üye olabilirsiniz.</span>
               </div>
               <a href="<?= url('register') ?>" class="aq-account-auth-btn">
-                <i class="bi bi-person-plus"></i> Üye Ol
+                <?= e3d('account', 18) ?> Üye Ol
               </a>
               <a href="<?= url('login') ?>" class="aq-account-auth-btn aq-account-login-btn">
-                <i class="bi bi-box-arrow-in-right"></i> Giriş Yap
+                <?= e3d('login', 18) ?> Giriş Yap
               </a>
             </div>
             <?php endif; ?>

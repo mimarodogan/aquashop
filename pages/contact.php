@@ -98,28 +98,28 @@ include __DIR__ . '/../includes/header.php';
   <div class="aq-container">
     <div class="aq-contact-info-grid">
       <article class="aq-contact-info-card">
-        <span><i class="bi bi-geo-alt"></i></span>
+        <span><?= e3d('location', 30) ?></span>
         <div>
           <strong>Adres</strong>
           <p><?= nl2br(e($address)) ?></p>
         </div>
       </article>
       <article class="aq-contact-info-card">
-        <span><i class="bi bi-telephone"></i></span>
+        <span><?= e3d('phone', 30) ?></span>
         <div>
           <strong>Telefon</strong>
           <p><a href="tel:<?= e($phoneHref) ?>"><?= e($phone) ?></a></p>
         </div>
       </article>
       <article class="aq-contact-info-card">
-        <span><i class="bi bi-envelope"></i></span>
+        <span><?= e3d('mail', 30) ?></span>
         <div>
           <strong>E-posta</strong>
           <p><a href="mailto:<?= e($email) ?>"><?= e($email) ?></a></p>
         </div>
       </article>
       <article class="aq-contact-info-card">
-        <span><i class="bi bi-clock"></i></span>
+        <span><?= e3d('clock', 30) ?></span>
         <div>
           <strong>Çalışma Saatleri</strong>
           <p><?= e($hoursText) ?></p>
@@ -174,18 +174,18 @@ include __DIR__ . '/../includes/header.php';
       </section>
 
       <aside class="aq-contact-support-card">
-        <span><i class="bi bi-headset"></i></span>
+        <span><?= e3d('headset', 30) ?></span>
         <h3>Hızlı Destek</h3>
         <p>Ürün seçimi veya siparişinizle ilgili hızlı destek almak için WhatsApp üzerinden bize yazabilirsiniz.</p>
         <?php if ($waHref): ?>
           <a href="<?= e($waHref) ?>" target="_blank" rel="noopener"><i class="bi bi-whatsapp"></i> WhatsApp’dan Yazın</a>
         <?php else: ?>
-          <a href="tel:<?= e($phoneHref) ?>"><i class="bi bi-telephone"></i> Hemen Arayın</a>
+          <a href="tel:<?= e($phoneHref) ?>"><?= e3d('phone', 18) ?> Hemen Arayın</a>
         <?php endif; ?>
         <div class="aq-contact-perks">
-          <div><i class="bi bi-shield-check"></i><strong>Güvenli Alışveriş</strong><small>SSL korumalı güvenli ödeme altyapısı.</small></div>
-          <div><i class="bi bi-truck"></i><strong>Hızlı Teslimat</strong><small>Stokta olan ürünlerde hızlı kargo süreci.</small></div>
-          <div><i class="bi bi-arrow-repeat"></i><strong>Kolay İade</strong><small>Memnuniyet odaklı kolay iade ve değişim.</small></div>
+          <div><?= e3d('shield', 30) ?><strong>Güvenli Alışveriş</strong><small>SSL korumalı güvenli ödeme altyapısı.</small></div>
+          <div><?= e3d('truck', 30) ?><strong>Hızlı Teslimat</strong><small>Stokta olan ürünlerde hızlı kargo süreci.</small></div>
+          <div><?= e3d('return', 30) ?><strong>Kolay İade</strong><small>Memnuniyet odaklı kolay iade ve değişim.</small></div>
         </div>
       </div>
     </div>
