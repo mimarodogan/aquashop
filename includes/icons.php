@@ -4,6 +4,24 @@
  * Tüm ikonlar: 24×24 grid, stroke-linecap/linejoin="round", stroke-width="1.5"
  * Kullanım: ic('search')  |  ic('heart', 'w-5 h-5')  |  ic('cart', '', 20)
  */
+/**
+ * Microsoft Fluent Emoji 3D ikonları (assets/img/emoji3d/).
+ * Anlamlı/dekoratif ikonlar için 3D PNG döndürür.
+ * Kullanım: e3d('cart', 26, 'Sepet')
+ * Mevcutlar: truck, shield, headset, return, cart, heart, account,
+ *            search, star, phone, mail, location, bell, gift
+ */
+function e3d(string $name, int $size = 26, string $alt = ''): string {
+    $base = (defined('SITE_URL') ? rtrim(SITE_URL, '/') : '') . '/assets/img/emoji3d/';
+    $s = max(12, $size);
+    return '<img src="' . $base . htmlspecialchars($name, ENT_QUOTES) . '.png" '
+         . 'width="' . $s . '" height="' . $s . '" '
+         . 'alt="' . htmlspecialchars($alt, ENT_QUOTES) . '" '
+         . ($alt === '' ? 'aria-hidden="true" ' : '')
+         . 'class="e3d" loading="lazy" decoding="async" '
+         . 'style="display:inline-block;vertical-align:middle;object-fit:contain">';
+}
+
 function ic(string $name, string $cls = '', int $size = 24, string $extra = ''): string {
     static $paths = null;
     if ($paths === null) {

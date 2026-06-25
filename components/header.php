@@ -376,9 +376,9 @@ $__tg = trim((string)setting('site_tagline',''));
     <div class="aq-container">
       <div class="aq-header-top-inner">
         <div class="aq-header-trust">
-          <span><i class="bi bi-shield-check"></i> Güvenli Alışveriş</span>
-          <span><i class="bi bi-truck"></i> Hızlı Teslimat</span>
-          <span><i class="bi bi-arrow-repeat"></i> Kolay İade</span>
+          <span><?= e3d('shield', 18) ?> Güvenli Alışveriş</span>
+          <span><?= e3d('truck', 18) ?> Hızlı Teslimat</span>
+          <span><?= e3d('return', 18) ?> Kolay İade</span>
         </div>
         <div class="aq-header-mini-links">
           <a href="<?= url('home') ?>">Ana Sayfa</a>
@@ -403,7 +403,7 @@ $__tg = trim((string)setting('site_tagline',''));
           <?php if ($__tg !== ''): ?><small><?= e($__tg) ?></small><?php endif; ?>
         </a>
         <form class="aq-search aq-search-live" action="<?= url('products') ?>" method="get" role="search">
-          <button type="submit" aria-label="Ara"><i class="bi bi-search"></i></button>
+          <button type="submit" aria-label="Ara"><?= e3d('search', 22) ?></button>
           <input type="search" name="q"
                  placeholder="Ürün, kategori veya marka ara"
                  aria-label="Ürünlerde ara"
@@ -415,7 +415,7 @@ $__tg = trim((string)setting('site_tagline',''));
           <div class="aq-account-menu">
             <a href="<?= current_user() ? url('account') : url('login') ?>"
                class="aq-header-action aq-account-trigger" aria-label="Hesabım">
-              <i class="bi bi-person"></i>
+              <?= e3d('account', 26) ?>
               <span><?= current_user() ? 'Hesabım' : 'Giriş Yap' ?></span>
             </a>
             <?php if (!current_user()): ?>
@@ -434,12 +434,12 @@ $__tg = trim((string)setting('site_tagline',''));
             <?php endif; ?>
           </div>
           <a href="<?= url('favorites') ?>" class="aq-header-action" aria-label="Favorilerim">
-            <i class="bi bi-heart"></i>
+            <?= e3d('heart', 26) ?>
             <span>Favorilerim</span>
             <?php if (current_user() && fav_count() > 0): ?><em><?= fav_count() ?></em><?php endif; ?>
           </a>
           <a href="<?= url('cart') ?>" class="aq-header-action" aria-label="Sepetim">
-            <i class="bi bi-cart3"></i>
+            <?= e3d('cart', 26) ?>
             <span>Sepetim</span>
             <?php if (cart_count() > 0): ?><em><?= cart_count() ?></em><?php endif; ?>
           </a>

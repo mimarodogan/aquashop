@@ -148,9 +148,9 @@ if (!$__catSlug && !empty($p['category_id'])) {
         <?php endif; ?>
 
         <div class="aq-detail-benefits">
-          <div><i class="bi bi-truck"></i><span>14:00'a kadar verilen siparişlerde hızlı kargo</span></div>
-          <div><i class="bi bi-shield-check"></i><span>Güvenli ödeme ve kolay iade avantajı</span></div>
-          <div><i class="bi bi-headset"></i><span>Ürün seçimi için uzman destek</span></div>
+          <div><?= e3d('truck', 24) ?><span>14:00'a kadar verilen siparişlerde hızlı kargo</span></div>
+          <div><?= e3d('shield', 24) ?><span>Güvenli ödeme ve kolay iade avantajı</span></div>
+          <div><?= e3d('headset', 24) ?><span>Ürün seçimi için uzman destek</span></div>
         </div>
 
         <?php if (!$priceOnRequest): ?>

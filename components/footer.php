@@ -32,22 +32,22 @@ if ($__waEnabled && $__waNumber !== '') {
     <div class="aq-container">
       <div class="aq-footer-benefits">
         <div>
-          <i class="bi bi-truck"></i>
+          <?= e3d('truck', 40) ?>
           <strong>Hızlı Kargo</strong>
           <span>1.999 TL ve üzeri siparişlerde avantajlı kargo</span>
         </div>
         <div>
-          <i class="bi bi-shield-check"></i>
+          <?= e3d('shield', 40) ?>
           <strong>Güvenli Ödeme</strong>
           <span>SSL korumalı güvenli alışveriş altyapısı</span>
         </div>
         <div>
-          <i class="bi bi-headset"></i>
+          <?= e3d('headset', 40) ?>
           <strong>Uzman Destek</strong>
           <span>Akvaryum ürünleri için profesyonel destek</span>
         </div>
         <div>
-          <i class="bi bi-arrow-repeat"></i>
+          <?= e3d('return', 40) ?>
           <strong>Kolay İade</strong>
           <span>Memnuniyet odaklı kolay iade süreci</span>
         </div>
@@ -120,7 +120,7 @@ if ($__waEnabled && $__waNumber !== '') {
     <div class="aq-footer-contact-band">
       <?php if ($__fAddr !== ''): ?>
       <div class="aq-footer-contact-item">
-        <i class="bi bi-geo-alt"></i>
+        <?= e3d('location', 30) ?>
         <div>
           <strong>Adres</strong>
           <span><?= e($__fAddr) ?></span>
@@ -130,7 +130,7 @@ if ($__waEnabled && $__waNumber !== '') {
 
       <?php if ($__fPhone !== ''): ?>
       <div class="aq-footer-contact-item">
-        <i class="bi bi-telephone"></i>
+        <?= e3d('phone', 30) ?>
         <div>
           <strong>Telefon</strong>
           <a href="tel:<?= e($__fTel) ?>"><?= e($__fPhone) ?></a>
@@ -140,7 +140,7 @@ if ($__waEnabled && $__waNumber !== '') {
 
       <?php if ($__fMail !== ''): ?>
       <div class="aq-footer-contact-item">
-        <i class="bi bi-envelope"></i>
+        <?= e3d('mail', 30) ?>
         <div>
           <strong>E-posta</strong>
           <a href="mailto:<?= e($__fMail) ?>"><?= e($__fMail) ?></a>
