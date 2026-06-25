@@ -3,7 +3,7 @@ INSERT INTO pages (slug, title, content, is_published) VALUES (
   'cerez-politikasi',
   'Çerez Politikası',
   '<h2>Çerez Politikası</h2>
-<p>Bu Çerez Politikası, <strong>aquashop.com.tr</strong> web sitesinde kullanılan çerezler (cookies) hakkında sizi bilgilendirmek amacıyla hazırlanmıştır.</p>
+<p>Bu Çerez Politikası, <strong>ornek-site.test</strong> web sitesinde kullanılan çerezler (cookies) hakkında sizi bilgilendirmek amacıyla hazırlanmıştır.</p>
 
 <h3>Çerez Nedir?</h3>
 <p>Çerezler, web siteleri tarafından tarayıcınıza yerleştirilen küçük metin dosyalarıdır. Sitemizi her ziyaret ettiğinizde web sunucusu tarafından tarayıcınıza gönderilir ve tarayıcınız tarafından saklanır. Sonraki ziyaretlerde bu çerezler sunucumuza geri gönderilerek kimliğinizin tanınmasına ve tercihlerinizin hatırlanmasına yardımcı olur.</p>

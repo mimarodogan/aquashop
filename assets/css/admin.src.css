@@ -1,7 +1,20 @@
 /*
  * Admin Panel — Premium tasarım sistemi v3
  * style.css ile aynı palet ve tipografi · Aesop / Apple estetiği
+ *
+ * NOT: Bu palet eskiden public style.css'in :root'undan geliyordu; aqua
+ * geçişinde oradan kaldırılınca admin renksiz kaldı. Palet burada (admin'e
+ * özel) yeniden tanımlandı. Durum renkleri (--success/--danger/...) admin-modules.css'te.
  */
+:root{
+  --olive:#F9F9F9; --olive-2:#FFFFFF; --midnight:#1A1A1A; --gold:#6B7A2F; --leaf:#4F5C26;
+  --champagne:#1A1A1A; --gold-border:#D8D8D8; --field-border:#8C8C8C; --ink-soft:#4A4A4A;
+  --muted-text:#5F5F5F; --ivory:#FFFFFF; --cream:#F4F4F4; --ink:#0A0A0A; --on-dark:#F9F9F9;
+  --on-dark-soft:#B8B8B8; --focus-ring:#6B7A2F;
+  --shadow-xs:0 1px 2px rgba(20,20,20,.04); --shadow-sm:0 2px 8px rgba(20,20,20,.05);
+  --shadow-md:0 8px 24px rgba(20,20,20,.06); --shadow-lg:0 24px 60px rgba(20,20,20,.10);
+  --radius-sm:4px; --radius:6px; --radius-lg:10px; --t:.25s cubic-bezier(.4,0,.2,1);
+}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--olive);color:var(--champagne);font-family:'Inter',sans-serif;line-height:1.6;font-weight:400;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 a{color:inherit;text-decoration:none;transition:color var(--t)}

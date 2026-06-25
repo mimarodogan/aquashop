@@ -107,10 +107,19 @@ include __DIR__ . '/../includes/header.php';
           </div>
         </div>
 
-        <div class="consents">
-          <label><input type="checkbox" name="email_consent" value="1"> Kampanya, duyuru, bilgilendirmelerden e-posta ile haberdar olmak istiyorum.</label>
-          <label><input type="checkbox" name="sms_consent" value="1"> Kampanya, duyuru, bilgilendirmelerden sms ile haberdar olmak istiyorum.</label>
-          <label><input type="checkbox" name="terms" value="1" required> <span><a href="<?= url('page', ['slug'=>'uyelik-kosullari']) ?>" target="_blank">Üyelik koşullarını</a> ve <a href="<?= url('page', ['slug'=>'kvkk']) ?>" target="_blank">kişisel verilerimin korunmasını</a> kabul ediyorum.</span></label>
+        <div class="consents" aria-label="İzinler ve üyelik onayları">
+          <label class="consent-row">
+            <input type="checkbox" name="email_consent" value="1" <?= !empty($_POST['email_consent']) ? 'checked' : '' ?>>
+            <span>Kampanya, duyuru ve bilgilendirmelerden <strong>e-posta</strong> ile haberdar olmak istiyorum.</span>
+          </label>
+          <label class="consent-row">
+            <input type="checkbox" name="sms_consent" value="1" <?= !empty($_POST['sms_consent']) ? 'checked' : '' ?>>
+            <span>Kampanya, duyuru ve bilgilendirmelerden <strong>SMS</strong> ile haberdar olmak istiyorum.</span>
+          </label>
+          <label class="consent-row consent-row-required">
+            <input type="checkbox" name="terms" value="1" required <?= !empty($_POST['terms']) ? 'checked' : '' ?>>
+            <span><a href="<?= url('page', ['slug'=>'uyelik-kosullari']) ?>" target="_blank" rel="noopener">Üyelik koşullarını</a> ve <a href="<?= url('page', ['slug'=>'kvkk']) ?>" target="_blank" rel="noopener">kişisel verilerimin korunmasını</a> kabul ediyorum.</span>
+          </label>
         </div>
 
         <button type="submit" class="auth-submit">Üye Ol</button>

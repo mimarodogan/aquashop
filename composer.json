@@ -1,6 +1,6 @@
 {
-    "name": "aquashop/storefront",
-    "description": "AquaShop e-ticaret — akvaryum, balık yemi, filtre, aydınlatma ve sucul yaşam ürünleri mağazası.",
+    "name": "generic/storefront",
+    "description": "Tema e-ticaret — akvaryum, balık yemi, filtre, aydınlatma ve sucul yaşam ürünleri mağazası.",
     "type": "project",
     "license": "proprietary",
     "require": {

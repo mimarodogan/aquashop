@@ -5,8 +5,8 @@
  * Googlebot'unu kullanır).
  *
  * Kullanım:
- *   indexnow_ping(['https://aquashop.com.tr/urun/slug']);
- *   indexnow_ping(['https://aquashop.com.tr/blog/slug']);
+ *   indexnow_ping(['https://ornek-site.test/urun/slug']);
+ *   indexnow_ping(['https://ornek-site.test/blog/slug']);
  *
  * Belgeleme: https://www.indexnow.org/documentation
  */
@@ -51,11 +51,12 @@ function indexnow_ping(array $urls): bool
     ]);
 
     try {
-        $resp = @file_get_contents('https://api.indexnow.org/IndexNow', false, $ctx);
+        @file_get_contents('https://api.indexnow.org/IndexNow', false, $ctx);
         // 200 OK veya 202 Accepted başarı sayılır
         $code = 0;
-        if (!empty($http_response_header)) {
-            if (preg_match('/HTTP\/\S+\s+(\d+)/', $http_response_header[0], $m)) {
+        $headers = function_exists('http_get_last_response_headers') ? http_get_last_response_headers() : ($http_response_header ?? []);
+        if (!empty($headers)) {
+            if (preg_match('/HTTP\/\S+\s+(\d+)/', $headers[0], $m)) {
                 $code = (int)$m[1];
             }
         }

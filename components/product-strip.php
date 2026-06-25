@@ -14,23 +14,30 @@
 if (empty($stripItems) || !is_array($stripItems)) return;
 
 $__bg = $stripBg ?? null;
-$__sectionStyle = $__bg === 'cream'
-    ? 'background:var(--cream);border-top:1px solid var(--gold-border);border-bottom:1px solid var(--gold-border)'
-    : '';
+$__sectionClass = $__bg === 'cream' ? 'aq-product-section aq-soft-block' : 'aq-product-section';
 $cardBack = $stripCardBack ?? 'index.php';
 ?>
-<section style="<?= e($__sectionStyle) ?>">
-  <div class="container">
-    <div class="section-head">
-      <?php if (!empty($stripKicker)): ?><span class="kicker"><?= e($stripKicker) ?></span><?php endif; ?>
-      <h2><?= e($stripTitle) ?></h2>
-      <div class="ornament-divider"><span class="line"></span><span class="diamond"></span><span class="line"></span></div>
+<section class="<?= e($__sectionClass) ?>">
+  <div class="aq-container">
+    <div class="aq-section-title-row">
+      <div>
+        <?php if (!empty($stripKicker)): ?><span><?= e($stripKicker) ?></span><?php endif; ?>
+        <h2><?= e($stripTitle) ?></h2>
+      </div>
     </div>
-    <div class="grid">
-      <?php $favIds = function_exists('fav_ids') ? fav_ids() : []; ?>
-      <?php foreach ($stripItems as $p): ?>
-        <?php include __DIR__ . '/product-card.php'; ?>
-      <?php endforeach; ?>
+    <div class="aq-carousel-wrap" data-carousel data-visible-desktop="5" data-visible-tablet="3" data-visible-mobile="2">
+      <div class="aq-carousel-controls">
+        <button type="button" class="aq-carousel-arrow aq-products-prev" data-dir="-1" aria-label="Geri" disabled><i class="bi bi-chevron-left"></i></button>
+        <button type="button" class="aq-carousel-arrow aq-products-next" data-dir="1" aria-label="İleri"><i class="bi bi-chevron-right"></i></button>
+      </div>
+      <div class="aq-products-viewport">
+        <div class="aq-products-track">
+          <?php $favIds = function_exists('fav_ids') ? fav_ids() : []; ?>
+          <?php foreach ($stripItems as $p): ?>
+            <?php include __DIR__ . '/product-card.php'; ?>
+          <?php endforeach; ?>
+        </div>
+      </div>
     </div>
   </div>
 </section>

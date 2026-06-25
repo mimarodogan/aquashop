@@ -40,7 +40,7 @@
         banner.innerHTML =
             '<div class="cb-inner">' +
               '<div class="cb-text">' +
-                '<strong>🍪 Çerez Bildirimi</strong>' +
+                '<strong>Çerez Bildirimi</strong>' +
                 '<p>Bu site, deneyiminizi geliştirmek ve gerekli işlevleri sunmak için çerez kullanır. ' +
                 'Detaylı bilgi için <a href="' + policyHref + '">Çerez Politikası</a> ve ' +
                 '<a href="' + kvkkHref + '">KVKK Aydınlatma Metni</a>\'ni okuyabilirsiniz.</p>' +

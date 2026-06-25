@@ -1,1 +1,2018 @@
-.rating-input{direction:rtl;display:inline-flex;gap:4px;font-size:32px;line-height:1}.rating-input label:hover,.rating-input label:hover~label,.rating-input input:checked~label{color:#E0A800 !important}
+/* Tema Ürün Detay — canlı (ornek-site.test) urun-detay.css tasarımıyla birebir. */
+/* =========================================================
+   Tema Ürün Detay Sayfası
+   - Galeri
+   - Sepete ekle / hemen satın al / WhatsApp
+   - Açıklama
+   - SSS
+   - Benzer ürünler
+========================================================= */
+
+.aq-product-detail-page {
+    padding: 34px 0 42px;
+    background: #ffffff;
+}
+
+.aq-product-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #7a8491;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    white-space: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.aq-product-breadcrumb::-webkit-scrollbar {
+    display: none;
+}
+
+.aq-product-breadcrumb a:hover {
+    color: var(--aq-blue-dark);
+}
+
+.aq-product-breadcrumb i {
+    font-size: 11px;
+    color: #a2acb8;
+}
+
+.aq-product-detail-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(430px, 0.78fr);
+    gap: 34px;
+    align-items: flex-start;
+}
+
+.aq-product-gallery {
+    min-width: 0;
+}
+
+.aq-product-gallery-main {
+    position: relative;
+    border-radius: 26px;
+    background: #f8fbfc;
+    border: 1px solid #e5edf3;
+    box-shadow: 0 14px 38px rgba(15, 23, 42, 0.055);
+    overflow: hidden;
+    aspect-ratio: 1.16 / 1;
+}
+
+.aq-product-gallery-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 420ms ease, opacity 220ms ease;
+}
+
+.aq-product-gallery-main:hover img {
+    transform: scale(1.018);
+}
+
+.aq-detail-fav {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    z-index: 4;
+    width: 42px;
+    height: 42px;
+    border: 1px solid #e5edf3;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.96);
+    color: #334155;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 9px 22px rgba(15, 23, 42, 0.075);
+}
+
+.aq-detail-fav i {
+    line-height: 1;
+    font-size: 18px;
+}
+
+.aq-detail-fav.is-active {
+    color: #e30613;
+}
+
+.aq-detail-badge {
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    z-index: 4;
+    min-height: 28px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: #e30613;
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,.68);
+    box-shadow: 0 8px 18px rgba(227, 6, 19, 0.16);
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.aq-product-thumbs {
+    margin-top: 14px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.aq-product-thumbs button {
+    height: 116px;
+    padding: 5px;
+    border-radius: 18px;
+    border: 1px solid #e5edf3;
+    background: #ffffff;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.035);
+    transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+}
+
+.aq-product-thumbs button:hover,
+.aq-product-thumbs button.is-active {
+    border-color: rgba(7, 152, 189, 0.46);
+    box-shadow: 0 12px 24px rgba(7, 152, 189, 0.10);
+}
+
+.aq-product-thumbs button.is-active {
+    transform: translateY(-2px);
+}
+
+.aq-product-thumbs img {
+    width: 100%;
+    height: 100%;
+    border-radius: 13px;
+    object-fit: cover;
+}
+
+.aq-product-summary {
+    position: sticky;
+    top: calc(var(--aq-fixed-stack-height, 0px) + 22px);
+    border-radius: 26px;
+    background: #ffffff;
+    border: 1px solid #e5edf3;
+    box-shadow: 0 14px 38px rgba(15, 23, 42, 0.055);
+    padding: 26px;
+}
+
+.aq-product-code-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.aq-product-code-row > span:first-child {
+    color: #7a8491;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.aq-stock-badge {
+    min-height: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: #eefbf3;
+    color: #16803a;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.aq-product-summary h1 {
+    margin: 0;
+    color: #111827;
+    font-size: clamp(27px, 2.2vw, 40px);
+    font-weight: 850;
+    line-height: 1.12;
+    letter-spacing: -1px;
+}
+
+.aq-detail-rating {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.aq-detail-rating div {
+    display: flex;
+    gap: 2px;
+    color: #f59e0b;
+    font-size: 14px;
+}
+
+.aq-detail-rating strong {
+    color: #111827;
+    font-size: 13px;
+    font-weight: 850;
+}
+
+.aq-detail-rating span {
+    color: #7a8491;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.aq-product-short-desc {
+    margin: 15px 0 0;
+    color: #667386;
+    font-size: 13.5px;
+    line-height: 1.65;
+}
+
+.aq-detail-price-box {
+    margin-top: 20px;
+    padding: 18px;
+    border-radius: 20px;
+    background: #f8fbfc;
+    border: 1px solid #e8eef3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.aq-detail-price {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.aq-detail-price span {
+    color: #7a8491;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.aq-detail-price strong {
+    color: #111827;
+    font-size: 31px;
+    font-weight: 850;
+    letter-spacing: -1px;
+}
+
+.aq-detail-price del {
+    color: #9aa5b2;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.aq-detail-discount {
+    width: 72px;
+    height: 72px;
+    border-radius: 22px;
+    background: #e30613;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0 12px 28px rgba(227, 6, 19, 0.16);
+}
+
+.aq-detail-discount strong {
+    font-size: 19px;
+    font-weight: 850;
+    line-height: 1;
+}
+
+.aq-detail-discount span {
+    margin-top: 4px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.aq-detail-benefits {
+    margin-top: 15px;
+    display: grid;
+    gap: 9px;
+}
+
+.aq-detail-benefits div {
+    min-height: 42px;
+    padding: 0 13px;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid #e8eef3;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #4b5563;
+    font-size: 12.2px;
+    font-weight: 650;
+}
+
+.aq-detail-benefits i {
+    color: var(--aq-blue-dark);
+    font-size: 17px;
+}
+
+.aq-quantity-area {
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.aq-quantity-area > span {
+    color: #17202b;
+    font-size: 13px;
+    font-weight: 850;
+}
+
+.aq-quantity-control {
+    height: 42px;
+    display: grid;
+    grid-template-columns: 38px 54px 38px;
+    border-radius: 999px;
+    border: 1px solid #dfe8ef;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.aq-quantity-control button {
+    border: 0;
+    background: #f8fbfc;
+    color: #056f8d;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aq-quantity-control input {
+    width: 54px;
+    border: 0;
+    outline: none;
+    text-align: center;
+    color: #111827;
+    font-size: 13px;
+    font-weight: 850;
+}
+
+.aq-detail-actions {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 11px;
+}
+
+.aq-detail-add-cart,
+.aq-detail-buy-now,
+.aq-detail-whatsapp {
+    min-height: 48px;
+    border-radius: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    font-size: 13px;
+    font-weight: 850;
+    transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+}
+
+.aq-detail-add-cart {
+    border: 0;
+    background: var(--aq-blue);
+    color: #ffffff;
+    box-shadow: 0 12px 24px rgba(7, 152, 189, 0.20);
+}
+
+.aq-detail-buy-now {
+    border: 0;
+    background: #111827;
+    color: #ffffff;
+    box-shadow: 0 12px 24px rgba(17, 24, 39, 0.14);
+}
+
+.aq-detail-whatsapp {
+    margin-top: 11px;
+    width: 100%;
+    background: #25d366;
+    color: #ffffff;
+    box-shadow: 0 12px 24px rgba(37, 211, 102, 0.18);
+}
+
+.aq-detail-add-cart:hover,
+.aq-detail-buy-now:hover,
+.aq-detail-whatsapp:hover {
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.aq-detail-add-cart.is-added {
+    background: #056f8d;
+}
+
+.aq-product-meta {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+}
+
+.aq-product-meta div {
+    min-height: 64px;
+    padding: 11px;
+    border-radius: 15px;
+    background: #f8fbfc;
+    border: 1px solid #e8eef3;
+}
+
+.aq-product-meta strong {
+    display: block;
+    color: #7a8491;
+    font-size: 10.5px;
+    font-weight: 800;
+}
+
+.aq-product-meta span {
+    display: block;
+    margin-top: 5px;
+    color: #17202b;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+/* Açıklama */
+
+.aq-product-info-section {
+    padding: 10px 0 42px;
+    background: #ffffff;
+}
+
+.aq-product-info-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 22px;
+    align-items: flex-start;
+}
+
+.aq-detail-card,
+.aq-detail-spec-card {
+    border-radius: 24px;
+    background: #ffffff;
+    border: 1px solid #e5edf3;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.045);
+}
+
+.aq-detail-card {
+    padding: 25px;
+}
+
+.aq-detail-card-head span {
+    color: var(--aq-blue-dark);
+    font-size: 11px;
+    font-weight: 850;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+.aq-detail-card-head h2 {
+    margin: 7px 0 0;
+    color: #111827;
+    font-size: 28px;
+    font-weight: 850;
+    letter-spacing: -0.7px;
+}
+
+.aq-detail-description {
+    margin-top: 18px;
+    color: #4b5563;
+    font-size: 13.7px;
+    line-height: 1.75;
+}
+
+.aq-detail-description p {
+    margin: 0 0 13px;
+}
+
+.aq-detail-description ul {
+    margin: 17px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 9px;
+}
+
+.aq-detail-description li {
+    position: relative;
+    padding-left: 25px;
+}
+
+.aq-detail-description li::before {
+    content: "\F633";
+    font-family: "bootstrap-icons";
+    position: absolute;
+    left: 0;
+    top: 1px;
+    color: var(--aq-blue-dark);
+    font-size: 14px;
+}
+
+.aq-detail-spec-card {
+    padding: 22px;
+}
+
+.aq-detail-spec-card h3 {
+    margin: 0 0 15px;
+    color: #111827;
+    font-size: 20px;
+    font-weight: 850;
+}
+
+.aq-spec-row {
+    min-height: 44px;
+    border-bottom: 1px solid #edf3f7;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.aq-spec-row:last-child {
+    border-bottom: 0;
+}
+
+.aq-spec-row span {
+    color: #7a8491;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.aq-spec-row strong {
+    color: #17202b;
+    font-size: 12.5px;
+    font-weight: 850;
+    text-align: right;
+}
+
+/* SSS */
+
+.aq-faq-section {
+    padding: 48px 0;
+    background: #f8fbfc;
+    border-top: 1px solid #eef3f6;
+    border-bottom: 1px solid #eef3f6;
+}
+
+.aq-faq-list {
+    max-width: 940px;
+    margin: 0 auto;
+    display: grid;
+    gap: 10px;
+}
+
+.aq-faq-item {
+    border-radius: 18px;
+    background: #ffffff;
+    border: 1px solid #e5edf3;
+    overflow: hidden;
+    box-shadow: 0 9px 24px rgba(15, 23, 42, 0.035);
+}
+
+.aq-faq-item > button {
+    width: 100%;
+    min-height: 58px;
+    padding: 0 18px;
+    border: 0;
+    background: #ffffff;
+    color: #17202b;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    text-align: left;
+    font-size: 13.5px;
+    font-weight: 850;
+}
+
+.aq-faq-item > button i {
+    color: var(--aq-blue-dark);
+    transition: transform 220ms ease;
+}
+
+.aq-faq-item.is-open > button i {
+    transform: rotate(180deg);
+}
+
+.aq-faq-item > div {
+    display: none;
+    padding: 0 18px 18px;
+}
+
+.aq-faq-item.is-open > div {
+    display: block;
+}
+
+.aq-faq-item p {
+    margin: 0;
+    color: #667386;
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+/* Benzer Ürünler */
+
+.aq-related-section {
+    padding: 50px 0 64px;
+    background: #ffffff;
+}
+
+.aq-related-carousel {
+    position: relative;
+}
+
+.aq-related-viewport {
+    overflow: hidden;
+}
+
+.aq-related-track {
+    display: flex;
+    align-items: stretch;
+    gap: var(--aq-related-gap, 14px);
+    width: max-content;
+    transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+}
+
+.aq-related-track .aq-product-card {
+    flex: 0 0 var(--aq-related-card-width, 250px);
+    width: var(--aq-related-card-width, 250px);
+    min-width: var(--aq-related-card-width, 250px);
+    max-width: var(--aq-related-card-width, 250px);
+}
+
+.aq-related-prev {
+    left: -19px !important;
+}
+
+.aq-related-next {
+    right: -19px !important;
+}
+
+/* Responsive */
+
+@media (max-width: 1180px) {
+    .aq-product-detail-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .aq-product-summary {
+        position: relative;
+        top: auto;
+    }
+
+    .aq-product-info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767px) {
+    .aq-product-detail-page {
+        padding: 24px 0 34px;
+    }
+
+    .aq-product-breadcrumb {
+        margin-bottom: 14px;
+        font-size: 11px;
+    }
+
+    .aq-product-detail-layout {
+        gap: 18px;
+    }
+
+    .aq-product-gallery-main {
+        border-radius: 20px;
+        aspect-ratio: 1 / 0.9;
+    }
+
+    .aq-product-thumbs {
+        gap: 8px;
+    }
+
+    .aq-product-thumbs button {
+        height: 78px;
+        border-radius: 14px;
+        padding: 4px;
+    }
+
+    .aq-product-thumbs img {
+        border-radius: 10px;
+    }
+
+    .aq-product-summary {
+        padding: 18px;
+        border-radius: 20px;
+    }
+
+    .aq-product-code-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .aq-product-summary h1 {
+        font-size: 25px;
+    }
+
+    .aq-detail-price-box {
+        padding: 14px;
+        border-radius: 18px;
+    }
+
+    .aq-detail-price strong {
+        font-size: 26px;
+    }
+
+    .aq-detail-discount {
+        width: 62px;
+        height: 62px;
+        border-radius: 18px;
+    }
+
+    .aq-detail-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .aq-product-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .aq-detail-card,
+    .aq-detail-spec-card {
+        border-radius: 20px;
+    }
+
+    .aq-detail-card {
+        padding: 18px;
+    }
+
+    .aq-detail-card-head h2 {
+        font-size: 24px;
+    }
+
+    .aq-faq-section {
+        padding: 40px 0;
+    }
+
+    .aq-related-section {
+        padding: 42px 0 54px;
+    }
+
+    .aq-related-prev {
+        left: -8px !important;
+    }
+
+    .aq-related-next {
+        right: -8px !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .aq-product-gallery-main {
+        aspect-ratio: 1 / 0.95;
+    }
+
+    .aq-product-thumbs button {
+        height: 68px;
+    }
+
+    .aq-detail-rating {
+        flex-wrap: wrap;
+    }
+
+    .aq-detail-price-box {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .aq-detail-discount {
+        width: auto;
+        height: 36px;
+        padding: 0 13px;
+        border-radius: 999px;
+        flex-direction: row;
+        gap: 5px;
+    }
+}
+
+/* =========================================================
+   Tema Ürün Detay - Kalan Stok + Müşteri Yorumları
+========================================================= */
+
+.aq-stock-info-box {
+    margin: -2px 0 14px;
+    min-height: 42px;
+    padding: 0 13px;
+    border-radius: 15px;
+    background: #fff8ed;
+    border: 1px solid #ffe2b8;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.aq-stock-info-box div {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #9a5a04;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.aq-stock-info-box i {
+    font-size: 17px;
+}
+
+.aq-stock-info-box strong {
+    color: #111827;
+    font-size: 13px;
+    font-weight: 850;
+}
+
+/* Müşteri yorumları */
+
+.aq-product-reviews-section {
+    padding: 50px 0;
+    background: #ffffff;
+    border-bottom: 1px solid #eef3f6;
+}
+
+.aq-reviews-layout {
+    display: grid;
+    grid-template-columns: 330px minmax(0, 1fr);
+    gap: 22px;
+    align-items: flex-start;
+}
+
+.aq-review-summary-card,
+.aq-review-card,
+.aq-review-form {
+    border-radius: 24px;
+    background: #ffffff;
+    border: 1px solid #e5edf3;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.045);
+}
+
+.aq-review-summary-card {
+    position: sticky;
+    top: calc(var(--aq-fixed-stack-height, 0px) + 20px);
+    padding: 22px;
+}
+
+.aq-review-score {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.aq-review-score > strong {
+    color: #111827;
+    font-size: 52px;
+    font-weight: 850;
+    letter-spacing: -2px;
+    line-height: 1;
+}
+
+.aq-review-score div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.aq-review-score span {
+    color: #f59e0b;
+    font-size: 15px;
+    display: flex;
+    gap: 2px;
+}
+
+.aq-review-score small {
+    color: #7a8491;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.aq-review-bars {
+    margin-top: 20px;
+    display: grid;
+    gap: 10px;
+}
+
+.aq-review-bars div {
+    display: grid;
+    grid-template-columns: 58px 1fr 38px;
+    gap: 9px;
+    align-items: center;
+}
+
+.aq-review-bars span,
+.aq-review-bars strong {
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.aq-review-bars strong {
+    text-align: right;
+}
+
+.aq-review-bars em {
+    height: 8px;
+    border-radius: 999px;
+    background: #eef3f6;
+    overflow: hidden;
+}
+
+.aq-review-bars b {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: #0798bd;
+}
+
+.aq-review-summary-card p {
+    margin: 18px 0 0;
+    color: #667386;
+    font-size: 12.8px;
+    line-height: 1.65;
+}
+
+.aq-review-content {
+    display: grid;
+    gap: 16px;
+}
+
+.aq-review-list {
+    display: grid;
+    gap: 12px;
+}
+
+.aq-review-card {
+    padding: 18px;
+}
+
+.aq-review-card-head {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    gap: 11px;
+    align-items: center;
+}
+
+.aq-review-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 15px;
+    background: #eef9fc;
+    color: #056f8d;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 850;
+}
+
+.aq-review-card-head strong {
+    display: block;
+    color: #111827;
+    font-size: 13.5px;
+    font-weight: 850;
+}
+
+.aq-review-card-head span {
+    display: block;
+    margin-top: 3px;
+    color: #16803a;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.aq-review-card-head time {
+    color: #8b95a1;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.aq-review-stars {
+    margin-top: 12px;
+    color: #f59e0b;
+    font-size: 13px;
+    display: flex;
+    gap: 2px;
+}
+
+.aq-review-card p {
+    margin: 10px 0 0;
+    color: #4b5563;
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+.aq-review-form {
+    padding: 22px;
+}
+
+.aq-review-form-head span {
+    color: var(--aq-blue-dark);
+    font-size: 10.5px;
+    font-weight: 850;
+    letter-spacing: 1.15px;
+    text-transform: uppercase;
+}
+
+.aq-review-form-head h3 {
+    margin: 6px 0 0;
+    color: #111827;
+    font-size: 24px;
+    font-weight: 850;
+    letter-spacing: -0.6px;
+}
+
+.aq-review-form-head p {
+    margin: 7px 0 0;
+    color: #667386;
+    font-size: 12.8px;
+    line-height: 1.55;
+}
+
+.aq-review-rating-select {
+    margin-top: 18px;
+    min-height: 48px;
+    padding: 0 14px;
+    border-radius: 16px;
+    background: #f8fbfc;
+    border: 1px solid #e8eef3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.aq-review-rating-select > span {
+    color: #17202b;
+    font-size: 12px;
+    font-weight: 850;
+}
+
+.aq-review-rate-buttons {
+    display: inline-flex;
+    gap: 4px;
+}
+
+.aq-review-rate-buttons button {
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #cbd5e1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.aq-review-rate-buttons button.is-active {
+    color: #f59e0b;
+    background: #fff7e6;
+}
+
+.aq-review-rate-buttons button:hover {
+    transform: translateY(-1px);
+}
+
+.aq-review-form-grid {
+    margin-top: 14px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.aq-review-form label {
+    display: grid;
+    gap: 7px;
+}
+
+.aq-review-form label span {
+    color: #17202b;
+    font-size: 12px;
+    font-weight: 850;
+}
+
+.aq-review-form input,
+.aq-review-form textarea {
+    width: 100%;
+    border: 1px solid #dfe8ef;
+    border-radius: 15px;
+    background: #ffffff;
+    color: #111827;
+    outline: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.aq-review-form input {
+    height: 44px;
+    padding: 0 13px;
+}
+
+.aq-review-form textarea {
+    resize: vertical;
+    min-height: 116px;
+    padding: 13px;
+    line-height: 1.55;
+}
+
+.aq-review-form input:focus,
+.aq-review-form textarea:focus {
+    border-color: rgba(7, 152, 189, 0.55);
+    box-shadow: 0 0 0 4px rgba(7, 152, 189, 0.09);
+}
+
+.aq-review-textarea {
+    margin-top: 14px;
+}
+
+.aq-review-submit {
+    margin-top: 15px;
+    min-height: 46px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 15px;
+    background: var(--aq-blue);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    font-size: 13px;
+    font-weight: 850;
+    box-shadow: 0 12px 24px rgba(7, 152, 189, 0.18);
+}
+
+.aq-review-success {
+    display: none;
+    margin-top: 13px;
+    min-height: 42px;
+    padding: 0 13px;
+    border-radius: 14px;
+    background: #eefbf3;
+    border: 1px solid #ccefd9;
+    color: #16803a;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.aq-review-success.is-visible {
+    display: flex;
+}
+
+/* Responsive */
+
+@media (max-width: 991px) {
+    .aq-reviews-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .aq-review-summary-card {
+        position: relative;
+        top: auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .aq-product-reviews-section {
+        padding: 42px 0;
+    }
+
+    .aq-review-summary-card,
+    .aq-review-card,
+    .aq-review-form {
+        border-radius: 20px;
+    }
+
+    .aq-review-score > strong {
+        font-size: 44px;
+    }
+
+    .aq-review-card-head {
+        grid-template-columns: 40px 1fr;
+    }
+
+    .aq-review-card-head time {
+        grid-column: 2 / 3;
+    }
+
+    .aq-review-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .aq-review-rating-select {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 13px;
+    }
+}
+
+@media (max-width: 420px) {
+    .aq-stock-info-box {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 11px 13px;
+    }
+
+    .aq-review-bars div {
+        grid-template-columns: 54px 1fr 34px;
+    }
+
+    .aq-review-rate-buttons button {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+/* =========================================================
+   Tema Ürün Detay - Açıklama + SSS Yan Yana
+   - Teknik Özellikler kartı kaldırıldı
+   - Açıklama ve SSS eşit genişlikte yan yana
+========================================================= */
+
+.aq-product-info-grid-equal {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 22px !important;
+    align-items: stretch !important;
+}
+
+.aq-product-info-grid-equal .aq-detail-card {
+    height: 100% !important;
+}
+
+.aq-detail-faq-card {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.aq-faq-list-inline {
+    max-width: none !important;
+    margin: 18px 0 0 !important;
+    display: grid !important;
+    gap: 10px !important;
+}
+
+.aq-faq-list-inline .aq-faq-item {
+    box-shadow: none !important;
+    border-radius: 16px !important;
+    background: #f8fbfc !important;
+}
+
+.aq-faq-list-inline .aq-faq-item > button {
+    min-height: 54px !important;
+    padding: 0 15px !important;
+    background: #f8fbfc !important;
+    font-size: 13px !important;
+}
+
+.aq-faq-list-inline .aq-faq-item > div {
+    padding: 0 15px 15px !important;
+}
+
+.aq-faq-list-inline .aq-faq-item p {
+    font-size: 12.8px !important;
+}
+
+/* Eski teknik özellik kartı görünür kalırsa tamamen gizle */
+.aq-detail-spec-card {
+    display: none !important;
+}
+
+/* Eski ayrı SSS section kalırsa gizle */
+.aq-faq-section {
+    display: none !important;
+}
+
+/* Tablet ve mobilde alt alta gelsin */
+@media (max-width: 991px) {
+    .aq-product-info-grid-equal {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .aq-product-info-grid-equal {
+        gap: 16px !important;
+    }
+
+    .aq-faq-list-inline .aq-faq-item > button {
+        min-height: 52px !important;
+        font-size: 12.7px !important;
+    }
+}
+/* =========================================================
+   Tema Ürün Detay - Kalan Stok Fiyat Altı
+   - Kalan stok alanı fiyat kutusunun altına taşındı
+========================================================= */
+
+.aq-stock-info-under-price {
+    margin: 10px 0 0 !important;
+}
+
+.aq-detail-price-box + .aq-stock-info-under-price {
+    margin-top: 10px !important;
+}
+
+/* =========================================================
+   Tema Ürün Detay Açıklama / SSS Dinamik Yerleşim
+   - SSS varsa iki kolon düzen korunur
+   - SSS yoksa açıklama tam genişlik olur
+   - Mevcut tasarımı bozmadan final düzeltme
+========================================================= */
+
+.aq-product-info-grid.aq-product-info-grid-full {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+}
+
+.aq-product-info-grid.aq-product-info-grid-full .aq-detail-description-card {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.aq-product-info-grid.aq-product-info-grid-full .aq-detail-description {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.aq-product-info-grid.aq-product-info-grid-full .aq-detail-description p,
+.aq-product-info-grid.aq-product-info-grid-full .aq-detail-description ul,
+.aq-product-info-grid.aq-product-info-grid-full .aq-detail-description ol,
+.aq-product-info-grid.aq-product-info-grid-full .aq-detail-description table {
+    max-width: 100% !important;
+}
+
+.aq-product-info-grid.aq-product-info-grid-full .aq-detail-card {
+    min-height: auto !important;
+}
+
+/* Mobilde tüm ürün bilgi alanı tek kolon kalsın */
+@media (max-width: 991px) {
+    .aq-product-info-grid,
+    .aq-product-info-grid.aq-product-info-grid-equal,
+    .aq-product-info-grid.aq-product-info-grid-full {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* =========================================================
+   Tema Ürün Detay Görseli Tam Görünsün
+========================================================= */
+
+.aq-product-gallery-main {
+    background: #ffffff;
+}
+
+.aq-product-gallery-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain !important;
+    object-position: center center !important;
+    padding: 16px;
+    background: #ffffff;
+}
+
+.aq-product-thumbs button img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain !important;
+    object-position: center center !important;
+    padding: 5px;
+    background: #ffffff;
+}
+/* =========================================================
+   Tema Ürün Detay - Satın Alan Müşteri Yorumu
+========================================================= */
+
+.aq-review-gate {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 18px;
+    border: 1px solid rgba(15, 180, 190, 0.16);
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(15, 180, 190, 0.08), rgba(255, 255, 255, 0.96));
+    color: #24424a;
+}
+
+.aq-review-gate > i {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: #ffffff;
+    color: #0ba8b5;
+    font-size: 20px;
+    box-shadow: 0 10px 24px rgba(18, 75, 84, 0.08);
+}
+
+.aq-review-gate strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #173841;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.aq-review-gate p {
+    margin: 0;
+    color: #60777e;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.aq-review-gate a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: #0ba8b5;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.aq-review-gate a:hover {
+    background: #088d98;
+    color: #ffffff;
+}
+
+.aq-review-gate-error {
+    margin-bottom: 16px;
+    border-color: rgba(220, 53, 69, 0.16);
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.08), rgba(255, 255, 255, 0.96));
+}
+
+.aq-review-gate-error > i {
+    color: #dc3545;
+}
+
+.aq-review-customer-box {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.aq-review-customer-box > div {
+    padding: 13px 14px;
+    border: 1px solid rgba(17, 62, 71, 0.08);
+    border-radius: 15px;
+    background: #f8fbfc;
+}
+
+.aq-review-customer-box span {
+    display: block;
+    margin-bottom: 4px;
+    color: #7c8f95;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.aq-review-customer-box strong {
+    display: block;
+    color: #173841;
+    font-size: 14px;
+    font-weight: 800;
+    word-break: break-word;
+}
+
+.aq-review-locked-box {
+    display: block;
+}
+
+@media (max-width: 575px) {
+    .aq-review-customer-box {
+        grid-template-columns: 1fr;
+    }
+
+    .aq-review-gate {
+        padding: 15px;
+    }
+}
+
+/* =========================================================
+   Tema Ürün Detay - Onaylı Müşteri Yorum Formu Düzeni
+========================================================= */
+
+.aq-review-form {
+    padding: 24px;
+    border-radius: 22px;
+    border: 1px solid rgba(17, 62, 71, 0.09);
+    background: #ffffff;
+    box-shadow: 0 14px 36px rgba(15, 48, 58, 0.05);
+}
+
+.aq-review-form-head {
+    margin-bottom: 18px;
+}
+
+.aq-review-form-head span {
+    display: block;
+    margin-bottom: 7px;
+    color: #0b8ea0;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.aq-review-form-head h3 {
+    margin: 0 0 8px;
+    color: #102c35;
+    font-size: 24px;
+    font-weight: 850;
+    letter-spacing: -0.03em;
+}
+
+.aq-review-form-head p {
+    max-width: 780px;
+    margin: 0;
+    color: #647981;
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.aq-review-rating-select {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 56px;
+    margin-bottom: 12px;
+    padding: 12px 14px 12px 16px;
+    border-radius: 17px;
+    border: 1px solid rgba(17, 62, 71, 0.08);
+    background: #f8fbfc;
+}
+
+.aq-review-rating-select > span {
+    color: #102c35;
+    font-size: 13px;
+    font-weight: 850;
+}
+
+.aq-review-rate-buttons {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1px solid rgba(17, 62, 71, 0.06);
+}
+
+.aq-review-rate-buttons button {
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 999px;
+    background: #fff7e7;
+    color: #f5a524;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.18s ease;
+}
+
+.aq-review-rate-buttons button:hover,
+.aq-review-rate-buttons button.is-active {
+    background: #fff0cf;
+    color: #f59e0b;
+    transform: translateY(-1px);
+}
+
+.aq-review-customer-box {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.aq-review-customer-box > div {
+    min-height: 72px;
+    padding: 14px 16px;
+    border-radius: 17px;
+    border: 1px solid rgba(17, 62, 71, 0.08);
+    background: #f8fbfc;
+}
+
+.aq-review-customer-box span {
+    display: block;
+    margin-bottom: 6px;
+    color: #7c8f95;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.aq-review-customer-box strong {
+    display: block;
+    color: #102c35;
+    font-size: 15px;
+    font-weight: 850;
+    word-break: break-word;
+}
+
+.aq-review-textarea {
+    display: block;
+    margin-bottom: 16px;
+}
+
+.aq-review-textarea > span {
+    display: block;
+    margin-bottom: 8px;
+    color: #102c35;
+    font-size: 13px;
+    font-weight: 850;
+}
+
+.aq-review-textarea textarea {
+    width: 100%;
+    min-height: 128px;
+    resize: vertical;
+    padding: 15px 16px;
+    border-radius: 18px;
+    border: 1px solid rgba(17, 62, 71, 0.12);
+    background: #ffffff;
+    color: #102c35;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.55;
+    outline: none;
+    transition: 0.18s ease;
+}
+
+.aq-review-textarea textarea:focus {
+    border-color: rgba(11, 168, 181, 0.45);
+    box-shadow: 0 0 0 4px rgba(11, 168, 181, 0.08);
+}
+
+.aq-review-textarea textarea::placeholder {
+    color: #9aaab0;
+}
+
+.aq-review-submit {
+    width: auto;
+    min-width: 220px;
+    height: 50px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 16px;
+    background: #08a1b3;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    font-size: 14px;
+    font-weight: 850;
+    box-shadow: 0 14px 28px rgba(8, 161, 179, 0.20);
+    cursor: pointer;
+    transition: 0.18s ease;
+}
+
+.aq-review-submit:hover {
+    background: #078da0;
+    transform: translateY(-1px);
+}
+
+.aq-review-gate {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 18px;
+    border: 1px solid rgba(15, 180, 190, 0.16);
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(15, 180, 190, 0.08), rgba(255, 255, 255, 0.96));
+    color: #24424a;
+}
+
+.aq-review-gate > i {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: #ffffff;
+    color: #0ba8b5;
+    font-size: 20px;
+    box-shadow: 0 10px 24px rgba(18, 75, 84, 0.08);
+}
+
+.aq-review-gate strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #173841;
+    font-size: 15px;
+    font-weight: 850;
+}
+
+.aq-review-gate p {
+    margin: 0;
+    color: #60777e;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.aq-review-gate a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: #0ba8b5;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 850;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.aq-review-gate a:hover {
+    background: #088d98;
+    color: #ffffff;
+}
+
+.aq-review-gate-error {
+    margin-bottom: 16px;
+    border-color: rgba(220, 53, 69, 0.16);
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.08), rgba(255, 255, 255, 0.96));
+}
+
+.aq-review-gate-error > i {
+    color: #dc3545;
+}
+
+.aq-review-locked-box {
+    display: block;
+}
+
+@media (max-width: 767px) {
+    .aq-review-form {
+        padding: 18px;
+        border-radius: 20px;
+    }
+
+    .aq-review-form-head h3 {
+        font-size: 21px;
+    }
+
+    .aq-review-rating-select {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .aq-review-rate-buttons {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .aq-review-customer-box {
+        grid-template-columns: 1fr;
+    }
+
+    .aq-review-submit {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   Tema Ürün Detay - Görsel + MP4 Video Galerisi
+========================================================= */
+
+.aq-product-gallery-main .aq-product-main-video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    background: #0f172a;
+}
+
+.aq-product-gallery-main .aq-product-main-video[hidden] {
+    display: none !important;
+}
+
+.aq-product-gallery-main img[hidden] {
+    display: none !important;
+}
+
+.aq-product-gallery-main:has(.aq-product-main-video:not([hidden])) {
+    background: #0f172a;
+}
+
+.aq-product-gallery-main:has(.aq-product-main-video:not([hidden])) .aq-detail-fav,
+.aq-product-gallery-main:has(.aq-product-main-video:not([hidden])) .aq-detail-badge {
+    z-index: 6;
+}
+
+.aq-product-thumbs button {
+    position: relative;
+}
+
+.aq-product-thumbs button > video {
+    width: 100%;
+    height: 100%;
+    border-radius: 13px;
+    object-fit: cover;
+    display: block;
+    background: #0f172a;
+    pointer-events: none;
+}
+
+.aq-product-thumbs button.is-video {
+    background: #0f172a;
+}
+
+.aq-product-thumbs button.is-video::after {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border-radius: 13px;
+    background: linear-gradient(180deg, transparent 40%, rgba(15, 23, 42, .62));
+    pointer-events: none;
+}
+
+.aq-product-thumb-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 3;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    background: rgba(8, 145, 160, .94);
+    border: 2px solid rgba(255, 255, 255, .88);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, .24);
+    pointer-events: none;
+}
+
+.aq-product-thumb-play i {
+    margin-left: 2px;
+    font-size: 22px;
+    line-height: 1;
+}
+
+.aq-product-thumb-video-label {
+    position: absolute;
+    left: 10px;
+    bottom: 9px;
+    z-index: 3;
+    min-height: 22px;
+    padding: 0 8px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    color: #ffffff;
+    background: rgba(15, 23, 42, .78);
+    border: 1px solid rgba(255, 255, 255, .32);
+    font-size: 9.5px;
+    font-weight: 900;
+    letter-spacing: .25px;
+    pointer-events: none;
+}
+
+.aq-product-thumbs button.is-video.is-active {
+    border-color: #14b8c4;
+    box-shadow:
+        0 0 0 3px rgba(20, 184, 196, .12),
+        0 12px 24px rgba(7, 152, 189, .14);
+}
+
+@media (max-width: 767px) {
+    .aq-product-thumbs button > video {
+        border-radius: 10px;
+    }
+
+    .aq-product-thumbs button.is-video::after {
+        inset: 4px;
+        border-radius: 10px;
+    }
+
+    .aq-product-thumb-play {
+        width: 32px;
+        height: 32px;
+    }
+
+    .aq-product-thumb-play i {
+        font-size: 19px;
+    }
+
+    .aq-product-thumb-video-label {
+        left: 7px;
+        bottom: 7px;
+        min-height: 19px;
+        padding: 0 6px;
+        font-size: 8.5px;
+    }
+}
+
+/* =========================================================
+   Tema Ürün Detay - YouTube Galeri Desteği
+========================================================= */
+
+.aq-product-main-youtube {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    width: 100%;
+    height: 100%;
+    background: #0f172a;
+}
+
+.aq-product-main-youtube[hidden] {
+    display: none !important;
+}
+
+.aq-product-main-youtube iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    background: #0f172a;
+}
+
+.aq-product-gallery-main:has(.aq-product-main-youtube:not([hidden])) {
+    background: #0f172a;
+}
+
+.aq-product-gallery-main:has(.aq-product-main-youtube:not([hidden])) .aq-detail-fav,
+.aq-product-gallery-main:has(.aq-product-main-youtube:not([hidden])) .aq-detail-badge {
+    z-index: 7;
+}
+
+.aq-product-thumbs button.is-youtube > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.aq-product-thumb-play-youtube {
+    background: rgba(255, 0, 0, .94);
+    border-color: rgba(255, 255, 255, .94);
+}
+
+.aq-product-thumb-play-youtube i {
+    margin-left: 0;
+    font-size: 21px;
+}
+
+.aq-product-thumb-youtube-label {
+    background: rgba(185, 28, 28, .88);
+}
+
+.aq-product-thumbs button.is-youtube.is-active {
+    border-color: #ef4444;
+    box-shadow:
+        0 0 0 3px rgba(239, 68, 68, .12),
+        0 12px 24px rgba(185, 28, 28, .14);
+}
+
+@media (max-width: 767px) {
+    .aq-product-main-youtube iframe {
+        min-height: 100%;
+    }
+}

@@ -161,34 +161,10 @@ if ($currentPage < $totalPages) $paginationLinks['next'] = $page_url($currentPag
 // AJAX isteği — sadece kartları üret, header/footer yok
 if ($isAjax) {
     $favIds = fav_ids();
-    foreach ($products as $p) { ?>
-      <div class="card" style="position:relative">
-        <form method="post" action="<?= SITE_URL ?>/favorite-toggle.php" class="fav-form">
-          <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-          <input type="hidden" name="id"   value="<?= (int)$p['id'] ?>">
-          <input type="hidden" name="back" value="<?= e($_SERVER['REQUEST_URI'] ?? url('products')) ?>">
-          <button class="fav-btn <?= in_array((int)$p['id'],$favIds)?'active':'' ?>" type="submit" aria-label="Favori"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg></button>
-        </form>
-        <a href="<?= e(url('product', ['slug'=>$p['slug']])) ?>" style="display:flex;flex-direction:column;flex:1">
-          <div class="card-img">
-            <?php if (!empty($p['old_price'])): ?><span class="badge">İndirim</span><?php endif; ?>
-            <?php if (!empty($p['image'])): ?>
-              <img loading="lazy" decoding="async" width="600" height="660" src="<?= e($p['image']) ?>" alt="<?= e($p['name']) ?>" style="width:100%;height:100%;object-fit:cover">
-            <?php else: ?>
-              <span class="ph"><?= e(mb_substr($p['name'],0,1)) ?></span>
-            <?php endif; ?>
-          </div>
-          <div class="card-body">
-            <span class="cat"><?= e($p['cat_name'] ?? 'Genel') ?></span>
-            <h3><?= e($p['name']) ?></h3>
-            <div class="card-foot">
-              <span class="price"><?= money($p['price']) ?><?php if (!empty($p['old_price'])): ?><span class="price-old"><?= money($p['old_price']) ?></span><?php endif; ?></span>
-              <span class="icon-btn" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
-            </div>
-          </div>
-        </a>
-      </div>
-    <?php }
+    $cardBack = $_SERVER['REQUEST_URI'] ?? url('products');
+    foreach ($products as $p) {
+        include __DIR__ . '/../../components/product-card.php';
+    }
     // Buton durumunu işaret et — istemci data-has-more okur
     echo '<div data-has-more="'.($hasMore?'1':'0').'" data-next-offset="'.$nextOffset.'" data-total="'.$totalCount.'" style="display:none"></div>';
     exit;

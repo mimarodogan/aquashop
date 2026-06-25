@@ -18,44 +18,34 @@
     });
   });
 
-  // Mobil menü toggle (data-attribute ile) — aria-expanded + aria-modal sync
-  // aria-modal yalnızca menü AÇIKKEN eklenir (kapalıyken her zaman olmak LCP'yi engeller)
-  var mmEl = document.getElementById('mobileMenu');
+  // Mobil menü toggle
+  var openBtn = document.querySelector('.aq-mobile-menu-btn');
+  var closeBtn = document.querySelector('.aq-mobile-close');
+  var backdrop = document.querySelector('.aq-mobile-backdrop');
+  var panelLinks = document.querySelectorAll('.aq-mobile-panel a');
+
   function mmOpen() {
+    document.body.classList.add('aq-menu-open');
     document.body.classList.add('mobile-menu-open');
-    if (mmEl) mmEl.setAttribute('aria-modal', 'true');
-    document.querySelectorAll('[data-toggle="mobile-menu"]').forEach(function(b){
-      b.setAttribute('aria-expanded','true');
-    });
-    var panel = document.querySelector('.mm-panel');
-    if (panel) {
-      var first = panel.querySelector('a,button');
-      if (first) setTimeout(function(){ first.focus(); }, 200);
-    }
   }
   function mmClose() {
+    document.body.classList.remove('aq-menu-open');
     document.body.classList.remove('mobile-menu-open');
-    if (mmEl) mmEl.removeAttribute('aria-modal');
-    document.querySelectorAll('[data-toggle="mobile-menu"]').forEach(function(b){
-      b.setAttribute('aria-expanded','false');
-    });
-    var t = document.querySelector('[data-toggle="mobile-menu"]');
-    if (t) t.focus();
   }
-  document.querySelectorAll('[data-toggle="mobile-menu"]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      if (document.body.classList.contains('mobile-menu-open')) { mmClose(); } else { mmOpen(); }
+
+  if (openBtn && closeBtn && backdrop) {
+    openBtn.addEventListener('click', mmOpen);
+    closeBtn.addEventListener('click', mmClose);
+    backdrop.addEventListener('click', mmClose);
+    panelLinks.forEach(function (link) {
+      link.addEventListener('click', mmClose);
     });
-  });
-  document.querySelectorAll('[data-close="mobile-menu"]').forEach(function (b) {
-    b.addEventListener('click', mmClose);
-  });
-  // ESC ile mobil menü kapansın
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && document.body.classList.contains('mobile-menu-open')) {
-      mmClose();
-    }
-  });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        mmClose();
+      }
+    });
+  }
 
   // Lightbox (medya kütüphanesi)
   window.lightbox = function (src) {

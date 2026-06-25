@@ -1,97 +1,153 @@
-/* KVKK / GDPR çerez onay banner'ı
-   NOT: --champagne / --ink değişkenleri bu temada koyu renk olarak tanımlı
-   olduğu için explicit hex değerler kullanılıyor (banner kendi kontrastını
-   yönetir, üst tema değişimlerinden etkilenmez). */
+/* Tema cookie consent */
 .cookie-banner {
     position: fixed;
-    left: 16px;
-    right: 16px;
-    bottom: 16px;
+    left: 50%;
+    right: auto;
+    bottom: 18px;
     z-index: 9000;
-    background: #1F2A1C;          /* koyu yeşil — site paletiyle uyumlu */
-    color: #F5F0E5;               /* krem/açık ton */
-    border: 1px solid #6B7A2F;
-    border-radius: 12px;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, .35);
-    padding: 18px 22px;
-    transform: translateY(0);
+    width: min(920px, calc(100% - 32px));
+    padding: 0;
+    color: #26313d;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    transform: translate3d(-50%, 0, 0);
     opacity: 1;
     transition: transform .3s ease, opacity .3s ease;
 }
+
 .cookie-banner.cb-hidden {
-    transform: translateY(20px);
+    transform: translate3d(-50%, 18px, 0);
     opacity: 0;
     pointer-events: none;
 }
-/* Banner JS tarafından sayfa load + 3s sonra DOM'a inject ediliyor —
-   Lighthouse "stable point" geçtikten sonra. Bu sayede LCP/CLS bozulmaz. */
+
 .cookie-banner .cb-inner {
     display: flex;
     align-items: center;
-    gap: 24px;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 0 auto;
+    gap: 22px;
+    width: 100%;
+    padding: 18px 20px;
+    border: 1px solid #dbe8ef;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, .98);
+    box-shadow: 0 18px 50px rgba(15, 23, 42, .14);
+    backdrop-filter: blur(14px);
 }
+
 .cookie-banner .cb-text {
+    position: relative;
     flex: 1;
-    min-width: 280px;
-    color: #F5F0E5;
+    min-width: 0;
+    padding-left: 48px;
+    color: #26313d;
 }
+
+.cookie-banner .cb-text::before {
+    content: "\F3E5";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    background: #e9faff;
+    color: #0798bd;
+    font-family: "bootstrap-icons";
+    font-size: 18px;
+}
+
 .cookie-banner .cb-text strong {
     display: block;
+    margin-bottom: 5px;
+    color: #111827;
     font-size: 14px;
-    margin-bottom: 6px;
-    color: #E5C97A;               /* şampanya/altın — başlık vurgusu */
-    letter-spacing: .04em;
-    font-weight: 600;
+    font-weight: 850;
+    letter-spacing: 0;
 }
+
 .cookie-banner .cb-text p {
     margin: 0;
-    font-size: 13px;
-    line-height: 1.6;
-    color: #E8E0CC;               /* krem — gövde metni */
+    color: #64748b;
+    font-size: 12.7px;
+    font-weight: 600;
+    line-height: 1.62;
 }
+
 .cookie-banner .cb-text a {
-    color: #E5C97A;               /* altın — linkler */
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    font-weight: 500;
+    color: #056f8d;
+    font-weight: 800;
+    text-decoration: none;
 }
-.cookie-banner .cb-text a:hover { color: #fff; }
+
+.cookie-banner .cb-text a:hover {
+    color: #0798bd;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
 .cookie-banner .cb-actions {
     display: flex;
     gap: 10px;
-    flex-shrink: 0;
+    flex: 0 0 auto;
 }
-/* Banner içindeki butonların kontrastını koyu yeşil bg'ye uygun override et */
+
+.cookie-banner .cb-actions .btn {
+    min-height: 42px;
+    padding: 0 18px;
+    border-radius: 13px;
+    font-size: 12.3px;
+    font-weight: 850;
+    letter-spacing: 0;
+}
+
 .cookie-banner .cb-actions .btn-primary {
-    background: #E5C97A;
-    color: #1F2A1C;
-    border: 1px solid transparent;
-    font-weight: 700;
-    min-height: 44px;
-    padding: 10px 20px;
+    border: 1px solid #0798bd;
+    background: linear-gradient(135deg, #0798bd 0%, #08abc9 100%);
+    color: #ffffff;
+    box-shadow: 0 10px 22px rgba(7, 152, 189, .18);
 }
+
 .cookie-banner .cb-actions .btn-primary:hover {
-    background: #fff;
-    border-color: transparent;
+    border-color: #056f8d;
+    background: #056f8d;
 }
+
 .cookie-banner .cb-actions .btn-secondary {
-    background: transparent;
-    color: #F5F0E5;
-    border: 1px solid #F5F0E5;
-    font-weight: 600;
-    min-height: 44px;
-    padding: 10px 20px;
+    border: 1px solid #d7e4eb;
+    background: #ffffff;
+    color: #334155;
 }
+
 .cookie-banner .cb-actions .btn-secondary:hover {
-    background: rgba(255, 255, 255, .12);
-    color: #fff;
-    border-color: #fff;
+    border-color: #b7d7e3;
+    background: #f3fbfd;
+    color: #056f8d;
 }
-@media (max-width: 640px) {
-    .cookie-banner { left: 10px; right: 10px; bottom: 10px; padding: 16px; }
-    .cookie-banner .cb-actions { width: 100%; }
-    .cookie-banner .cb-actions .btn { flex: 1; }
+
+@media (max-width: 760px) {
+    .cookie-banner {
+        bottom: 12px;
+        width: calc(100% - 20px);
+    }
+
+    .cookie-banner .cb-inner {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px;
+        border-radius: 18px;
+    }
+
+    .cookie-banner .cb-actions {
+        width: 100%;
+    }
+
+    .cookie-banner .cb-actions .btn {
+        flex: 1;
+        padding: 0 12px;
+    }
 }

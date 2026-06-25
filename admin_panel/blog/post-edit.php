@@ -74,7 +74,11 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && csrf_check(isset($_POST['csrf'])?$_PO
 
             // IndexNow — yayında blog yazılarını Bing/Yandex'e bildir
             if ($pub && !empty($s)) {
-                $siteBase = defined('SITE_URL') ? rtrim(SITE_URL, '/') : 'https://aquashop.com.tr';
+                $siteBase = rtrim((string)setting('site_url', ''), '/');
+                if ($siteBase === '') {
+                    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+                    $siteBase = defined('SITE_URL') ? rtrim(SITE_URL, '/') : ($scheme . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost'));
+                }
                 indexnow_ping([$siteBase . url('blog_post', ['slug' => $s])]);
             }
 

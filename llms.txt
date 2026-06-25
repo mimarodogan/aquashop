@@ -1,9 +1,9 @@
-# AquaShop
+# Tema
 
 > Türkiye'nin akvaryum ve sucul yaşam ürünleri e-ticaret mağazası. Balık, bitki ve akvaryum ekipmanlarında uzman online mağaza. Bursa/Nilüfer merkezli, yurt içi kargo ile hızlı teslimat.
 
 ## Site Bilgisi
-- URL: https://aquashop.com.tr
+- URL: https://ornek-site.test
 - Dil: Türkçe
 - Ülke: Türkiye
 - Kategori: E-ticaret / Akvaryum & Sucul Yaşam
@@ -22,13 +22,13 @@
 - CO2 Sistemleri
 
 ## Önemli Sayfalar
-- Tüm Ürünler: https://aquashop.com.tr/urun
-- Kategoriler: https://aquashop.com.tr/kategoriler
-- Blog (Akvaryum Rehberleri): https://aquashop.com.tr/blog
-- Hakkımızda: https://aquashop.com.tr/hakkimizda
-- İletişim: https://aquashop.com.tr/iletisim
-- Sepet: https://aquashop.com.tr/sepet
-- Sitemap (XML): https://aquashop.com.tr/sitemap.xml
+- Tüm Ürünler: https://ornek-site.test/urun
+- Kategoriler: https://ornek-site.test/kategoriler
+- Blog (Akvaryum Rehberleri): https://ornek-site.test/blog
+- Hakkımızda: https://ornek-site.test/hakkimizda
+- İletişim: https://ornek-site.test/iletisim
+- Sepet: https://ornek-site.test/sepet
+- Sitemap (XML): https://ornek-site.test/sitemap.xml
 
 ## Hizmetler
 - Güvenli online alışveriş (iyzico ödeme altyapısı)
@@ -39,9 +39,9 @@
 - İade ve değişim (14 gün)
 
 ## İletişim
-- Adres: Ataevler Mahallesi, Yılmazakkılıç Caddesi, Premium Park Evleri No:12/B, Nilüfer, Bursa
+- Adres: Adres bilgisi
 - Telefon: +90 546 533 15 91
-- Web: https://aquashop.com.tr/iletisim
+- Web: https://ornek-site.test/iletisim
 
 ## Teknik
 - Platform: Özel PHP e-ticaret sistemi

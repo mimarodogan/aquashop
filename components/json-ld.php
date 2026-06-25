@@ -20,7 +20,7 @@ function jsonld_emit($schemas) {
 }
 
 function jsonld_organization() {
-    $name = setting('site_name') ?? SITE_NAME_FALLBACK;
+    $name = trim((string)(setting('site_name') ?? '')) ?: SITE_NAME_FALLBACK;
     $email = setting('contact_email');
     $phone = setting('contact_phone');
     $address = setting('contact_address');
@@ -82,7 +82,7 @@ function jsonld_product($p) {
         }
     }
 
-    $siteName = setting('site_name') ?? (defined('SITE_NAME_FALLBACK') ? SITE_NAME_FALLBACK : '');
+    $siteName = trim((string)(setting('site_name') ?? '')) ?: (defined('SITE_NAME_FALLBACK') ? SITE_NAME_FALLBACK : '');
 
     return array_filter(array(
         '@context'    => 'https://schema.org',
@@ -193,7 +193,7 @@ function jsonld_faq_from_html($html) {
 }
 
 function jsonld_website() {
-    $name = setting('site_name') ?? SITE_NAME_FALLBACK;
+    $name = trim((string)(setting('site_name') ?? '')) ?: SITE_NAME_FALLBACK;
     $base = (isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=='off' ? 'https':'http') . '://' . ($_SERVER['HTTP_HOST'] ?? '');
     return array(
         '@context' => 'https://schema.org',

@@ -7,7 +7,7 @@ $page = $page ?? '';
   <div class="mm-overlay" data-close="mobile-menu" aria-hidden="true"></div>
   <aside class="mm-panel">
     <div class="mm-head">
-      <span class="logo"><?= e(setting('site_name') ?? SITE_NAME_FALLBACK) ?></span>
+      <span class="logo"><?= e(trim((string)(setting('site_name') ?? '')) ?: SITE_NAME_FALLBACK) ?></span>
       <button type="button" class="mm-close" aria-label="Kapat" data-close="mobile-menu">×</button>
     </div>
     <nav class="mm-links">

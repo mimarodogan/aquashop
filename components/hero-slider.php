@@ -7,7 +7,7 @@ if (!$banners): ?>
 <div class="hero-slider" id="heroSlider">
   <div class="hero-track">
     <?php
-    $fallbackAlt = trim((string)setting('site_name','AquaShop')) . ' — Anasayfa banner';
+    $fallbackAlt = (trim((string)setting('site_name','')) ?: SITE_NAME_FALLBACK) . ' — Anasayfa banner';
     foreach ($banners as $i => $b):
         $href = !empty($b['link']) ? $b['link'] : null;
         // Alt önceliği: alt → title → site adı + sıra

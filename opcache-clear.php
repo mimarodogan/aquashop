@@ -4,7 +4,7 @@
  * Eski hâl public idi → herkes opcache_reset() çağırıp DoS yapabiliyordu.
  *
  * Kullanım: admin paneline giriş yaptıktan sonra
- *   https://aquashop.com.tr/opcache-clear.php
+ *   https://ornek-site.test/opcache-clear.php
  */
 require_once __DIR__ . '/core/bootstrap.php';
 

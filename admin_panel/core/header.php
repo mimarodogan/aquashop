@@ -90,7 +90,7 @@ $openSystem  = in_array($page, ['settings','migrations','tools_resize','tools_re
   <div class="sb-overlay" data-sb-close></div>
   <aside class="sidebar">
     <div class="brand">
-      <div><h1>Yönetim</h1><small><?= e(strtoupper((string)(setting('site_name') ?? SITE_NAME_FALLBACK))) ?></small></div>
+      <div><h1>Yönetim</h1><small><?= e(strtoupper(trim((string)(setting('site_name') ?? '')) ?: SITE_NAME_FALLBACK)) ?></small></div>
       <button type="button" class="sb-close" data-sb-close aria-label="Menüyü kapat">×</button>
     </div>
 

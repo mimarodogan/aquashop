@@ -38,20 +38,21 @@ $nextOffset = $offset + BLOG_PER_PAGE;
 // AJAX — sadece kartlar
 if ($isAjax) {
     foreach ($posts as $p) { ?>
-      <a class="card" href="<?= e(url('blog_post', ['slug'=>$p['slug']])) ?>">
-        <div class="card-img">
+      <article class="aq-blog-list-card">
+        <a class="aq-blog-list-image" href="<?= e(url('blog_post', ['slug'=>$p['slug']])) ?>">
           <?php if (!empty($p['cover_image'])): ?>
-            <img loading="lazy" decoding="async" width="600" height="660" src="<?= e($p['cover_image']) ?>" alt="<?= e($p['title']) ?>" style="width:100%;height:100%;object-fit:cover">
+            <img loading="lazy" decoding="async" width="600" height="400" src="<?= e($p['cover_image']) ?>" alt="<?= e($p['title']) ?>">
           <?php else: ?>
-            <span class="ph"><?= e(mb_substr($p['title'],0,1)) ?></span>
+            <span class="aq-ph"><?= e(mb_substr($p['title'],0,1)) ?></span>
           <?php endif; ?>
+        </a>
+        <div class="aq-blog-list-content">
+          <span><?= e($p['cat_name'] ?? 'Genel') ?> · <?= e(date('d.m.Y', strtotime($p['published_at'] ?? $p['created_at']))) ?></span>
+          <h2><a href="<?= e(url('blog_post', ['slug'=>$p['slug']])) ?>"><?= e($p['title']) ?></a></h2>
+          <?php if (!empty($p['excerpt'])): ?><p><?= e(mb_substr(strip_tags($p['excerpt']), 0, 150)) ?><?= mb_strlen(strip_tags($p['excerpt'])) > 150 ? '…' : '' ?></p><?php endif; ?>
+          <a class="aq-blog-list-link" href="<?= e(url('blog_post', ['slug'=>$p['slug']])) ?>">Devamını Oku <i class="bi bi-arrow-right"></i></a>
         </div>
-        <div class="card-body">
-          <span class="cat"><?= e($p['cat_name'] ?? 'Genel') ?> · <?= e(date('d.m.Y', strtotime($p['published_at'] ?? $p['created_at']))) ?></span>
-          <h3 style="font-size:18px"><?= e($p['title']) ?></h3>
-          <?php if (!empty($p['excerpt'])): ?><p class="muted" style="font-size:14px"><?= e($p['excerpt']) ?></p><?php endif; ?>
-        </div>
-      </a>
+      </article>
     <?php }
     echo '<div data-has-more="'.($hasMore?'1':'0').'" data-next-offset="'.$nextOffset.'" data-total="'.$totalCount.'" style="display:none"></div>';
     exit;
@@ -92,48 +93,51 @@ unset($__bcBase, $__bcCrumbs, $__bcCatName, $__bcC, $__bcLD);
 
 include __DIR__ . '/../includes/header.php';
 ?>
-<section class="page-header">
-  <div class="container">
-    <span class="kicker">Yazılar</span>
-    <h1 style="margin-top:10px"><?= $catSlug ? e(ucfirst($catSlug)) : 'Blog' ?></h1>
-    <div class="breadcrumb"><a href="<?= url('home') ?>">Anasayfa</a><span>/</span>Blog<?php if($catSlug): ?><span>/</span><?= e($catSlug) ?><?php endif; ?></div>
-  </div>
-</section>
+<section class="aq-all-categories-page aq-blog-index-page">
+  <div class="aq-container">
+    <div class="aq-blog-page-head">
+      <div class="aq-breadcrumb"><a href="<?= url('home') ?>">Ana Sayfa</a><span>Blog</span><?php if($catSlug): ?><span><?= e($catSlug) ?></span><?php endif; ?></div>
+      <div class="aq-blog-page-head-card">
+        <span>Blog</span>
+        <h1><?= $catSlug ? e(ucfirst($catSlug)) : 'Blog' ?></h1>
+        <p>Akvaryum hobiniz için bakım, kurulum, ürün seçimi ve pratik kullanım önerileri.</p>
+      </div>
+    </div>
 
-<section>
-  <div class="container shop-layout">
-    <aside class="filter">
-      <h4>Ara</h4>
-      <form method="get">
-        <?php if ($catSlug !== ''): ?><input type="hidden" name="cat" value="<?= e($catSlug) ?>"><?php endif; ?>
-        <div class="field"><input type="text" name="q" value="<?= e($q) ?>" placeholder="Yazı ara…"></div>
-      </form>
-      <h4>Kategoriler</h4>
-      <label><a href="<?= url('blog') ?>" style="<?= !$catSlug?'color:var(--gold)':'' ?>">Tümü</a></label>
+    <form class="aq-blog-filter" method="get">
+      <?php if ($catSlug !== ''): ?><input type="hidden" name="cat" value="<?= e($catSlug) ?>"><?php endif; ?>
+      <input type="search" name="q" value="<?= e($q) ?>" placeholder="Yazı ara..." aria-label="Yazı ara">
+      <button type="submit"><i class="bi bi-search"></i> Ara</button>
+    </form>
+
+    <?php if ($cats): ?>
+    <div class="aq-blog-cat-pills" aria-label="Blog kategorileri">
+      <a href="<?= url('blog') ?>" class="<?= !$catSlug ? 'is-active' : '' ?>">Tümü</a>
       <?php foreach ($cats as $c): ?>
-        <label><a href="<?= e(url('blog', ['cat'=>$c['slug']])) ?>" style="<?= $catSlug===$c['slug']?'color:var(--gold)':'' ?>"><?= e($c['name']) ?> <span class="muted">(<?= (int)$c['cnt'] ?>)</span></a></label>
+        <a href="<?= e(url('blog', ['cat'=>$c['slug']])) ?>" class="<?= $catSlug===$c['slug'] ? 'is-active' : '' ?>"><?= e($c['name']) ?> <span><?= (int)$c['cnt'] ?></span></a>
       <?php endforeach; ?>
-    </aside>
+    </div>
+    <?php endif; ?>
 
-    <div>
-      <div class="grid grid-3" id="blog-grid">
+      <div class="aq-blog-list-grid" id="blog-grid">
         <?php if ($posts): foreach ($posts as $p): ?>
-          <a class="card" href="<?= e(url('blog_post', ['slug'=>$p['slug']])) ?>">
-            <div class="card-img">
+          <article class="aq-blog-list-card">
+            <a class="aq-blog-list-image" href="<?= e(url('blog_post', ['slug'=>$p['slug']])) ?>">
               <?php if (!empty($p['cover_image'])): ?>
-                <img loading="lazy" decoding="async" width="600" height="660" src="<?= e($p['cover_image']) ?>" alt="<?= e($p['title']) ?>" style="width:100%;height:100%;object-fit:cover">
+                <img loading="lazy" decoding="async" width="600" height="400" src="<?= e($p['cover_image']) ?>" alt="<?= e($p['title']) ?>">
               <?php else: ?>
-                <span class="ph"><?= e(mb_substr($p['title'],0,1)) ?></span>
+                <span class="aq-ph"><?= e(mb_substr($p['title'],0,1)) ?></span>
               <?php endif; ?>
+            </a>
+            <div class="aq-blog-list-content">
+              <span><?= e($p['cat_name'] ?? 'Genel') ?> · <?= e(date('d.m.Y', strtotime($p['published_at'] ?? $p['created_at']))) ?></span>
+              <h2><a href="<?= e(url('blog_post', ['slug'=>$p['slug']])) ?>"><?= e($p['title']) ?></a></h2>
+              <?php if (!empty($p['excerpt'])): ?><p><?= e(mb_substr(strip_tags($p['excerpt']), 0, 150)) ?><?= mb_strlen(strip_tags($p['excerpt'])) > 150 ? '…' : '' ?></p><?php endif; ?>
+              <a class="aq-blog-list-link" href="<?= e(url('blog_post', ['slug'=>$p['slug']])) ?>">Devamını Oku <i class="bi bi-arrow-right"></i></a>
             </div>
-            <div class="card-body">
-              <span class="cat"><?= e($p['cat_name'] ?? 'Genel') ?> · <?= e(date('d.m.Y', strtotime($p['published_at'] ?? $p['created_at']))) ?></span>
-              <h3 style="font-size:18px"><?= e($p['title']) ?></h3>
-              <?php if (!empty($p['excerpt'])): ?><p class="muted" style="font-size:14px"><?= e($p['excerpt']) ?></p><?php endif; ?>
-            </div>
-          </a>
+          </article>
         <?php endforeach; else: ?>
-          <p class="muted">Henüz yazı yok.</p>
+          <div class="aq-blog-empty-state">Henüz yazı yok.</div>
         <?php endif; ?>
       </div>
 
@@ -156,7 +160,6 @@ include __DIR__ . '/../includes/header.php';
         </div>
 
       <?php endif; ?>
-    </div>
   </div>
 </section>
 

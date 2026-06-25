@@ -7,12 +7,7 @@ $st->execute(array($slug));
 $pg = $st->fetch();
 
 if (!$pg) {
-    http_response_code(404);
-    $title = 'Sayfa bulunamadı';
-    include __DIR__ . '/../includes/header.php';
-    echo '<section class="container" style="padding:120px 0"><h1>Sayfa bulunamadı</h1><p class="muted" style="margin-top:14px">Aradığınız sayfa mevcut değil.</p></section>';
-    include __DIR__ . '/../includes/footer.php';
-    exit;
+    aq_render_error(404); // temaya uygun 404 + exit
 }
 
 $title = $pg['title'];

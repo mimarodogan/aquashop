@@ -1,6 +1,6 @@
 <?php
 /**
- * Ürün detay görünümü.
+ * Ürün detay görünümü — canlı ornek-site.test (urun-detay.css) tasarımıyla birebir.
  * core/controllers/product_detail.php tarafından sağlanan değişkenleri kullanır.
  */
 include __DIR__ . "/../../includes/header.php";
@@ -11,286 +11,280 @@ analytics_event('view_item', [
     'value'    => round((float)$p['price'], 2),
     'items'    => [ analytics_ecommerce_item($p, 1) ],
 ]);
+
+require_once __DIR__ . '/../../includes/pricing.php';
+require_once __DIR__ . '/../../includes/variations.php';
+require_once __DIR__ . '/../../includes/reviews.php';
+
+$hasVar     = product_has_variations((int)$p['id']);
+$variations = $hasVar ? product_variations((int)$p['id']) : [];
+
+// Başlangıç fiyat/eski fiyat/stok — varyasyonluysa ilk varyasyon
+$displayPrice = $p['price'];
+$displayOld   = $p['old_price'] ?? null;
+$displayStock = (int)$p['stock'];
+if ($hasVar && $variations) {
+    $first        = $variations[0];
+    $displayPrice = $first['price'];
+    $displayOld   = $first['old_price'];
+    $displayStock = (int)$first['stock'];
+}
+$priceOnRequest = !empty($p['price_on_request']);
+$showPrice      = !$priceOnRequest || (float)$displayPrice > 0;
+$discountPct    = (!empty($displayOld) && $displayOld > $displayPrice)
+                ? max(0, (int)round((1 - $displayPrice / $displayOld) * 100)) : 0;
+$rs       = reviews_summary((int)$p['id']);
+$isFav    = fav_has($p['id']);
+$inStock  = $displayStock > 0;
+
+// WhatsApp (admin: Ayarlar → Pazarlama)
+$__waOn  = setting('whatsapp_enabled', '0') === '1';
+$__waNum = preg_replace('/\D+/', '', (string)setting('whatsapp_number', ''));
+$__waMsg = trim((string)setting('whatsapp_message', ''));
+if ($__waMsg === '') { $__waMsg = $p['name'] . ' ürünü hakkında bilgi almak istiyorum.'; }
+
+// Breadcrumb kategori slug'ı
+$__catSlug = $p['cat_slug'] ?? null;
+if (!$__catSlug && !empty($p['category_id'])) {
+    $__s = db()->prepare('SELECT slug FROM categories WHERE id=?');
+    $__s->execute([$p['category_id']]);
+    $__catSlug = $__s->fetchColumn() ?: null;
+}
 ?>
+<section class="aq-product-detail-page">
+  <div class="aq-container">
+    <nav class="aq-product-breadcrumb" aria-label="Sayfa yolu">
+      <a href="<?= url('home') ?>">Ana Sayfa</a>
+      <i class="bi bi-chevron-right"></i>
+      <a href="<?= url('products') ?>">Ürünler</a>
+      <?php if (!empty($p['cat_name']) && $__catSlug): ?>
+        <i class="bi bi-chevron-right"></i>
+        <a href="<?= e(url('category', ['slug' => $__catSlug])) ?>"><?= e($p['cat_name']) ?></a>
+      <?php endif; ?>
+      <i class="bi bi-chevron-right"></i>
+      <span><?= e($p['name']) ?></span>
+    </nav>
 
-<section style="padding:24px 0 0">
-  <div class="container">
-    <?php
-    $crumbs = [
-        ['name' => 'Anasayfa', 'url' => url('home')],
-        ['name' => 'Ürünler',  'url' => url('products')],
-    ];
-    if (!empty($p['cat_name'])) {
-        $__catSlug = $p['cat_slug'] ?? null;
-        if (!$__catSlug && !empty($p['category_id'])) {
-            // cat_slug controller'da çekilmediyse fallback sorgu
-            $__s = db()->prepare('SELECT slug FROM categories WHERE id=?');
-            $__s->execute([$p['category_id']]);
-            $__catSlug = $__s->fetchColumn() ?: null;
-        }
-        if ($__catSlug) {
-            $crumbs[] = ['name' => $p['cat_name'], 'url' => url('category', ['slug' => $__catSlug])];
-        }
-    }
-    $crumbs[] = ['name' => $p['name'], 'url' => null];
-    include __DIR__ . '/../../components/breadcrumb.php';
-    ?>
-  </div>
-</section>
-
-<section style="padding-top:30px">
-  <div class="container product-detail">
-    <div class="pd-image-col">
-      <div class="pd-main" style="position:relative">
-        <?php if ($gallery): ?>
-          <img id="pd-mainImg" loading="eager" decoding="async" width="600" height="600" src="<?= e($gallery[0]) ?>" alt="<?= e($p['name']) ?>">
-        <?php else: ?>
-          <span class="ph" style="font-size:140px"><?= e(mb_substr($p['name'],0,1)) ?></span>
-        <?php endif; ?>
-        <!-- Favori butonu — anasayfadaki kart gibi görselin sağ üstünde -->
-        <form method="post" action="<?= SITE_URL ?>/favorite-toggle.php" style="position:absolute;top:14px;right:14px;z-index:2;margin:0">
-          <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-          <input type="hidden" name="id"   value="<?= (int)$p['id'] ?>">
-          <input type="hidden" name="back" value="<?= e(url('product', ['slug'=>$p['slug']])) ?>">
-          <?php $isFav = fav_has($p['id']); $favCnt = fav_product_count($p['id']); ?>
-          <button class="fav-btn <?= $isFav?'active':'' ?>" type="submit" aria-label="<?= $isFav?'Favoriden çıkar':'Favorilere ekle' ?>">
-            <?= ic('heart', '', 20) ?>
-            <?php if ($favCnt > 0): ?><span class="fav-count"><?= $favCnt ?></span><?php endif; ?>
-          </button>
-        </form>
-      </div>
-      <?php if (count($gallery) > 1): ?>
-        <div class="pd-thumbs">
-          <?php foreach ($gallery as $i=>$g): ?>
-            <button type="button" class="pd-thumb <?= $i===0?'active':'' ?>" data-src="<?= e($g) ?>" aria-label="Görsel <?= $i+1 ?>">
-              <img loading="lazy" decoding="async" width="120" height="120" src="<?= e($g) ?>" alt="<?= e($p['name']) ?> <?= $i+1 ?>">
+    <div class="aq-product-detail-layout">
+      <!-- ── Galeri ── -->
+      <section class="aq-product-gallery">
+        <div class="aq-product-gallery-main">
+          <form method="post" action="<?= SITE_URL ?>/favorite-toggle.php" style="margin:0">
+            <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
+            <input type="hidden" name="id"   value="<?= (int)$p['id'] ?>">
+            <input type="hidden" name="back" value="<?= e(url('product', ['slug' => $p['slug']])) ?>">
+            <button class="aq-detail-fav aq-fav-btn<?= $isFav ? ' is-active' : '' ?>" type="submit" aria-label="<?= $isFav ? 'Favoriden çıkar' : 'Favorilere ekle' ?>">
+              <i class="bi bi-heart<?= $isFav ? '-fill' : '' ?>"></i>
             </button>
-          <?php endforeach; ?>
-        </div>
-      <?php endif; ?>
-    </div>
-
-    <div class="pd-info">
-      <span class="kicker"><?= e($p['cat_name'] ?? 'Ürün') ?><?php if (!empty($p['brand'])): ?> · <?= e($p['brand']) ?><?php endif; ?></span>
-      <h1 class="pd-title" style="margin:14px 0 18px;font-family:'Playfair Display',serif;font-size:34px;font-weight:500;line-height:1.15"><?= e($p['name']) ?></h1>
-      <?php if (!empty($p['short_desc'])): ?>
-        <p style="color:var(--champagne);font-size:16px;margin-bottom:24px"><?= e($p['short_desc']) ?></p>
-      <?php endif; ?>
-
-      <?php
-        require_once __DIR__ . '/../../includes/pricing.php';
-        require_once __DIR__ . '/../../includes/variations.php';
-        $hasVar = product_has_variations((int)$p['id']);
-        $variations = $hasVar ? product_variations((int)$p['id']) : [];
-        // Görüntülenecek başlangıç fiyat/eski fiyat — varyasyonluysa ilk varyasyon
-        $displayPrice = $p['price']; $displayOld = $p['old_price'] ?? null;
-        $displayStock = (int)$p['stock'];
-        if ($hasVar && $variations) {
-            $first = $variations[0];
-            $displayPrice = $first['price'];
-            $displayOld   = $first['old_price'];
-            $displayStock = (int)$first['stock'];
-        }
-      ?>
-      <?php $priceOnRequest = !empty($p['price_on_request']); ?>
-      <?php /* Fiyat: normal üründe her zaman; "İletişime Geçin" üründe fiyat girilmişse göster */ ?>
-      <?php $showPrice = !$priceOnRequest || (float)$displayPrice > 0; ?>
-      <?php if ($showPrice): ?>
-      <div class="pd-price-row">
-        <span class="pd-price" id="pd-price"><?= money($displayPrice) ?></span>
-        <span class="pd-oldprice" id="pd-oldprice" style="<?= empty($displayOld) ? 'display:none' : '' ?>"><?= $displayOld ? money($displayOld) : '' ?></span>
-        <span class="pd-discount" id="pd-discount" style="<?= (empty($displayOld) || $displayOld <= $displayPrice) ? 'display:none' : '' ?>">%<?= $displayOld && $displayOld > $displayPrice ? max(0, round((1 - $displayPrice/$displayOld) * 100)) : 0 ?></span>
-      </div>
-      <p class="muted" style="font-size:12px;margin:-4px 0 0;letter-spacing:.05em"><?= e(vat_label()) ?></p>
-      <?php endif; ?>
-
-      <?php if (!$priceOnRequest): ?>
-      <?php /* Düşük stok aciliyeti — varyasyon değişirse JS ile güncellenir */ ?>
-      <div id="pd-stock-badge" data-threshold="<?= (int)low_stock_threshold() ?>"><?= stock_badge_html($displayStock) ?></div>
-
-      <?php /* Stok rezervasyonu — başkalarının sepetinde bekleyen miktar */ ?>
-      <?php if (function_exists('reservation_enabled') && reservation_enabled()):
-        $__reserved = reserved_qty_for_product((int)$p['id']);
-        if ($__reserved > 0): ?>
-          <p style="margin-top:8px;font-size:12px;color:#a07000;display:inline-flex;align-items:center;gap:4px">⏳ Şu an <strong><?= (int)$__reserved ?></strong> adet başka sepetlerde rezerve</p>
-      <?php endif; endif; ?>
-
-      <?php /* Sosyal kanıt: son 24sa satış + şu an inceleyen sayısı */ ?>
-      <?= social_proof_html((int)$p['id']) ?>
-      <?php else: ?>
-      <?php /* Online satışa kapalı ürün — fiyat (varsa) yukarıda gösterildi, burada bilgilendirme */ ?>
-      <div class="pd-contact-price" style="margin:18px 0 6px;padding:16px 20px;background:var(--cream);border:1px solid var(--gold-border);border-radius:var(--radius)">
-        <p style="margin:0 0 4px;font-size:13px;color:var(--muted-text);letter-spacing:.08em">📞 Bu ürün online satışa kapalıdır</p>
-        <p style="margin:0;font-size:15px;color:var(--ink);font-weight:600">Fiyat ve sipariş için bizimle iletişime geçin</p>
-      </div>
-      <?php endif; ?>
-
-      <?php require_once __DIR__ . '/../../includes/reviews.php'; $rs = reviews_summary((int)$p['id']); ?>
-      <?php if ($rs['count'] > 0): ?>
-        <div style="display:flex;align-items:center;gap:10px;margin-top:14px">
-          <?= star_html((float)$rs['avg'], 16) ?>
-          <span style="font-size:13px;color:var(--muted-text)"><strong style="color:var(--ink)"><?= number_format($rs['avg'], 1, ',', '') ?></strong> · <a href="#yorumlar" style="color:var(--leaf);text-decoration:underline"><?= (int)$rs['count'] ?> değerlendirme</a></span>
-        </div>
-      <?php endif; ?>
-
-      <?php if (!empty($p['sku'])): ?>
-        <p class="muted" style="font-size:13px;margin:18px 0 6px">Stok Kodu: <span style="font-family:monospace;color:var(--champagne)"><?= e($p['sku']) ?></span></p>
-      <?php endif; ?>
-
-      <?php if ($hasVar && $variations): ?>
-      <div class="variation-picker" style="margin:18px 0 0">
-        <label style="font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);font-weight:600;display:block;margin-bottom:10px">Seçenek</label>
-        <div style="display:flex;flex-wrap:wrap;gap:8px">
-          <?php foreach ($variations as $i => $v): ?>
-            <button type="button" class="variation-chip <?= $i===0?'active':'' ?>"
-              data-variant="<?= (int)$v['id'] ?>"
-              data-price="<?= e($v['price']) ?>"
-              data-old="<?= e($v['old_price'] ?? '') ?>"
-              data-stock="<?= (int)$v['stock'] ?>"
-              data-image="<?= e($v['image'] ?? '') ?>"
-              style="padding:10px 16px;border:2px solid <?= $i===0?'var(--ink)':'var(--gold-border)' ?>;background:<?= $i===0?'var(--ink)':'var(--olive-2)' ?>;color:<?= $i===0?'var(--on-dark)':'var(--ink)' ?>;border-radius:var(--radius);font-size:14px;font-weight:500;cursor:pointer;transition:all var(--t);<?= (int)$v['stock']<=0?'opacity:.5;text-decoration:line-through':'' ?>"
-              <?= (int)$v['stock']<=0?'disabled':'' ?>>
-              <?= e($v['label']) ?>
-            </button>
-          <?php endforeach; ?>
-        </div>
-      </div>
-      <?php endif; ?>
-
-      <?php $stockForUI = $hasVar && $variations ? (int)$variations[0]['stock'] : (int)$p['stock']; ?>
-      <?php if ($priceOnRequest): ?>
-      <div class="cart-actions" style="margin-top:18px">
-        <a href="<?= url('contact') ?>" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none">
-          <?= ic('phone', '', 18) ?>
-          İletişime Geçin
-        </a>
-      </div>
-      <?php elseif ($stockForUI > 0 || $hasVar): ?>
-      <div class="cart-actions" style="margin-top:18px">
-        <form method="post" class="add-form" id="add-form" data-product-id="<?= (int)$p['id'] ?>">
-          <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-          <input type="hidden" name="product_id" value="<?= (int)$p['id'] ?>">
-          <?php if ($hasVar && $variations): ?>
-            <input type="hidden" name="variant_id" id="selected-variant" value="<?= (int)$variations[0]['id'] ?>">
-          <?php endif; ?>
-          <div class="qty-stepper" data-min="1" data-max="<?= $stockForUI ?>" id="qty-stepper">
-            <button type="button" class="qty-btn" data-step="-1" aria-label="Azalt">−</button>
-            <input type="number" name="qty" value="1" min="1" max="<?= $stockForUI ?>" inputmode="numeric" id="qty-input" aria-label="Ürün adedi">
-            <button type="button" class="qty-btn" data-step="1" aria-label="Artır">+</button>
-          </div>
-          <button class="btn btn-primary add-btn" type="submit" id="add-btn" <?= $stockForUI<=0?'disabled':'' ?>><?= $stockForUI<=0?'Stokta Yok':'Sepete Ekle →' ?></button>
-        </form>
-      </div>
-      <?php else: ?>
-      <div class="out-of-stock" style="margin-top:18px;padding:18px;border:1px solid var(--gold-border);border-radius:var(--radius);background:var(--cream)">
-        <p style="font-weight:600;color:var(--ink);margin:0 0 6px;font-size:15px">Şu anda stokta yok</p>
-        <?php $oos_user = current_user(); ?>
-        <?php if ($oos_user): ?>
-          <?php
-          // Üye zaten bu ürün için bildirim kaydı var mı?
-          $alreadyNotify = false;
-          try {
-              $chk = db()->prepare('SELECT 1 FROM restock_notifications WHERE product_id=? AND email=? AND notified_at IS NULL LIMIT 1');
-              $chk->execute([(int)$p['id'], $oos_user['email']]);
-              $alreadyNotify = (bool)$chk->fetch();
-          } catch (Exception $e) {}
-          ?>
-          <?php if ($alreadyNotify): ?>
-            <p class="muted" style="font-size:13px;margin:0">
-              ✓ Stok geldiğinde <strong><?= e($oos_user['email']) ?></strong> adresine bildirim gönderilecek.
-            </p>
-          <?php else: ?>
-            <p class="muted" style="font-size:13px;margin:0 0 12px">Stoka girdiğinde sizi haberdar edelim.</p>
-            <form method="post" action="<?= SITE_URL ?>/restock-notify.php">
-              <input type="hidden" name="csrf"       value="<?= e(csrf_token()) ?>">
-              <input type="hidden" name="product_id" value="<?= (int)$p['id'] ?>">
-              <input type="hidden" name="email"      value="<?= e($oos_user['email']) ?>">
-              <button class="btn btn-primary btn-sm" type="submit">Haber Ver</button>
-            </form>
-          <?php endif; ?>
-        <?php else: ?>
-          <p class="muted" style="font-size:13px;margin:0 0 12px">Bu ürün stoka geldiğinde size e-posta ile haber verelim.</p>
-          <form method="post" action="<?= SITE_URL ?>/restock-notify.php" style="display:flex;gap:8px;flex-wrap:wrap">
-            <input type="hidden" name="csrf"       value="<?= e(csrf_token()) ?>">
-            <input type="hidden" name="product_id" value="<?= (int)$p['id'] ?>">
-            <input type="email"  name="email"      required placeholder="ornek@eposta.com"
-                   style="flex:1;min-width:200px;padding:11px 14px;border:1px solid var(--field-border);border-radius:var(--radius);background:var(--olive-2);color:var(--ink);font-size:14px">
-            <button class="btn btn-primary btn-sm" type="submit">Haber Ver</button>
           </form>
+          <?php if ($discountPct > 0): ?>
+            <span class="aq-detail-badge">%<?= $discountPct ?> İndirim</span>
+          <?php elseif (!empty($p['is_featured'])): ?>
+            <span class="aq-detail-badge">Öne Çıkan</span>
+          <?php endif; ?>
+          <?php if ($gallery): ?>
+            <img id="aqProductMainImage" loading="eager" decoding="async" src="<?= e($gallery[0]) ?>" alt="<?= e($p['name']) ?>">
+          <?php else: ?>
+            <img id="aqProductMainImage" loading="eager" decoding="async" src="" alt="<?= e($p['name']) ?>" style="display:none">
+          <?php endif; ?>
+        </div>
+        <?php if (count($gallery) > 1): ?>
+        <div class="aq-product-thumbs">
+          <?php foreach ($gallery as $i => $g): ?>
+            <button type="button" class="<?= $i === 0 ? 'is-active' : '' ?>" data-media-url="<?= e($g) ?>" aria-label="Görsel <?= $i + 1 ?>">
+              <img loading="lazy" decoding="async" src="<?= e($g) ?>" alt="<?= e($p['name']) ?> <?= $i + 1 ?>">
+            </button>
+          <?php endforeach; ?>
+        </div>
         <?php endif; ?>
-      </div>
-      <?php endif; ?>
+      </section>
 
-      <?php
-        // Hızlı satın al butonu — sadece stok varsa
-        $hasAnyStock = $hasVar
-            ? (function() use ($variations) { foreach ($variations as $v) if ((int)$v['stock'] > 0) return true; return false; })()
-            : ((int)$p['stock'] > 0);
-      ?>
-      <?php if ($hasAnyStock && !$priceOnRequest): ?>
-      <form method="post" action="<?= SITE_URL ?>/satin-al.php" style="margin-top:10px">
-        <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-        <input type="hidden" name="id"   value="<?= (int)$p['id'] ?>">
-        <input type="hidden" name="qty"  value="1" id="buyQty">
-        <button class="btn btn-secondary" type="submit" style="width:100%;height:48px;font-weight:600;letter-spacing:.18em">SATIN AL — KREDİ KARTIYLA →</button>
-      </form>
-      <?php endif; ?>
+      <!-- ── Satın alma kutusu ── -->
+      <section class="aq-product-summary">
+        <div class="aq-product-code-row">
+          <span><?= !empty($p['sku']) ? 'Ürün Kodu: ' . e($p['sku']) : '' ?></span>
+          <?php if (!$priceOnRequest): ?>
+          <span class="aq-stock-badge" style="<?= $inStock ? '' : 'background:#fdecec;color:#b91c1c' ?>">
+            <i class="bi bi-<?= $inStock ? 'check2-circle' : 'x-circle' ?>"></i> <?= $inStock ? 'Stokta Var' : 'Stokta Yok' ?>
+          </span>
+          <?php endif; ?>
+        </div>
 
-      <!-- Sosyal medya paylaşımı -->
-      <div class="pd-share">
-        <span class="muted" style="font-size:12px;letter-spacing:.18em;text-transform:uppercase">Paylaş</span>
-        <a class="pd-share-btn" data-brand="whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp" href="https://api.whatsapp.com/send?text=<?= rawurlencode($p['name'].' — '.$productUrl) ?>"><?= ic('whatsapp', '', 18) ?></a>
-        <a class="pd-share-btn" data-brand="facebook" target="_blank" rel="noopener" aria-label="Facebook" href="https://www.facebook.com/sharer/sharer.php?u=<?= rawurlencode($productUrl) ?>"><?= ic('facebook', '', 18) ?></a>
-        <a class="pd-share-btn" data-brand="twitter-x" target="_blank" rel="noopener" aria-label="X / Twitter" href="https://twitter.com/intent/tweet?url=<?= rawurlencode($productUrl) ?>&text=<?= rawurlencode($p['name']) ?>"><?= ic('twitter-x', '', 18) ?></a>
-        <a class="pd-share-btn" data-brand="linkedin" target="_blank" rel="noopener" aria-label="LinkedIn" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= rawurlencode($productUrl) ?>"><?= ic('linkedin', '', 18) ?></a>
-        <a class="pd-share-btn" data-brand="email" target="_blank" rel="noopener" aria-label="E-posta" href="mailto:?subject=<?= rawurlencode($p['name']) ?>&body=<?= rawurlencode($productUrl) ?>"><?= ic('mail', '', 18) ?></a>
-        <button type="button" class="pd-share-btn" data-brand="copy" id="copy-link" aria-label="Linki kopyala"><?= ic('link', '', 18) ?></button>
-      </div>
+        <h1><?= e($p['name']) ?></h1>
+
+        <div class="aq-detail-rating">
+          <div>
+            <?php $__full = (int)floor((float)$rs['avg']); for ($i = 1; $i <= 5; $i++): ?>
+              <i class="bi bi-star<?= $i <= $__full ? '-fill' : '' ?>"></i>
+            <?php endfor; ?>
+          </div>
+          <strong><?= number_format((float)$rs['avg'], 1, '.', '') ?></strong>
+          <span><?= (int)$rs['count'] ?> değerlendirme</span>
+        </div>
+
+        <?php if (!empty($p['short_desc'])): ?>
+          <p class="aq-product-short-desc"><?= e($p['short_desc']) ?></p>
+        <?php endif; ?>
+
+        <?php if ($showPrice): ?>
+        <div class="aq-detail-price-box">
+          <div class="aq-detail-price">
+            <span>Satış Fiyatı</span>
+            <strong id="aqProductPrice"><?= money($displayPrice) ?></strong>
+            <del id="aqProductOldPrice" style="<?= (!empty($displayOld) && $displayOld > $displayPrice) ? '' : 'display:none' ?>"><?= !empty($displayOld) ? money($displayOld) : '' ?></del>
+          </div>
+          <div class="aq-detail-discount" id="aqProductDiscount" style="<?= $discountPct > 0 ? '' : 'display:none' ?>">
+            <strong>%<?= $discountPct ?></strong><span>İNDİRİM</span>
+          </div>
+        </div>
+        <p style="margin:8px 2px 0;color:#9aa5b2;font-size:11px;font-weight:700"><?= e(vat_label()) ?></p>
+        <?php endif; ?>
+
+        <?php if (!$priceOnRequest && $inStock): ?>
+        <div class="aq-stock-info-box aq-stock-info-under-price">
+          <div><i class="bi bi-box-seam"></i><span>Kalan Stok</span></div>
+          <strong id="aqProductStock"><?= $displayStock ?> adet</strong>
+        </div>
+        <?php endif; ?>
+
+        <div class="aq-detail-benefits">
+          <div><i class="bi bi-truck"></i><span>14:00'a kadar verilen siparişlerde hızlı kargo</span></div>
+          <div><i class="bi bi-shield-check"></i><span>Güvenli ödeme ve kolay iade avantajı</span></div>
+          <div><i class="bi bi-headset"></i><span>Ürün seçimi için uzman destek</span></div>
+        </div>
+
+        <?php if (!$priceOnRequest): ?>
+          <?php if (function_exists('reservation_enabled') && reservation_enabled()):
+            $__reserved = reserved_qty_for_product((int)$p['id']);
+            if ($__reserved > 0): ?>
+            <p style="margin:13px 0 0;font-size:12px;color:#a07000;display:inline-flex;align-items:center;gap:5px">⏳ Şu an <strong><?= (int)$__reserved ?></strong> adet başka sepetlerde rezerve</p>
+          <?php endif; endif; ?>
+          <?= social_proof_html((int)$p['id']) ?>
+        <?php endif; ?>
+
+        <?php if ($hasVar && $variations): ?>
+        <div class="aq-detail-variations" style="margin-top:16px">
+          <span style="display:block;color:#17202b;font-size:13px;font-weight:850;margin-bottom:9px">Seçenek</span>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <?php foreach ($variations as $i => $v): ?>
+              <button type="button" class="aq-variation-chip<?= $i === 0 ? ' is-active' : '' ?>"
+                data-variant="<?= (int)$v['id'] ?>"
+                data-price="<?= e($v['price']) ?>"
+                data-old="<?= e($v['old_price'] ?? '') ?>"
+                data-stock="<?= (int)$v['stock'] ?>"
+                data-image="<?= e($v['image'] ?? '') ?>"
+                <?= (int)$v['stock'] <= 0 ? 'disabled' : '' ?>><?= e($v['label']) ?></button>
+            <?php endforeach; ?>
+          </div>
+        </div>
+        <?php endif; ?>
+
+        <?php if ($priceOnRequest): ?>
+          <a href="<?= url('contact') ?>" class="aq-detail-add-cart" style="margin-top:18px;width:100%;text-decoration:none"><i class="bi bi-telephone"></i> İletişime Geçin</a>
+        <?php elseif ($inStock || $hasVar): ?>
+          <form method="post" id="aqProductForm">
+            <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
+            <input type="hidden" name="product_id" value="<?= (int)$p['id'] ?>">
+            <?php if ($hasVar && $variations): ?>
+              <input type="hidden" name="variant_id" id="aqVariantId" value="<?= (int)$variations[0]['id'] ?>">
+            <?php endif; ?>
+            <div class="aq-quantity-area">
+              <span>Adet</span>
+              <div class="aq-quantity-control">
+                <button type="button" class="aq-qty-minus" aria-label="Adet Azalt"><i class="bi bi-dash"></i></button>
+                <input type="number" id="aqProductQty" name="qty" value="1" min="1" max="<?= max(1, $displayStock) ?>" inputmode="numeric">
+                <button type="button" class="aq-qty-plus" aria-label="Adet Artır"><i class="bi bi-plus"></i></button>
+              </div>
+            </div>
+            <div class="aq-detail-actions">
+              <button class="aq-detail-add-cart" type="submit"<?= $inStock ? '' : ' disabled' ?>><i class="bi bi-cart-plus"></i> <?= $inStock ? 'Sepete Ekle' : 'Stokta Yok' ?></button>
+              <button class="aq-detail-buy-now" type="submit" name="buy_now" value="1"<?= $inStock ? '' : ' disabled' ?>><i class="bi bi-lightning-charge"></i> Hemen Satın Al</button>
+            </div>
+          </form>
+        <?php else: ?>
+          <div style="margin-top:16px;padding:16px 18px;border:1px solid #e8eef3;border-radius:16px;background:#f8fbfc">
+            <p style="font-weight:800;color:#111827;margin:0 0 8px;font-size:14px">Şu anda stokta yok</p>
+            <?php $oos_user = current_user(); ?>
+            <?php if ($oos_user): ?>
+              <form method="post" action="<?= SITE_URL ?>/restock-notify.php">
+                <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
+                <input type="hidden" name="product_id" value="<?= (int)$p['id'] ?>">
+                <input type="hidden" name="email" value="<?= e($oos_user['email']) ?>">
+                <button class="aq-detail-add-cart" type="submit" style="width:100%"><i class="bi bi-bell"></i> Stok Gelince Haber Ver</button>
+              </form>
+            <?php else: ?>
+              <form method="post" action="<?= SITE_URL ?>/restock-notify.php" style="display:flex;gap:8px;flex-wrap:wrap">
+                <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
+                <input type="hidden" name="product_id" value="<?= (int)$p['id'] ?>">
+                <input type="email" name="email" required placeholder="ornek@eposta.com" style="flex:1;min-width:180px;padding:11px 14px;border:1px solid #dfe8ef;border-radius:12px;font-size:14px">
+                <button class="aq-detail-add-cart" type="submit"><i class="bi bi-bell"></i> Haber Ver</button>
+              </form>
+            <?php endif; ?>
+          </div>
+        <?php endif; ?>
+
+        <?php if ($__waOn && $__waNum !== ''): ?>
+        <a class="aq-detail-whatsapp" target="_blank" rel="noopener" href="https://wa.me/<?= e($__waNum) ?>?text=<?= rawurlencode($__waMsg) ?>"><i class="bi bi-whatsapp"></i> WhatsApp'dan İletişime Geç</a>
+        <?php endif; ?>
+
+        <div class="aq-product-meta">
+          <div><strong>Marka</strong><span><?= e($p['brand'] ?? '') ?: '—' ?></span></div>
+          <div><strong>Kategori</strong><span><?= e($p['cat_name'] ?? 'Genel') ?></span></div>
+          <div><strong>Kargo</strong><span>Hızlı gönderim</span></div>
+        </div>
+      </section>
     </div>
   </div>
 </section>
 
-<!-- Açıklama: tam genişlik -->
-<section style="padding-top:32px">
-  <div class="container">
-    <div class="panel">
-      <h2 style="font-size:20px;margin-bottom:12px;color:var(--gold);font-family:inherit;font-weight:600">Açıklama</h2>
-      <div class="prose" style="color:var(--champagne);font-size:15px;line-height:1.85"><?php
-        $__desc = $p['description'] ?? '';
-        if ($__desc !== '' && strip_tags($__desc) !== $__desc) {
-          // Zengin metin (HTML) — admin tarafından girilmiş, izin verilen etiketleri yayınla
-          // O-9 GÜVENLİK: <a> whitelist'te ama href filtresi yoktu. sanitize_html() javascript: ve on*'u sıyırır.
-          $__allowed = strip_tags($__desc, '<p><br><strong><b><em><i><u><s><ol><ul><li><h2><h3><h4><blockquote><a>');
-          echo sanitize_html($__allowed);
-        } else {
-          // Eski düz metin kayıtları
-          echo nl2br(e($__desc));
-        }
-      ?></div>
+<!-- ── Açıklama ── -->
+<section class="aq-product-info-section">
+  <div class="aq-container">
+    <div class="aq-product-info-grid aq-product-info-grid-full">
+      <article class="aq-detail-card aq-detail-description-card">
+        <div class="aq-detail-card-head">
+          <span>Ürün Bilgisi</span>
+          <h2>Açıklama</h2>
+        </div>
+        <div class="aq-detail-description"><?php
+          $__desc = $p['description'] ?? '';
+          if ($__desc !== '' && strip_tags($__desc) !== $__desc) {
+              // Zengin metin (HTML) — admin tarafından girilmiş, izin verilen etiketler
+              // O-9 GÜVENLİK: <a> href filtresi yoktu. sanitize_html() javascript: ve on*'u sıyırır.
+              $__allowed = strip_tags($__desc, '<p><br><strong><b><em><i><u><s><ol><ul><li><h2><h3><h4><blockquote><a>');
+              echo sanitize_html($__allowed);
+          } else {
+              echo nl2br(e($__desc)) ?: '<p style="color:#9aa5b2">Bu ürün için henüz açıklama eklenmemiş.</p>';
+          }
+        ?></div>
+      </article>
     </div>
   </div>
 </section>
 
 <?php if ($productFaqs): ?>
-<section style="padding-top:32px">
-  <div class="container">
-    <div class="panel">
-      <h2 style="font-size:20px;margin-bottom:14px;color:var(--gold);font-family:inherit;font-weight:600">Sık Sorulan Sorular</h2>
-      <div class="pd-faqs">
-        <?php foreach ($productFaqs as $i=>$f): ?>
-          <details class="pd-faq" <?= $i===0?'open':'' ?>>
-            <summary><?= e($f['question']) ?></summary>
-            <div class="pd-faq-a"><?= nl2br(e($f['answer'])) ?></div>
-          </details>
-        <?php endforeach; ?>
-      </div>
+<!-- ── Sık Sorulan Sorular ── -->
+<section class="aq-faq-section">
+  <div class="aq-container">
+    <div class="aq-detail-card-head" style="text-align:center;margin-bottom:20px">
+      <span>SSS</span>
+      <h2>Sık Sorulan Sorular</h2>
+    </div>
+    <div class="aq-faq-list">
+      <?php foreach ($productFaqs as $i => $f): ?>
+        <div class="aq-faq-item<?= $i === 0 ? ' is-open' : '' ?>">
+          <button type="button"><?= e($f['question']) ?><i class="bi bi-chevron-down"></i></button>
+          <div><p><?= nl2br(e($f['answer'])) ?></p></div>
+        </div>
+      <?php endforeach; ?>
     </div>
   </div>
 </section>
 <?php endif; ?>
 
+<?php $comments = comment_list('product', $p['id']); ?>
 <section id="yorumlar" style="padding-top:32px">
-  <div class="container">
+  <div class="aq-container">
     <div class="panel">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:12px">
         <h2 style="font-size:20px;margin:0;font-family:inherit;font-weight:600">Müşteri Değerlendirmeleri</h2>
@@ -403,131 +397,33 @@ analytics_event('view_item', [
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════
-     Faz 7.C: Ürün Soru & Cevap
-     ════════════════════════════════════════════════ -->
-<?php
-$productQuestions = db()->prepare(
-    "SELECT * FROM product_questions
-      WHERE product_id=? AND is_approved=1
-      ORDER BY (answer IS NOT NULL) DESC, upvotes DESC, created_at DESC
-      LIMIT 20"
-);
-$productQuestions->execute([(int)$p['id']]);
-$productQuestions = $productQuestions->fetchAll();
-?>
-<section id="sorular" style="padding-top:32px">
-  <div class="container">
-    <div class="panel">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px">
-        <h2 style="font-size:20px;margin:0;font-family:inherit;font-weight:600">Soru &amp; Cevap</h2>
-        <span style="font-size:14px;color:var(--champagne)"><?= count($productQuestions) ?> soru</span>
-      </div>
-
-      <?php if ($productQuestions): ?>
-        <div style="display:grid;gap:16px;margin-bottom:28px">
-          <?php foreach ($productQuestions as $pq): ?>
-            <div style="border:1px solid var(--gold-border);border-radius:var(--radius);overflow:hidden">
-              <!-- Soru -->
-              <div style="padding:14px 18px;background:var(--olive-2)">
-                <div style="display:flex;gap:10px;align-items:flex-start">
-                  <span style="font-size:18px;line-height:1;flex-shrink:0;margin-top:1px">❓</span>
-                  <div style="flex:1;min-width:0">
-                    <p style="margin:0;font-size:15px;color:var(--ink);font-weight:500"><?= nl2br(e($pq['question'])) ?></p>
-                    <p style="margin:4px 0 0;font-size:12px;color:var(--muted-text)"><?= e($pq['asker_name']) ?> · <?= e(date('d.m.Y', strtotime($pq['created_at']))) ?></p>
-                  </div>
-                </div>
-              </div>
-              <!-- Cevap -->
-              <?php if ($pq['answer']): ?>
-                <div style="padding:14px 18px;border-top:1px solid var(--gold-border);background:var(--cream)">
-                  <div style="display:flex;gap:10px;align-items:flex-start">
-                    <span style="font-size:18px;line-height:1;flex-shrink:0;margin-top:1px">💡</span>
-                    <div>
-                      <p style="margin:0;font-size:14px;color:var(--ink);line-height:1.65"><?= nl2br(e($pq['answer'])) ?></p>
-                      <p style="margin:4px 0 0;font-size:12px;color:var(--leaf);font-weight:600">Mağaza Cevabı <?php if ($pq['answered_at']): ?>· <?= e(date('d.m.Y', strtotime($pq['answered_at']))) ?><?php endif; ?></p>
-                    </div>
-                  </div>
-                </div>
-              <?php else: ?>
-                <div style="padding:10px 18px;border-top:1px solid var(--gold-border);background:var(--cream)">
-                  <p style="margin:0;font-size:13px;color:var(--muted-text);font-style:italic">⏳ Henüz cevaplanmadı. Yakında yanıtlanacak.</p>
-                </div>
-              <?php endif; ?>
-            </div>
-          <?php endforeach; ?>
-        </div>
-      <?php else: ?>
-        <p class="muted" style="margin-bottom:20px">Henüz soru sorulmamış. İlk soruyu siz sorun!</p>
-      <?php endif; ?>
-
-      <!-- Soru gönderme formu -->
-      <div style="border-top:1px solid var(--gold-border);padding-top:20px">
-        <h4 style="font-family:'Inter',sans-serif;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin:0 0 14px;font-weight:600">Soru Sor</h4>
-        <?php
-        $cu2  = $cu ?? current_user();
-        $qTs  = time();
-        $qTt  = $qTs . '|' . hash_hmac('sha256', 'q:' . $qTs, session_id() . 'q');
-        ?>
-        <form method="post" action="<?= SITE_URL ?>/question-submit.php" style="display:grid;gap:12px;max-width:580px">
-          <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-          <input type="hidden" name="product_id" value="<?= (int)$p['id'] ?>">
-          <input type="hidden" name="back" value="<?= e(url('product', ['slug'=>$p['slug']])) ?>">
-          <input type="hidden" name="q_tt" value="<?= e($qTt) ?>">
-          <?php /* Honeypot — gerçek kullanıcıya görünmez, botlar doldurur */ ?>
-          <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
-            <label for="q_url_hp">URL (boş bırakın)</label>
-            <input type="text" id="q_url_hp" name="q_url" value="" autocomplete="off" tabindex="-1">
-          </div>
-          <?php if (!$cu2): ?>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-              <div class="field" style="margin:0">
-                <label for="asker_name">Adınız <span class="req">*</span></label>
-                <input id="asker_name" name="asker_name" required maxlength="120" placeholder="Adınız">
-              </div>
-              <div class="field" style="margin:0">
-                <label for="asker_email">E-posta (opsiyonel)</label>
-                <input id="asker_email" type="email" name="asker_email" maxlength="190" placeholder="cevap@mail.com">
-              </div>
-            </div>
-          <?php endif; ?>
-          <div class="field" style="margin:0">
-            <label for="asker_question">Sorunuz <span class="req">*</span></label>
-            <textarea id="asker_question" name="question" rows="3" required minlength="10" maxlength="1000"
-                      placeholder="Ürün hakkında merak ettiğiniz bir şey mi var?"></textarea>
-          </div>
-          <div>
-            <button class="btn btn-secondary">Soruyu Gönder</button>
-            <small class="muted" style="margin-left:10px">Sorular onay sonrası yayında görünür.</small>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-
 <?php if ($related): ?>
-<section>
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker">Bunlar da İlginizi Çekebilir</span>
+<!-- ── Benzer Ürünler ── -->
+<section class="aq-related-section">
+  <div class="aq-container">
+    <div class="aq-detail-card-head" style="text-align:center;margin-bottom:22px">
+      <span>Mağazadan</span>
       <h2>Benzer Ürünler</h2>
     </div>
-    <div class="grid">
-      <?php foreach ($related as $r): ?>
-        <a class="card" href="<?= e(url('product', ['slug'=>$r['slug']])) ?>">
-          <div class="card-img">
-            <?php if (!empty($r['image'])): ?>
-              <img loading="lazy" decoding="async" src="<?= e($r['image']) ?>" alt="<?= e($r['name']) ?>" style="width:100%;height:100%;object-fit:cover">
-            <?php else: ?>
-              <span class="ph"><?= e(mb_substr($r['name'],0,1)) ?></span>
-            <?php endif; ?>
-          </div>
-          <div class="card-body"><span class="cat">İlgili</span><h3><?= e($r['name']) ?></h3>
-            <div class="card-foot"><span class="price"><?= money($r['price']) ?></span></div>
-          </div>
-        </a>
-      <?php endforeach; ?>
+    <div class="aq-carousel-wrap" data-carousel data-visible-desktop="5" data-visible-tablet="3" data-visible-mobile="2">
+      <div class="aq-carousel-controls">
+        <button type="button" class="aq-carousel-arrow aq-products-prev" data-dir="-1" aria-label="Geri" disabled><i class="bi bi-chevron-left"></i></button>
+        <button type="button" class="aq-carousel-arrow aq-products-next" data-dir="1" aria-label="İleri"><i class="bi bi-chevron-right"></i></button>
+      </div>
+      <div class="aq-products-viewport">
+        <div class="aq-products-track">
+          <?php
+            $favIds = fav_ids();
+            $cardBack = url('product', ['slug' => $p['slug']]);
+            $__mainP = $p; // product-card $p kullanır — döngü sonrası geri yükle
+            foreach ($related as $r):
+                $p = $r;
+                include __DIR__ . '/../../components/product-card.php';
+            endforeach;
+            $p = $__mainP;
+          ?>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -593,6 +489,15 @@ if ($recentlyViewed) {
   cursor:pointer;
 }
 .rv-preview-thumb:hover .rm { display:flex; }
+
+/* ── Varyasyon çipleri ────────────────────────────────────── */
+.aq-variation-chip {
+  min-height:40px;padding:0 16px;border-radius:12px;
+  border:1px solid #dfe8ef;background:#fff;color:#17202b;
+  font-size:13px;font-weight:800;cursor:pointer;transition:all 200ms ease;
+}
+.aq-variation-chip.is-active { background:var(--aq-blue);border-color:var(--aq-blue);color:#fff; }
+.aq-variation-chip:disabled { opacity:.45;text-decoration:line-through;cursor:not-allowed; }
 </style>
 
 <!-- Lightbox DOM -->
@@ -617,7 +522,6 @@ window.rvPhotoPreview = function(input) {
   newFiles.forEach(function(f){
     if (rvFiles.length < MAX_FILES) rvFiles.push(f);
   });
-  // DataTransfer ile gerçek file input'u güncelle
   var dt = new DataTransfer();
   rvFiles.forEach(function(f){ dt.items.add(f); });
   input.files = dt.files;
@@ -646,7 +550,6 @@ function renderPreviews() {
     row.appendChild(wrap);
   });
 
-  // Drop zone güncelle
   var dz = document.getElementById('rvDropZone');
   if (dz) {
     dz.querySelector('p').innerHTML = rvFiles.length > 0
@@ -681,7 +584,7 @@ var lbClose= document.getElementById('rvLbClose');
 var lbPrev = document.getElementById('rvLbPrev');
 var lbNext = document.getElementById('rvLbNext');
 
-var lbGroups = {};   // { groupId: [{src, alt},...] }
+var lbGroups = {};
 var lbCur    = { group:'', idx:0 };
 
 document.querySelectorAll('.rv-photo-link').forEach(function(a){
@@ -733,20 +636,12 @@ document.addEventListener('keydown', function(e){
   if (e.key === 'ArrowRight') lbNext.click();
 });
 
-/* ── 3) Soru formu karakter sayacı ─────────────────────── */
-var qArea = document.querySelector('textarea[name="question"]');
-if (qArea) {
-  var counter = document.createElement('small');
-  counter.style.cssText = 'color:var(--muted-text);font-size:11px';
-  qArea.insertAdjacentElement('afterend', counter);
-  var updateCnt = function(){
-    var len = qArea.value.length;
-    counter.textContent = len + ' / 1000 karakter' + (len < 10 ? ' (en az 10)' : '');
-    counter.style.color = len < 10 ? '#c0392b' : 'var(--muted-text)';
-  };
-  qArea.addEventListener('input', updateCnt);
-  updateCnt();
-}
+/* ── 4) SSS akordeon (canlı tasarım) ───────────────────── */
+document.querySelectorAll('.aq-faq-item > button').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    btn.parentElement.classList.toggle('is-open');
+  });
+});
 
 })();
 </script>

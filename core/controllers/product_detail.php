@@ -18,22 +18,25 @@ require_once __DIR__ . '/../../components/json-ld.php';
 $page  = 'product';
 
 $slug = $_GET['slug'] ?? '';
+$hasDeletedAt = false;
+try {
+    $col = db()->query("SHOW COLUMNS FROM products LIKE 'deleted_at'")->fetch();
+    $hasDeletedAt = (bool)$col;
+} catch (Throwable $e) {
+    $hasDeletedAt = false;
+}
+$deletedFilter = $hasDeletedAt ? " AND p.deleted_at IS NULL" : "";
 $st = db()->prepare(
     "SELECT p.*, c.name AS cat_name, c.slug AS cat_slug
      FROM products p
      LEFT JOIN categories c ON c.id = p.category_id
-     WHERE p.slug = ? AND p.is_active = 1 AND p.deleted_at IS NULL"
+     WHERE p.slug = ? AND p.is_active = 1{$deletedFilter}"
 );
 $st->execute([$slug]);
 $p = $st->fetch();
 
 if (!$p) {
-    http_response_code(404);
-    $title = 'Bulunamadı';
-    include __DIR__ . '/../../includes/header.php';
-    echo '<section class="container" style="padding:120px 0"><h1>Ürün bulunamadı</h1></section>';
-    include __DIR__ . '/../../includes/footer.php';
-    exit;
+    aq_render_error(404); // temaya uygun 404 + exit
 }
 
 $title = $p['name'];
@@ -59,6 +62,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_check($_POST['csrf'] ?? null))
         'qty'          => $__addedQty,
         'variant_id'   => $variantId,
     ];
+    // "Hemen Satın Al" → doğrudan ödemeye; normal "Sepete Ekle" → sepete
+    if (!empty($_POST['buy_now'])) {
+        redirect(url('checkout'));
+    }
     flash_set('success', 'Ürün sepete eklendi.');
     redirect(url('cart'));
 }
@@ -89,7 +96,7 @@ $gallery = array_values(array_unique(array_filter($gallery)));
 // İlgili ürünler (aynı kategoriden, rastgele 4 adet)
 $relatedSt = db()->prepare(
     "SELECT * FROM products
-     WHERE is_active = 1 AND deleted_at IS NULL AND id <> ? AND category_id = ?
+     WHERE is_active = 1" . ($hasDeletedAt ? " AND deleted_at IS NULL" : "") . " AND id <> ? AND category_id = ?
      ORDER BY RAND()
      LIMIT 4"
 );

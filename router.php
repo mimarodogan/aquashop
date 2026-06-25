@@ -1,9 +1,7 @@
 <?php
-/**
- * Front Controller / Router
- * .htaccess'in tüm istekleri buraya yönlendirdiği merkezi giriş noktası.
- * URL'i parçalara ayırıp ilgili sayfaya yönlendirir; slug değerlerini $_GET'e yazar.
- */
+if (php_sapi_name() === 'cli-server' && is_file(__DIR__ . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))) {
+    return false;
+}
 require_once __DIR__ . '/core/bootstrap.php';
 require_once __DIR__ . '/core/route_helpers.php';
 require_once __DIR__ . '/includes/redirects.php';
@@ -80,12 +78,7 @@ $third  = $segments[2] ?? '';
 function dispatch($file) {
     $abs = __DIR__ . '/' . ltrim($file, '/');
     if (!is_file($abs)) {
-        http_response_code(404);
-        $abs = __DIR__ . '/pages/404.php';
-        if (!is_file($abs)) {
-            echo '<h1>404 — Sayfa bulunamadı</h1>';
-            exit;
-        }
+        aq_render_error(404); // temaya uygun 404 + exit
     }
     require $abs;
     exit;
@@ -262,11 +255,11 @@ switch ($first) {
         if ($rest === '' || $rest === 'index.php') dispatch('admin_panel/index.php');
         // K-1 GÜVENLİK: Path traversal koruması — '..' ve null byte içeren segment'leri reddet
         if (strpos($rest, '..') !== false || strpos($rest, "\0") !== false || strpos($rest, '/.') === 0) {
-            http_response_code(404); exit;
+            aq_render_error(404);
         }
         // Sadece güvenli karakterler (slug + slash + .php)
         if (!preg_match('~^[A-Za-z0-9_\-/.]+$~', $rest)) {
-            http_response_code(404); exit;
+            aq_render_error(404);
         }
         // Subfolder dosyaları (örn. admin/products/list)
         $candidates = array(
@@ -274,7 +267,7 @@ switch ($first) {
             'admin_panel/' . $rest . '.php',
         );
         $adminBase = realpath(__DIR__ . '/admin_panel');
-        if ($adminBase === false) { http_response_code(500); exit; }
+        if ($adminBase === false) { aq_render_error(500); }
         $adminBase .= DIRECTORY_SEPARATOR;
         foreach ($candidates as $c) {
             $real = realpath(__DIR__ . '/' . $c);
@@ -300,9 +293,5 @@ switch ($first) {
         }
 }
 
-// 404
-http_response_code(404);
-$page = '404'; $title = 'Sayfa Bulunamadı';
-include __DIR__ . '/components/header.php';
-echo '<section class="container" style="padding:120px 0;text-align:center"><h1>404</h1><p class="muted" style="margin:14px 0 24px">Aradığınız sayfa bulunamadı.</p><a class="btn btn-primary" href="' . e(SITE_URL) . '/">Anasayfa</a></section>';
-include __DIR__ . '/components/footer.php';
+// 404 — bilinmeyen URL (temaya uygun)
+aq_render_error(404);

@@ -9,7 +9,7 @@ $id = (int)(isset($_GET['id']) ? $_GET['id'] : 0);
 $st = db()->prepare('SELECT * FROM orders WHERE id=? AND (user_id=? OR (user_id IS NULL AND email=?))');
 $st->execute(array($id, $user['id'], $user['email']));
 $o = $st->fetch();
-if (!$o) { http_response_code(404); $title='Sipariş bulunamadı'; include __DIR__ . '/../includes/header.php'; echo '<section class="container" style="padding:120px 0"><h1>Sipariş bulunamadı</h1></section>'; include __DIR__ . '/../includes/footer.php'; exit; }
+if (!$o) { aq_render_error(404); }
 
 $items = db()->prepare('SELECT * FROM order_items WHERE order_id=?'); $items->execute(array($id)); $items = $items->fetchAll();
 $title = 'Sipariş #' . $o['id'];
