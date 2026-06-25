@@ -24,7 +24,7 @@ if ($hasVar) {
     <input type="hidden" name="id"    value="<?= (int)$p['id'] ?>">
     <input type="hidden" name="back"  value="<?= e($cardBack) ?>">
     <button class="aq-fav-btn <?= in_array((int)$p['id'], $favIds) ? 'is-active' : '' ?>" type="submit" aria-label="Favorilere ekle">
-      <i class="bi bi-heart<?= in_array((int)$p['id'], $favIds) ? '-fill' : '' ?>"></i>
+      <?= e3d('heart', 20) ?>
     </button>
   </form>
 
@@ -79,9 +79,9 @@ if ($hasVar) {
           <?php endif; ?>
         </span>
         <?php if ($priceOnRequest): ?>
-          <span class="aq-cart-mini" role="img" aria-label="İletişime geçin" title="İletişime Geçin"><i class="bi bi-telephone"></i></span>
+          <span class="aq-cart-mini" role="img" aria-label="İletişime geçin" title="İletişime Geçin"><?= e3d('phone', 20) ?></span>
         <?php else: ?>
-          <span class="aq-cart-mini" role="img" aria-label="Sepete ekle"><i class="bi bi-cart3"></i></span>
+          <span class="aq-cart-mini" role="img" aria-label="Sepete ekle"><?= e3d('cart', 20) ?></span>
         <?php endif; ?>
       </div>
     </div>

@@ -140,7 +140,7 @@ if ($items) {
 
     <?php if (!$items): ?>
       <div class="aq-cart-empty aq-cart-page-empty">
-        <span class="aq-cart-empty-icon"><i class="bi bi-cart3"></i></span>
+        <span class="aq-cart-empty-icon"><?= e3d('cart', 48) ?></span>
         <h3>Sepetiniz şu an boş</h3>
         <p>Beğendiğiniz ürünleri sepete ekleyerek alışverişe başlayabilirsiniz.</p>
         <a class="aq-cart-checkout" href="<?= url('products') ?>">Ürünleri Keşfet</a>

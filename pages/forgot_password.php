@@ -80,7 +80,7 @@ $authTagline = trim((string)setting('site_tagline',''));
 
         <?php if ($sent): ?>
           <div class="aq-auth-state aq-auth-state-ok" role="status">
-            <i class="bi bi-envelope-check" aria-hidden="true"></i>
+            <?= e3d('mail', 30) ?>
             <strong>Bağlantı gönderildi</strong>
             <p>Eğer bu e-posta sistemimizde kayıtlıysa, şifre sıfırlama bağlantısı az önce gönderildi.</p>
           </div>
@@ -95,12 +95,12 @@ $authTagline = trim((string)setting('site_tagline',''));
             <label class="aq-auth-field">
               <span>E-posta Adresi</span>
               <div class="aq-auth-input">
-                <i class="bi bi-envelope" aria-hidden="true"></i>
+                <?= e3d('mail', 18) ?>
                 <input id="fp-email" name="email" type="email" required autofocus value="<?= e($_POST['email'] ?? '') ?>" placeholder="ornek@eposta.com">
               </div>
             </label>
             <button class="aq-auth-submit">
-              <i class="bi bi-send" aria-hidden="true"></i>
+              <?= e3d('mail', 18) ?>
               Sıfırlama Bağlantısı Gönder
             </button>
             <p class="aq-auth-switch"><a href="<?= url('login') ?>">Giriş sayfasına dön</a></p>

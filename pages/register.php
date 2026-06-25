@@ -94,7 +94,7 @@ include __DIR__ . '/../includes/header.php';
         <div class="field input-icon">
           <input type="password" name="password" id="pw" placeholder="Şifre (en az 10 karakter)" aria-label="Şifre" minlength="10" required>
           <button type="button" onclick="var i=document.getElementById('pw');i.type=i.type==='password'?'text':'password'" aria-label="Şifreyi göster/gizle">
-            <?= ic('eye', '', 18) ?>
+            <?= e3d('eye', 18) ?>
           </button>
         </div>
 

@@ -67,7 +67,7 @@ $authTagline = trim((string)setting('site_tagline',''));
           <label class="aq-auth-field">
             <span>E-posta Adresi</span>
             <div class="aq-auth-input">
-              <i class="bi bi-envelope" aria-hidden="true"></i>
+              <?= e3d('mail', 18) ?>
               <input type="email" name="email" placeholder="ornek@eposta.com" aria-label="E-posta adresi" required>
             </div>
           </label>
@@ -75,10 +75,10 @@ $authTagline = trim((string)setting('site_tagline',''));
           <label class="aq-auth-field">
             <span>Şifre</span>
             <div class="aq-auth-input">
-              <i class="bi bi-lock" aria-hidden="true"></i>
+              <?= e3d('lock', 18) ?>
               <input type="password" name="password" id="pw" placeholder="Şifreniz" aria-label="Şifre" required>
               <button class="aq-auth-password-toggle" type="button" onclick="var i=document.getElementById('pw');i.type=i.type==='password'?'text':'password'" aria-label="Şifreyi göster/gizle">
-                <i class="bi bi-eye" aria-hidden="true"></i>
+                <?= e3d('eye', 18) ?>
               </button>
             </div>
           </label>
@@ -92,7 +92,7 @@ $authTagline = trim((string)setting('site_tagline',''));
           </div>
 
           <button type="submit" class="aq-auth-submit">
-            <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i>
+            <?= e3d('login', 18) ?>
             Giriş Yap
           </button>
 

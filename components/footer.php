@@ -150,7 +150,7 @@ if ($__waEnabled && $__waNumber !== '') {
 
       <?php if ($__fHours !== ''): ?>
       <div class="aq-footer-contact-item">
-        <i class="bi bi-clock"></i>
+        <?= e3d('clock', 30) ?>
         <div>
           <strong>Çalışma Saatleri</strong>
           <span><?= e($__fHours) ?></span>
