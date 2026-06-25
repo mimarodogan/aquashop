@@ -24,7 +24,8 @@ if ($hasVar) {
     <input type="hidden" name="id"    value="<?= (int)$p['id'] ?>">
     <input type="hidden" name="back"  value="<?= e($cardBack) ?>">
     <button class="aq-fav-btn <?= in_array((int)$p['id'], $favIds) ? 'is-active' : '' ?>" type="submit" aria-label="Favorilere ekle">
-      <?= e3d('heart', 20) ?>
+      <i class="bi bi-heart aq-fav-off" aria-hidden="true"></i>
+      <span class="aq-fav-on"><?= e3d('heart', 20) ?></span>
     </button>
   </form>
 

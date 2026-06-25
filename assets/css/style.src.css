@@ -14247,3 +14247,9 @@ body.aq-cart-open .aq-cart-drawer {
         padding: 7px 0;
     }
 }
+
+
+/* ── Favori toggle ikonu: boş (outline) ↔ dolu (3D kalp) ────── */
+.aq-fav-btn .aq-fav-on { display: none !important; }
+.aq-fav-btn.is-active .aq-fav-off { display: none !important; }
+.aq-fav-btn.is-active .aq-fav-on { display: inline-flex !important; align-items: center; line-height: 0; }

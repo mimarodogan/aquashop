@@ -74,7 +74,8 @@ if (!$__catSlug && !empty($p['category_id'])) {
             <input type="hidden" name="id"   value="<?= (int)$p['id'] ?>">
             <input type="hidden" name="back" value="<?= e(url('product', ['slug' => $p['slug']])) ?>">
             <button class="aq-detail-fav aq-fav-btn<?= $isFav ? ' is-active' : '' ?>" type="submit" aria-label="<?= $isFav ? 'Favoriden çıkar' : 'Favorilere ekle' ?>">
-              <?= e3d('heart', 20) ?>
+              <i class="bi bi-heart aq-fav-off" aria-hidden="true"></i>
+              <span class="aq-fav-on"><?= e3d('heart', 22) ?></span>
             </button>
           </form>
           <?php if ($discountPct > 0): ?>
